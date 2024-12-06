@@ -9,11 +9,11 @@ RUN apt-get update; apt-get install -y libgl1; apt-get install -y poppler-utils
 RUN pip install --no-cache-dir --upgrade pip
 RUN pip install -r /requirements.txt
 
-RUN mkdir /eload_be/
-WORKDIR /eload_be/
-COPY . /eload_be/
+RUN mkdir /process_flow/
+WORKDIR /process_flow/
+COPY . /process_flow/
 
 RUN adduser --disabled-password --gecos "" django
-RUN chown -R django:django /eload_be/
+RUN chown -R django:django /process_flow/
 
 USER django

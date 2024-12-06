@@ -1,5 +1,5 @@
 """
-ASGI config for eload_be project.
+ASGI config for process_flow project.
 
 It exposes the ASGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'eload_be.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'process_flow.settings')
 
 application = get_asgi_application()

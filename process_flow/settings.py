@@ -146,36 +146,14 @@ USE_I18N = True
 USE_TZ = True
 
 
-DOMAIN_URL = os.environ.get('DOMAIN_URL','http://localhost:8000')
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
+STATIC_URL = '/static/'
+STATIC_ROOT = [os.path.join(BASE_DIR, 'staticfiles')]
 
-USE_S3 = os.getenv('USE_S3', 'False') == 'True'
-
-if USE_S3:
-    # AWS S3 configurations
-    AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
-    AWS_SECRET_ACCESS_KEY = os.getenv('AWS_SECRET_ACCESS_KEY')
-    AWS_STORAGE_BUCKET_NAME = os.getenv('AWS_STORAGE_BUCKET_NAME')
-    AWS_S3_REGION_NAME = os.getenv('AWS_S3_REGION_NAME', 'us-east-1')
-    AWS_S3_SIGNATURE_VERSION = 's3v4'
-
-    # Static files configuration for S3
-    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static/'
-
-    # Media files configuration for S3
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-    MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/media/'
-else:
-    # Local file storage configuration
-    STATIC_URL = '/static/'
-    STATIC_ROOT = [os.path.join(BASE_DIR, 'staticfiles')]
-
-    MEDIA_URL = '/media/'
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 # Default primary key field type
@@ -195,3 +173,10 @@ SIMPLE_JWT = {
 }
 
 SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
+
+EMAIL_BACKEND = os.environ.get('EMAIL_BACKEND', 'django.core.mail.backends.console.EmailBackend') 
+EMAIL_HOST = os.environ.get('EMAIL_HOST', 'smtp.example.com')
+EMAIL_PORT = os.environ.get('EMAIL_PORT', '587')
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', 'True') == 'True'
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER', 'test@example.com')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD', 'your_password')
