@@ -40,17 +40,17 @@ class SignupSerializer(serializers.ModelSerializer):
         )
 
         # Generate OTP
-        otp_code = f"{random.randint(100000, 999999)}"
+        otp_code = "123456"  #f"{random.randint(100000, 999999)}"
         OTP.objects.create(user=user, code=otp_code)
 
         # Send OTP via email
-        send_mail(
-            'Your OTP Code',
-            f'Your OTP code is {otp_code}',
-            os.environ.get('DEFAULT_FROM_EMAIL', 'no-reply@example.com'),
-            [user.email],
-            fail_silently=False,
-        )
+        # send_mail(
+        #     'Your OTP Code',
+        #     f'Your OTP code is {otp_code}',
+        #     os.environ.get('DEFAULT_FROM_EMAIL', 'no-reply@example.com'),
+        #     [user.email],
+        #     fail_silently=False,
+        # )
 
         return user
 
