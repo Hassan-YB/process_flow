@@ -136,7 +136,7 @@ docker-compose.yml
 *.pem
 *.env
 
-
+.env
 .vscode
 media
 /media
