@@ -131,7 +131,6 @@ dmypy.json
 
 # PyCharm
 .idea/
-docker-compose.yml
 
 *.pem
 *.env
