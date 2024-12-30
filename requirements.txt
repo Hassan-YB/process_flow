@@ -5,3 +5,4 @@ django-cors-headers
 sendgrid
 Pillow
 psycopg2
+twilio
