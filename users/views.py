@@ -4,9 +4,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
+from rest_framework_simplejwt.tokens import RefreshToken
 from .serializers import (
     SignupSerializer, OTPVerificationSerializer, LoginSerializer, ChangePasswordSerializer,
-    ProfileSerializer
+    ProfileSerializer, ForgotPasswordSerializer, ResendOTPSerializer
 )
 
 class SignupView(APIView):
@@ -68,3 +69,43 @@ class ProfileViewSet(ViewSet):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ForgotPasswordView(APIView):
+    def post(self, request):
+        """
+        Handle Forgot Password (Send OTP and Reset Password).
+        """
+        serializer = ForgotPasswordSerializer(data=request.data)
+        if serializer.is_valid():
+            if 'otp_code' in request.data and 'new_password' in request.data:
+                # Reset Password
+                serializer.reset_password(request.data['new_password'])
+                return Response({"message": "Password reset successfully."}, status=status.HTTP_200_OK)
+            else:
+                # Send OTP
+                serializer.send_otp()
+                return Response({"message": "OTP sent successfully for password reset."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class ResendOTPView(APIView):
+    def post(self, request):
+        serializer = ResendOTPSerializer(data=request.data)
+        if serializer.is_valid():
+            response = serializer.save()
+            return Response(response, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        try:
+            refresh_token = request.data.get("refresh")
+            if not refresh_token:
+                return Response({"error": "Refresh token is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+            token = RefreshToken(refresh_token)
+            token.blacklist()  # Blacklist the token
+            return Response({"message": "Logout successful."}, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
