@@ -5,7 +5,6 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
 from rest_framework_simplejwt.tokens import RefreshToken
-from core.permissions import IsTokenValid
 
 from .serializers import (
     SignupSerializer, OTPVerificationSerializer, LoginSerializer, ChangePasswordSerializer,
@@ -55,7 +54,7 @@ class ChangePasswordView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 class ProfileViewSet(ViewSet):
-    permission_classes = [IsAuthenticated, IsTokenValid]
+    permission_classes = [IsAuthenticated]
 
     def retrieve(self, request):
         """Fetch the current user's profile."""
@@ -75,7 +74,7 @@ class ProfileViewSet(ViewSet):
 class ForgotPasswordView(APIView):
     def post(self, request):
         """
-        Handle Forgot Password (Send OTP and Reset Password).
+        Handle Forgot Password (Send OTP and Reset PasswLogoutVieword).
         """
         serializer = ForgotPasswordSerializer(data=request.data)
         if serializer.is_valid():
