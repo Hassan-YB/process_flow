@@ -10,7 +10,7 @@ from django.http import JsonResponse, HttpResponse
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from .models import Customer, Price, Subscription, Invoice, PaymentMethod
-from .serializers import PriceSerializer
+from .serializers import PriceSerializer, SubscriptionSerializer, InvoiceSerializer
 import stripe
 import json
 from datetime import datetime
@@ -88,6 +88,19 @@ class WebhookView(View):
 
 class SubscriptionView(ViewSet):
     permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+        """Retrieve a list of subscriptions for the authenticated user."""
+        try:
+            customer = Customer.objects.filter(user=request.user).first()
+            if not customer:
+                return Response({"error": "No subscriptions found for the user."}, status=status.HTTP_404_NOT_FOUND)
+
+            subscriptions = Subscription.objects.filter(customer=customer).order_by('-created_at')
+            serializer = SubscriptionSerializer(subscriptions, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     def create(self, request):
         """Create a subscription."""
@@ -250,3 +263,19 @@ class PriceListView(APIView):
         prices = Price.objects.all()
         serializer = PriceSerializer(prices, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+class InvoiceViewSet(ViewSet):
+    permission_classes = [IsAuthenticated]
+
+    def list(self, request):
+        """Retrieve a list of invoices for the authenticated user's subscriptions."""
+        try:
+            customer = Customer.objects.filter(user=request.user).first()
+            if not customer:
+                return Response({"error": "No invoices found for the user."}, status=status.HTTP_404_NOT_FOUND)
+
+            invoices = Invoice.objects.filter(subscription__customer=customer)
+            serializer = InvoiceSerializer(invoices, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except Exception as e:
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
