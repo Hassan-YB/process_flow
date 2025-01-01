@@ -6,3 +6,4 @@ sendgrid
 Pillow
 psycopg2
 twilio
+stripe
