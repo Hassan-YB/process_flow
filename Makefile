@@ -3,7 +3,7 @@ WEB_CONTAINER_NAME = process_flow
 EXEC_PREFIX = docker exec -it $(WEB_CONTAINER_NAME)
 MANAGEMENT_PREFIX = $(EXEC_PREFIX) bash -c "python manage.py
 
-DOCKER_COMPOSE = docker-compose -f docker-compose.yml
+DOCKER_COMPOSE = docker compose -f docker-compose.yml
 BUILD = $(DOCKER_COMPOSE) build
 DOWN_ALL = $(DOCKER_COMPOSE) down -v
 
