@@ -224,6 +224,12 @@ class SubscriptionView(ViewSet):
         # Retrieve the subscription details from Stripe
         stripe_subscription = stripe.Subscription.retrieve(subscription.stripe_id)
 
+        # Update subscription details
+        subscription.status = stripe_subscription.get("status", subscription.status)
+        subscription.current_period_start = make_aware(datetime.fromtimestamp(stripe_subscription["current_period_start"]))
+        subscription.current_period_end = make_aware(datetime.fromtimestamp(stripe_subscription["current_period_end"]))
+        subscription.save()
+
         # Retrieve the latest invoice using its ID
         latest_invoice_id = stripe_subscription.get('latest_invoice')
         if latest_invoice_id:
@@ -249,8 +255,6 @@ class SubscriptionView(ViewSet):
         Invoice.create_upcoming_invoice(subscription.stripe_id)
 
         return Response({"message": "Subscription finalized successfully"}, status=status.HTTP_200_OK)
-
-
 
 class PriceListView(APIView):
     def get(self, request):

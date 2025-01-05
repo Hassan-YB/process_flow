@@ -29,7 +29,7 @@ class PriceSerializer(serializers.ModelSerializer):
 
 
 class SubscriptionSerializer(serializers.ModelSerializer):
-    title = serializers.CharField(source='status', read_only=True)
+    title = serializers.CharField(source='price.title', read_only=True)
 
     class Meta:
         model = Subscription
