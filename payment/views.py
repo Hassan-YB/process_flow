@@ -259,7 +259,7 @@ class SubscriptionView(ViewSet):
 class PriceListView(APIView):
     def get(self, request):
         prices = Price.objects.all()
-        serializer = PriceSerializer(prices, many=True)
+        serializer = PriceSerializer(prices, many=True, context={'request': request})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
 class InvoiceViewSet(ViewSet):

@@ -19,13 +19,28 @@ class ProductSerializer(serializers.ModelSerializer):
 
 class PriceSerializer(serializers.ModelSerializer):
     product = ProductSerializer()
+    is_active = serializers.SerializerMethodField()
 
     class Meta:
         model = Price
         fields = [
             'id', 'product', 'slug', 'stripe_id', 'amount', 'currency',
-            'description', 'title', 'billing_period'
+            'description', 'title', 'billing_period', 'is_active'
         ]
+
+    def get_is_active(self, obj):
+        """Check if the price has an active subscription for the user."""
+        user = self.context.get('request').user
+        if not user.is_authenticated:
+            return False
+
+        # Check if there is an active subscription for this price
+        active_subscription = Subscription.objects.filter(
+            customer__user=user,
+            price=obj,
+            status__in=[Subscription.Status.ACTIVE, Subscription.Status.TRIALING]
+        ).exists()
+        return active_subscription
 
 
 class SubscriptionSerializer(serializers.ModelSerializer):
