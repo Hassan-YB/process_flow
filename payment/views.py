@@ -213,49 +213,43 @@ class SubscriptionView(ViewSet):
 
     def success(self, request, subscription_id):
         """Finalize subscription: store payment method and fetch upcoming invoice."""
-        try:
-            stripe.api_key = settings.STRIPE_SECRET_KEY
 
-            # Fetch subscription from the database
-            subscription = Subscription.objects.filter(id=subscription_id, customer__user=request.user).first()
-            if not subscription:
-                return Response({"error": "Subscription not found"}, status=status.HTTP_404_NOT_FOUND)
+        stripe.api_key = settings.STRIPE_SECRET_KEY
 
-            # Retrieve the subscription details from Stripe
-            stripe_subscription = stripe.Subscription.retrieve(subscription.stripe_id)
-            latest_invoice = stripe_subscription.latest_invoice
-            payment_intent = stripe_subscription['latest_invoice']['payment_intent']
+        # Fetch subscription from the database
+        subscription = Subscription.objects.filter(id=subscription_id, customer__user=request.user).first()
+        if not subscription:
+            return Response({"error": "Subscription not found"}, status=status.HTTP_404_NOT_FOUND)
 
+        # Retrieve the subscription details from Stripe
+        stripe_subscription = stripe.Subscription.retrieve(subscription.stripe_id)
+
+        # Retrieve the latest invoice using its ID
+        latest_invoice_id = stripe_subscription.get('latest_invoice')
+        if latest_invoice_id:
+            latest_invoice = stripe.Invoice.retrieve(latest_invoice_id)
+            payment_intent = latest_invoice.get('payment_intent')
+            
             # Save payment method details
-            payment_method_id = payment_intent.get('payment_method')
-            if payment_method_id:
-                payment_method_data = stripe.PaymentMethod.retrieve(payment_method_id)
-                PaymentMethod.objects.get_or_create(
-                    customer=subscription.customer,
-                    type=payment_method_data.type,
-                    card_brand=payment_method_data.card.brand,
-                    last_four_digits=payment_method_data.card.last4,
-                    defaults={'is_active': True},
-                )
+            if payment_intent:
+                payment_intent_data = stripe.PaymentIntent.retrieve(payment_intent)
+                payment_method_id = payment_intent_data.get('payment_method')
 
-            # Fetch and store upcoming invoice
-            upcoming_invoice = stripe.Invoice.upcoming(subscription=subscription.stripe_id)
-            Invoice.objects.create(
-                subscription=subscription,
-                stripe_id=upcoming_invoice.id,
-                amount_due=upcoming_invoice.amount_due,
-                currency=upcoming_invoice.currency,
-                period_start=make_aware(datetime.fromtimestamp(upcoming_invoice.period_start)),
-                period_end=make_aware(datetime.fromtimestamp(upcoming_invoice.period_end)),
-                status=upcoming_invoice.status,
-                hosted_invoice_url=upcoming_invoice.hosted_invoice_url,
-                is_paid=upcoming_invoice.paid,
-            )
+                if payment_method_id:
+                    payment_method_data = stripe.PaymentMethod.retrieve(payment_method_id)
+                    PaymentMethod.objects.get_or_create(
+                        customer=subscription.customer,
+                        type=payment_method_data.type,
+                        card_brand=payment_method_data.card.brand,
+                        last_four_digits=payment_method_data.card.last4,
+                        defaults={'is_active': True},
+                    )
 
-            return Response({"message": "Subscription finalized successfully"}, status=status.HTTP_200_OK)
+        # Fetch and store upcoming invoice
+        Invoice.create_upcoming_invoice(subscription.stripe_id)
 
-        except Exception as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"message": "Subscription finalized successfully"}, status=status.HTTP_200_OK)
+
 
 
 class PriceListView(APIView):
