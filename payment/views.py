@@ -9,6 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 from django.http import JsonResponse, HttpResponse
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
+from users.models import User
 from .models import Customer, Price, Subscription, Invoice, PaymentMethod
 from .serializers import PriceSerializer, SubscriptionSerializer, InvoiceSerializer
 import stripe
@@ -253,6 +254,10 @@ class SubscriptionView(ViewSet):
 
         # Fetch and store upcoming invoice
         Invoice.create_upcoming_invoice(subscription.stripe_id)
+        
+        user = User.objects.get(email = request.user.email)
+        user.role = User.RoleChoices.PREMIUM
+        user.save()
 
         return Response({"message": "Subscription finalized successfully"}, status=status.HTTP_200_OK)
 
