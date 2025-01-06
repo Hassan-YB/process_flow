@@ -30,5 +30,4 @@ class SMSService:
             )
             return True, message.sid
         except Exception as e:
-            print(f"Failed to send SMS: {e}")
-            return False, None
+            return False, e

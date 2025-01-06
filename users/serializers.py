@@ -3,7 +3,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from core.services.sms import SMSService
-from django.utils.timezone import now
+from django.db import transaction
 
 from .models import User
 from .models import OTP
@@ -23,12 +23,26 @@ class SignupSerializer(serializers.ModelSerializer):
         validate_password(value)
         return value
 
+    @transaction.atomic  # Ensures all DB operations succeed or none do
     def create(self, validated_data):
-        # Extract email and generate username
         email = validated_data['email']
-        username = email.split('@')[0]  # Use the part before '@' as username
+        username = email.split('@')[0]  # username is part before '@'
 
-        # Create user instance
+        # 1. Generate the OTP
+        otp_code = "123456" #f"{random.randint(100000, 999999)}"
+        # phone_number = validated_data['phone_number']
+        # message_body = SMSService.SIGNUP_OTP_TEMPLATE.format(
+        #     site_name=SMSService.SITE_NAME,
+        #     otp_code=otp_code
+        # )
+
+        # sms_service = SMSService()
+        # is_success, msg = sms_service.send_sms(phone_number, message_body)
+        # if not is_success:
+        #     # Abort user creation if OTP fails to send
+        #     raise serializers.ValidationError({"phone_number": [msg]})
+
+        # 3. If sending SMS succeeds, create the User
         user = User.objects.create_user(
             email=email,
             username=username,
@@ -39,17 +53,8 @@ class SignupSerializer(serializers.ModelSerializer):
             is_active=False
         )
 
-        # Generate OTP
-        otp_code = "123456"  #f"{random.randint(100000, 999999)}"
+        # 4. Store the OTP in the database
         OTP.objects.create(user=user, code=otp_code)
-
-        # Send OTP via SMS
-        # sms_service = SMSService()
-        # phone_number = validated_data['phone_number']
-        # message_body = SMSService.SIGNUP_OTP_TEMPLATE.format(site_name=SMSService.SITE_NAME, otp_code=otp_code)
-        # is_success, msg = sms_service.send_sms(phone_number, message_body)
-        # if not is_success:
-        #     raise serializers.ValidationError(msg)
 
         return user
 
