@@ -272,7 +272,7 @@ class SubscriptionView(ViewSet):
                     )
 
         # Fetch and store upcoming invoice
-        Invoice.create_upcoming_invoice(subscription.stripe_id)
+        # Invoice.create_upcoming_invoice(subscription.stripe_id)
         
         user = User.objects.get(email = request.user.email)
         user.role = User.RoleChoices.PREMIUM
