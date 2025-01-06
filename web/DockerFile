@@ -1,0 +1,21 @@
+# Use Node 18 (LTS) Alpine base image
+FROM node:18-alpine
+
+# Create app directory inside container
+WORKDIR /app
+
+# Copy ONLY package.json first
+COPY package.json ./
+
+# Install dependencies. 
+# Using --legacy-peer-deps to avoid strict peer dependency conflicts.
+RUN npm install --legacy-peer-deps
+
+# Copy the rest of your React code
+COPY . .
+
+# Expose the port your React dev server runs on
+EXPOSE 3000
+
+# Start the development server
+CMD ["npm", "start"]

@@ -28,6 +28,22 @@ services:
       - 8000:8000
     depends_on:
       - postgres-db
+
+  react-frontend:
+    profiles: ["frontend"]
+    container_name: process_flow_frontend
+    build:
+      context: ./web
+      dockerfile: DockerFile
+    volumes:
+      - ./web:/app
+      # Let node_modules remain in container by using an anonymous volume:
+      - /app/node_modules
+    ports:
+      - "3000:3000"
+    # If you want to ensure the React container waits for the backend or DB, add depends_on
+    depends_on:
+      - web
   
 volumes:
   postgres_data:

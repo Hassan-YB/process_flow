@@ -55,3 +55,17 @@ logs:
 restart:
 	$(DOCKER_COMPOSE) restart
 
+build-web:
+	$(DOCKER_COMPOSE) build react-frontend
+
+run-web:
+	$(DOCKER_COMPOSE) up react-frontend
+
+run-all-d:
+	$(DOCKER_COMPOSE) --profile frontend up -d
+
+stop-all:
+	$(DOCKER_COMPOSE) --profile frontend stop
+
+restart-all:
+	$(DOCKER_COMPOSE) --profile frontend restart
