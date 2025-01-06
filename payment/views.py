@@ -66,10 +66,9 @@ class WebhookView(View):
             if event_type == 'invoice.created':
                 subscription_id = data_object.get("subscription")
                 stripe_id = data_object.get("id")
-                invoice, _ = Invoice.objects.get_or_create(
-                    subscription=Subscription.objects.filter(stripe_id=subscription_id).first(),
-                    stripe_id=stripe_id,
-                )
+                invoice = Invoice()
+                invoice.stripe_id = stripe_id
+                invoice.subscription = Subscription.objects.filter(stripe_id=subscription_id).first()
                 invoice.amount_due = data_object.get("amount_due", 0)
                 invoice.amount_paid = data_object.get("amount_paid", 0)
                 invoice.currency = data_object.get("currency")
