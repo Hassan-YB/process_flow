@@ -80,6 +80,25 @@ class WebhookView(View):
                 invoice.hosted_invoice_url = data_object.get("hosted_invoice_url")
                 invoice.save()
 
+            elif event_type == 'invoice.updated':
+                stripe_id = data_object.get("id")
+                invoice = Invoice.objects.filter(stripe_id=stripe_id).first()
+                if invoice:
+                    invoice.amount_due = data_object.get("amount_due", invoice.amount_due)
+                    invoice.amount_paid = data_object.get("amount_paid", invoice.amount_paid)
+                    invoice.status = data_object.get("status", invoice.status)
+                    invoice.is_paid = data_object.get("paid", invoice.is_paid)
+                    invoice.save()
+
+            elif event_type == 'invoice.paid':
+                stripe_id = data_object.get("id")
+                invoice = Invoice.objects.filter(stripe_id=stripe_id).first()
+                if invoice:
+                    invoice.is_paid = True
+                    invoice.status = 'paid'
+                    invoice.amount_paid = data_object.get("amount_paid", invoice.amount_paid)
+                    invoice.save()
+
         except Exception as e:
             print(f"Webhook Error: {e}")
             return HttpResponse(status=400)
