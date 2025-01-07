@@ -107,7 +107,7 @@ class WebhookView(View):
                     invoice.status = 'paid'
                     invoice.amount_paid = data_object.get("amount_paid", invoice.amount_paid)
                     invoice.save()
-                Invoice.create_upcoming_invoice(subscription.stripe_id) # Add Upcoming Invoice details
+                Invoice.create_upcoming_invoice(data_object.get("subscription")) # Add Upcoming Invoice details
 
         except Exception as e:
             print(f"Webhook Error: {e}")

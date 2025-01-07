@@ -159,8 +159,8 @@ class Invoice(BaseDateTimeModel):
             if period_end:
                 invoice.period_end =  make_aware(datetime.fromtimestamp(period_end))
             invoice.save()
-        except:
-            pass
+        except Exception as e:
+            print(e)
     
 class PaymentMethod(BaseDateTimeModel):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="payment_methods")
