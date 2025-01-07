@@ -75,6 +75,7 @@ class Subscription(BaseDateTimeModel):
 
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, related_name="subscriptions")
     price = models.ForeignKey(Price, on_delete=models.CASCADE, related_name="subscriptions")
+    payment_method = models.ForeignKey('payment.PaymentMethod', on_delete=models.SET_NULL, null=True, blank=True)
     stripe_id = models.CharField(max_length=1000, unique=True, null=True, blank=True)
     item_id = models.CharField(max_length=1000, null=True, blank=True)
     current_period_start = models.DateTimeField(null=True, blank=True)

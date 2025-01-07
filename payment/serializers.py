@@ -30,17 +30,20 @@ class PriceSerializer(serializers.ModelSerializer):
 
     def get_is_active(self, obj):
         """Check if the price has an active subscription for the user."""
-        user = self.context.get('request').user
-        if not user.is_authenticated:
-            return False
+        try:
+            user = self.context.get('request').user
+            if not user.is_authenticated:
+                return False
 
-        # Check if there is an active subscription for this price
-        active_subscription = Subscription.objects.filter(
-            customer__user=user,
-            price=obj,
-            status__in=[Subscription.Status.ACTIVE, Subscription.Status.TRIALING]
-        ).exists()
-        return active_subscription
+            # Check if there is an active subscription for this price
+            active_subscription = Subscription.objects.filter(
+                customer__user=user,
+                price=obj,
+                status__in=[Subscription.Status.ACTIVE, Subscription.Status.TRIALING]
+            ).exists()
+            return active_subscription
+        except:
+            return None
 
 
 class SubscriptionSerializer(serializers.ModelSerializer):
@@ -81,3 +84,26 @@ class PaymentMethodSerializer(serializers.ModelSerializer):
             'last_four_digits', 'is_active'
         ]
         read_only_fields = ['id']
+
+class ActiveSubscriptionSerializer(serializers.ModelSerializer):
+    price = PriceSerializer()
+    invoices = serializers.SerializerMethodField()
+    upcoming_invoice = serializers.SerializerMethodField()
+    payment_method_details = PaymentMethodSerializer(source='payment_method', read_only=True)
+
+    class Meta:
+        model = Subscription
+        fields = [
+            'id', 'stripe_id', 'status', 'current_period_start', 'current_period_end',
+            'price', 'payment_method_details', 'invoices', 'upcoming_invoice'
+        ]
+
+    def get_invoices(self, obj):
+        invoices = obj.invoices.filter(next_payment_attempt__isnull=True).order_by('-created_at')
+        return InvoiceSerializer(invoices, many=True).data
+
+    def get_upcoming_invoice(self, obj):
+        upcoming_invoice = Invoice.objects.filter(
+            subscription=obj, next_payment_attempt__isnull=False
+        ).order_by('-next_payment_attempt').first()
+        return InvoiceSerializer(upcoming_invoice).data if upcoming_invoice else None

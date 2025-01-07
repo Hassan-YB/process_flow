@@ -11,7 +11,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from users.models import User
 from .models import Customer, Price, Subscription, Invoice, PaymentMethod
-from .serializers import PriceSerializer, SubscriptionSerializer, InvoiceSerializer
+from .serializers import PriceSerializer, SubscriptionSerializer, InvoiceSerializer, ActiveSubscriptionSerializer
 import stripe
 import json
 from datetime import datetime
@@ -60,6 +60,16 @@ class WebhookView(View):
                     subscription.status = data_object.get("status")
                     subscription.current_period_start = make_aware(datetime.fromtimestamp(data_object["current_period_start"]))
                     subscription.current_period_end = make_aware(datetime.fromtimestamp(data_object["current_period_end"]))
+                    try:
+                        # Retrieve the updated price ID
+                        updated_price_id = data_object["items"]["data"][0]["price"]["id"]
+
+                        # Find the corresponding Price object
+                        price = Price.objects.filter(stripe_id=updated_price_id).first()
+                        if price:
+                            subscription.price = price
+                    except Exception as e:
+                        print("Error at updating price in subscription update webhook: ", e)
                     subscription.save()
 
             # Handle invoice creation
@@ -97,6 +107,7 @@ class WebhookView(View):
                     invoice.status = 'paid'
                     invoice.amount_paid = data_object.get("amount_paid", invoice.amount_paid)
                     invoice.save()
+                Invoice.create_upcoming_invoice(subscription.stripe_id) # Add Upcoming Invoice details
 
         except Exception as e:
             print(f"Webhook Error: {e}")
@@ -243,12 +254,6 @@ class SubscriptionView(ViewSet):
         # Retrieve the subscription details from Stripe
         stripe_subscription = stripe.Subscription.retrieve(subscription.stripe_id)
 
-        # Update subscription details
-        subscription.status = stripe_subscription.get("status", subscription.status)
-        subscription.current_period_start = make_aware(datetime.fromtimestamp(stripe_subscription["current_period_start"]))
-        subscription.current_period_end = make_aware(datetime.fromtimestamp(stripe_subscription["current_period_end"]))
-        subscription.save()
-
         # Retrieve the latest invoice using its ID
         latest_invoice_id = stripe_subscription.get('latest_invoice')
         if latest_invoice_id:
@@ -262,7 +267,7 @@ class SubscriptionView(ViewSet):
 
                 if payment_method_id:
                     payment_method_data = stripe.PaymentMethod.retrieve(payment_method_id)
-                    PaymentMethod.objects.get_or_create(
+                    payment_method, is_created = PaymentMethod.objects.get_or_create(
                         customer=subscription.customer,
                         type=payment_method_data.type,
                         card_brand=payment_method_data.card.brand,
@@ -270,15 +275,43 @@ class SubscriptionView(ViewSet):
                         defaults={'is_active': True},
                     )
 
-        # Fetch and store upcoming invoice
-        # Invoice.create_upcoming_invoice(subscription.stripe_id)
-        
+        # Update subscription details
+        subscription.status = stripe_subscription.get("status", subscription.status)
+        subscription.current_period_start = make_aware(datetime.fromtimestamp(stripe_subscription["current_period_start"]))
+        subscription.current_period_end = make_aware(datetime.fromtimestamp(stripe_subscription["current_period_end"]))
+        if payment_method:
+            subscription.payment_method = payment_method
+        subscription.save()
+
         user = User.objects.get(email = request.user.email)
         user.role = User.RoleChoices.PREMIUM
         user.save()
 
         return Response({"message": "Subscription finalized successfully"}, status=status.HTTP_200_OK)
 
+    def active(self, request):
+        try:
+            # Fetch the customer for the authenticated user
+            customer = Customer.objects.filter(user=request.user).first()
+            if not customer:
+                return Response({"error": "Customer not found"}, status=404)
+
+            # Fetch the latest subscription
+            subscription = Subscription.objects.filter(
+                customer=customer
+            ).order_by('-created_at').first()
+
+            if not subscription:
+                return Response({"error": "No subscriptions found"}, status=404)
+
+            # Serialize the subscription details
+            subscription_data = ActiveSubscriptionSerializer(subscription).data
+
+            return Response({"subscription": subscription_data}, status=200)
+
+        except Exception as e:
+            return Response({"error": str(e)}, status=400)
+        
 class PriceListView(APIView):
     def get(self, request):
         prices = Price.objects.all()
