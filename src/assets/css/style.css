@@ -1,0 +1,12 @@
+/* Add this to your component-specific CSS file or global CSS file */
+@media (max-width: 360px) {
+    .subscriptions-header h3 {
+      font-size: 16px !important; /* Smaller font size for h3 */
+    }
+    
+    .subscriptions-header img {
+      width: 30px !important; /* Smaller icon size */
+      height: 30px !important;
+    }
+  }
+  
