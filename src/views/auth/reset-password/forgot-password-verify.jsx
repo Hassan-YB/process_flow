@@ -59,7 +59,7 @@ const ForgotPasswordVerify = () => {
                 <Col>
                   <Card.Body className="card-body">
                     <img src={logoDark} alt="Logo" className="img-fluid mb-4" />
-                    <h4 className="mb-3 f-w-400">Forgot Password Otp</h4>
+                    <h4 className="mb-3 f-w-400">Verify Password OTP</h4>
                     <form onSubmit={handleSubmit}>
                       <div className="input-group mb-4">
                         <input

@@ -5,6 +5,8 @@ import { Routes, Navigate, Route } from 'react-router-dom';
 import Loader from './components/Loader/Loader';
 import AdminLayout from './layouts/AdminLayout';
 
+import AuthGuard from './components/AuthGuard/AuthGuard'
+
 import { BASE_URL } from './config/constant';
 
 // ==============================|| ROUTES ||============================== //
@@ -63,6 +65,7 @@ export const routes = [
   {
     path: '*',
     layout: AdminLayout,
+    guard: AuthGuard,
     routes: [
       {
         exact: 'true',

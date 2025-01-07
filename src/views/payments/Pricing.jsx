@@ -110,7 +110,8 @@ const Pricing = () => {
     <div className="container mt-5">
       <Breadcrumb title={"Pricing"} main={"Dashboard"} item={"Pricing"} />
       <MainCard>
-        <div className="row justify-content-center mt-4">
+        <div className="row justify-content-center">
+          <h4 className="mb-5 text-center">Pricing Plans</h4>
           {prices.map((price) => (
             <div className="col-md-3 mb-4" key={price.id}>
               <div
