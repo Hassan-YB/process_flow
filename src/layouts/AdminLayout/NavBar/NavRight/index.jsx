@@ -194,7 +194,7 @@ const NavRight = () => {
                   </Link>
                 </ListGroup.Item>
                 <ListGroup.Item as="li" bsPrefix=" ">
-                  <Link to="/subscriptions" className="dropdown-item">
+                  <Link to="/billing" className="dropdown-item">
                     <i className="feather icon-mail" /> Billing
                   </Link>
                 </ListGroup.Item>

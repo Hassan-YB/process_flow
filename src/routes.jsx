@@ -96,6 +96,11 @@ export const routes = [
       },
       {
         exact: 'true',
+        path: '/billing',
+        element: lazy(() => import('./views/payments/Invoicing'))
+      },
+      {
+        exact: 'true',
         path: '/profile',
         element: lazy(() => import('./views/profile/Profile'))
       },

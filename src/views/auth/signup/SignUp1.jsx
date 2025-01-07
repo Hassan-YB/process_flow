@@ -55,7 +55,7 @@ const SignUp1 = () => {
       <NavBar/>
       <div className="auth-wrapper">
         <div className="auth-content">
-          <Card className="borderless">
+          <Card className="borderless" style={{marginTop:'20px'}}>
             <Row className="align-items-center">
               <Col>
                 <Card.Body className="card-body">

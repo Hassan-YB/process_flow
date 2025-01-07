@@ -26,7 +26,7 @@ const CheckoutForm = ({ subscriptionId }) => {
       const { error, paymentIntent } = await stripe.confirmPayment({
         elements,
         confirmParams: {
-          return_url: `${window.location.origin}/subscriptions`,
+          return_url: `${window.location.origin}/billing`,
         },
         redirect: "if_required", // Handle redirection if required
       });
@@ -41,7 +41,7 @@ const CheckoutForm = ({ subscriptionId }) => {
       // Ensure paymentIntent is successful
       if (paymentIntent && paymentIntent.status === "succeeded") {
         await handleSubscriptionSuccess(subscriptionId);
-        navigate("/subscriptions")
+        navigate("/billing")
       } else {
         console.error("Payment not completed. Status:", paymentIntent?.status);
         showErrorToast("Payment not successful. Please try again.");
