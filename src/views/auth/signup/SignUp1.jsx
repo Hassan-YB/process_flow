@@ -54,8 +54,8 @@ const SignUp1 = () => {
     <React.Fragment>
       <NavBar/>
       <div className="auth-wrapper">
-        <div className="auth-content">
-          <Card className="borderless" style={{marginTop:'20px'}}>
+        <div className="auth-content" style={{marginTop:'75px', marginBottom:'50px'}}>
+          <Card className="borderless">
             <Row className="align-items-center">
               <Col>
                 <Card.Body className="card-body">

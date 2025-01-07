@@ -98,7 +98,7 @@ const UpdateProfile = () => {
   return (
     <div className="container">
       <Breadcrumb title={"Profile"} main={"Dashboard"} item={"Profile"}/>
-    <div className="container d-flex justify-content-center align-items-center">
+    <div className="d-flex justify-content-center align-items-center">
       <div
         className="card p-4"
         style={{

@@ -68,7 +68,7 @@ const ResetPassword1 = () => {
                   </form>
                   <p className="mb-0 text-muted">
                     Don’t have an account?{" "}
-                    <NavLink to="/auth/signup" className="f-w-400">
+                    <NavLink to="/auth/signup" className="f-w-400 text-decoration-underline">
                       Signup
                     </NavLink>
                   </p>

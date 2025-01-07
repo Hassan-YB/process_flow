@@ -14,6 +14,8 @@ import PerfectScrollbar from 'react-perfect-scrollbar';
 // project import
 import ChatList from './ChatList';
 
+import { useLocation } from 'react-router-dom';
+
 // assets
 import avatar1 from '../../../../assets/images/user/avatar-1.jpg';
 import avatar2 from '../../../../assets/images/user/avatar-2.jpg';
@@ -24,22 +26,51 @@ import avatar4 from '../../../../assets/images/user/avatar-4.jpg';
 
 const NavbarRight = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [listOpen, setListOpen] = useState(false);
+
+  const isOnLoginPage = location.pathname === '/auth/signin';
+  const isOnSignupPage = location.pathname === '/auth/signup';
 
   return (
     <React.Fragment>
       <ListGroup as="ul" bsPrefix=" " className="navbar-nav ml-auto">
-      <ListGroup.Item as="li" className="nav-item">
-          <a href="/auth/signin" className="nav-link" style={{color:'#000'}}>
-            Login
-          </a>
-        </ListGroup.Item>
-        <ListGroup.Item as="li" className="nav-item">
-          <a href="/auth/signup" className="nav-link" style={{color:'#000'}}>
-            Signup
-          </a>
-        </ListGroup.Item>
+        {/* Render Login only if not on the login page */}
+        {!isOnLoginPage && (
+          <ListGroup.Item as="li" className="nav-item">
+            <a
+              href="/auth/signin"
+              className="btn"
+              style={{
+                backgroundColor: '#fff',
+                border: '2px solid #7843be',
+                color: '#7843be',
+                marginRight: '10px',
+                padding: '5px 10px 5px 10px',
+              }}
+            >
+              Login
+            </a>
+          </ListGroup.Item>
+        )}
+        {/* Render Signup only if not on the signup page */}
+        {!isOnSignupPage && (
+          <ListGroup.Item as="li" className="nav-item">
+            <a
+              href="/auth/signup"
+              className="btn"
+              style={{
+                backgroundColor: '#fff',
+                border: '2px solid #7843be',
+                color: '#7843be',
+                padding: '5px 10px 5px 10px',
+              }}
+            >
+              Signup
+            </a>
+          </ListGroup.Item>
+        )}
       </ListGroup>
     </React.Fragment>
   );

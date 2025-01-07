@@ -114,7 +114,7 @@ const ForgotPasswordVerify = () => {
                     </form>
                     <p className="mb-0 text-muted">
                       Remembered your password?{" "}
-                      <a href="/auth/signin-1" className="f-w-400">
+                      <a href="/auth/signin-1" className="f-w-400 text-decoration-underline">
                         Sign In
                       </a>
                     </p>

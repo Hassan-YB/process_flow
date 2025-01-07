@@ -14,7 +14,7 @@ const ConfirmationModal = ({ show, onHide, onConfirm, title, body }) => {
       </Modal.Body>
       <Modal.Footer className="d-flex justify-content-between">
         <Button variant="secondary" onClick={onHide}
-          style={{ background: '#fff', color: '#9860DA', border: '#9860DA' }}>
+          style={{ background: '#fff', color: '#9860DA', border: '2px solid #9860DA' }}>
           Cancel
         </Button>
         <Button variant="primary" onClick={onConfirm}
