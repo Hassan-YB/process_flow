@@ -79,7 +79,7 @@ const ChangePassword = () => {
                             style={{ cursor: "pointer", background:'#fff' }}
                             onClick={toggleOldPasswordVisibility}
                           >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            {showPasswordOld ? <FaEye /> : <FaEyeSlash />}
                         </div>
                       </div>
                       <div className="input-group mb-4 position-relative">
@@ -97,7 +97,7 @@ const ChangePassword = () => {
                             style={{ cursor: "pointer", background:'#fff' }}
                             onClick={togglePasswordVisibility}
                           >
-                            {showPassword ? <FaEyeSlash /> : <FaEye />}
+                            {showPassword ? <FaEye /> : <FaEyeSlash />}
                         </div>
                       </div>
                       <button type="submit" className="btn btn-primary btn-block mb-4"

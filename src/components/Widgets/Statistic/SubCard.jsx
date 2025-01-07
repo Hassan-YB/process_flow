@@ -26,11 +26,10 @@ const SubCard = ({ params }) => {
                     </span>
                     <span
                         style={{
-                            background: params.status === "active" ? "#4caf50" : "#f44336",
-                            color: "white",
+                            color: params.status === "active" ? "#7aff7a" : "#f44336",
                             borderRadius: "10px",
                             padding: "5px 10px",
-                            fontSize: "12px",
+                            fontSize: "18px",
                             fontWeight: "bold",
                         }}
                     >

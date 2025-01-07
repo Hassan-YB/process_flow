@@ -93,7 +93,7 @@ const Signin1 = () => {
                     style={{ cursor: "pointer", background:'#fff' }}
                     onClick={togglePasswordVisibility}
                   >
-                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                    {showPassword ? <FaEye /> : <FaEyeSlash />}
                   </div>
                 </div>
                 <div className="d-flex justify-content-end mt-2">

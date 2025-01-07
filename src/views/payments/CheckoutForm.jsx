@@ -74,11 +74,10 @@ const CheckoutForm = ({ subscriptionId }) => {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center mt-4">
+    <div className="justify-content-center align-items-center">
       <div
           className="card text-center p-4"
           style={{
-            width: "400px",
             borderRadius: "15px",
             boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
           }}

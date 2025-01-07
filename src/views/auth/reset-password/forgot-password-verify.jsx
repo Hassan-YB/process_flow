@@ -98,7 +98,7 @@ const ForgotPasswordVerify = () => {
                         style={{ cursor: "pointer", background:'#fff' }}
                         onClick={togglePasswordVisibility}
                       >
-                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                        {showPassword ? <FaEye /> : <FaEyeSlash />}
                     </div>
                       </div>
                       <button type="submit" className="btn btn-primary btn-block mb-4"

@@ -87,10 +87,15 @@ const Pricing = () => {
       const body = { price_slug: priceSlug };
 
       const { data } = await axios.post(`${API_URL}/subscriptions/`, body, config);
+      const selectedPlan = prices.find((price) => price.slug === priceSlug);
       navigate("/checkout", {
         state: {
           clientSecret: data.client_secret,
           subscriptionId: data.subscription_id,
+          planTitle: selectedPlan.title,
+          planAmount: selectedPlan.amount,
+          planCurrency: selectedPlan.currency,
+          billingPeriod: selectedPlan.billing_period,
         },
       });
     } catch (error) {

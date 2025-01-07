@@ -89,6 +89,15 @@ const Invoicing = () => {
         `${API_URL}/subscriptions/${subscriptionData.subscription.id}/`,
         config
       );
+
+      setSubscriptionData((prevData) => ({
+        ...prevData,
+        subscription: {
+          ...prevData.subscription,
+          status: "canceled",
+        },
+      }));
+      
       setStatus("Canceled");
       setShowModal(false);
     } catch (error) {

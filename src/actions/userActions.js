@@ -154,7 +154,7 @@ export const changePassword = (passwordData) => async (dispatch) => {
     window.location.href = "profile";
   } catch (error) {
     console.error('Change Password Error:', error.response.data);
-    showErrorToast("Failed to change password. Please try again.");
+    showErrorToast(error.response?.data?.error || "Failed to change password. Please try again.");
   }
 };
 

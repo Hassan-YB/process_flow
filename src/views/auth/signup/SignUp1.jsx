@@ -116,7 +116,7 @@ const SignUp1 = () => {
                         style={{ cursor: "pointer", background:'#fff' }}
                         onClick={togglePasswordVisibility}
                       >
-                        {showPassword ? <FaEyeSlash /> : <FaEye />}
+                        {showPassword ? <FaEye /> : <FaEyeSlash />}
                     </div>
                     </div>
                     <div className="text-center">
