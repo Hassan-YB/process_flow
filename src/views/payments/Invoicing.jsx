@@ -108,7 +108,7 @@ const Invoicing = () => {
 
 
   return (
-    <div className="container mt-5" style={{ height: "100vh" }}>
+    <div className="container">
       <Breadcrumb title={"Billing"} main={"Dashboard"} item={"Billing"}/>
       <Row>
         {/* Subscription Card */}

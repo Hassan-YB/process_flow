@@ -112,7 +112,7 @@ const Pricing = () => {
   const isAnyPriceActive = prices.some((price) => price.is_active);
 
   return (
-    <div className="container mt-5">
+    <div className="container">
       <Breadcrumb title={"Pricing"} main={"Dashboard"} item={"Pricing"} />
       <MainCard>
         <div className="row justify-content-center">
