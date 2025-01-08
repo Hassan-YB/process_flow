@@ -55,14 +55,15 @@ const ChangePassword = () => {
   
     return (
       <React.Fragment>
-        <div className="auth-wrapper" style={{background:'#fff'}}>
-          <div className="auth-content text-center">
+        <div className="container">
+        <Breadcrumb title={"Change Password"} main={"Dashboard"} item={"Change Password"}/>
+        <div className="">
+          <div className="auth-content text-center col-12 col-md-6 mx-auto">
             <Card className="borderless">
               <Row className="align-items-center text-center">
                 <Col>
                   <Card.Body className="card-body">
-                    <img src={logoDark} alt="Logo" className="img-fluid mb-4" />
-                    <h4 className="mb-3 f-w-400">Change Password</h4>
+                  <h3 className="text-center mb-5">Change Password</h3>
                     <form onSubmit={handleSubmit}>
                       <div className="input-group mb-4">
                         <input
@@ -116,6 +117,7 @@ const ChangePassword = () => {
               </Row>
             </Card>
           </div>
+        </div>
         </div>
       </React.Fragment>
     );

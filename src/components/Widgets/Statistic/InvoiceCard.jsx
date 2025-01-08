@@ -17,7 +17,7 @@ const InvoiceCard = ({ params, onStatusClick }) => {
     }
 
     return (
-        <Card className={cardClass.join(' ')} style={{minHeight:'162px'}}>
+        <Card className={cardClass.join(' ')} style={{minHeight:'172px'}}>
             <Card.Body>
                 <div className="d-flex justify-content-between align-items-center mb-4">
 
