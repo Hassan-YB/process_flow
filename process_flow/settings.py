@@ -36,6 +36,8 @@ CORS_ORIGIN_WHITELIST = (
 
 CORS_ALLOW_ALL_ORIGINS = True
 
+CSRF_TRUSTED_ORIGINS = ["http://13.51.88.13"]
+
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000", 
     "http://localhost:8080", 
