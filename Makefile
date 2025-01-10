@@ -61,8 +61,14 @@ build-web:
 run-web:
 	$(DOCKER_COMPOSE) up react-frontend
 
+run-web-d:
+	$(DOCKER_COMPOSE) up react-frontend -d
+
 run-all-d:
 	$(DOCKER_COMPOSE) --profile frontend up -d
+
+run-all:
+	$(DOCKER_COMPOSE) --profile frontend up
 
 stop-all:
 	$(DOCKER_COMPOSE) --profile frontend stop

@@ -1,45 +1,44 @@
 {
-  "name": "process-flow",
-  "version": "2.0.1",
-  "proxy": "http://localhost:8000",
+  "name": "gradient-able-free-react-admin-template",
+  "version": "5.0.0",
+  "scripts": {
+    "start": "vite",
+    "build": "node --max-old-space-size=4096 node_modules/vite/bin/vite.js build",
+    "preview": "vite preview",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
+    "lint:fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx}\"",
+    "prettier": "prettier --write \"src/**/*.{js,jsx,ts,tsx}\""
+  },
   "dependencies": {
-    "@fortawesome/fontawesome-free": "^6.7.1",
     "@stripe/react-stripe-js": "^3.1.1",
     "@stripe/stripe-js": "^5.4.0",
-    "ajv": "^8.16.0",
-    "axios": "^1.7.9",
+    "@tanem/react-nprogress": "^5.0.51",
+    "@vitejs/plugin-react": "^4.2.1",
+    "apexcharts": "^3.49.0",
     "bootstrap": "^5.3.3",
-    "chartist": "^1.3.0",
-    "gulp": "^5.0.0",
-    "gulp-append-prepend": "1.0.9",
-    "react": "^19.0.0",
-    "react-bootstrap": "^2.10.6",
-    "react-chartist": "^0.14.4",
-    "react-dom": "^19.0.0",
-    "react-notification-alert": "0.0.13",
-    "react-redux": "^9.2.0",
-    "react-router": "^7.0.2",
-    "react-router-dom": "^7.0.2",
-    "react-scripts": "5.0.1",
+    "formik": "^2.4.6",
+    "react": "18.2.0",
+    "react-apexcharts": "^1.4.1",
+    "react-bootstrap": "^2.10.2",
+    "react-copy-to-clipboard": "^5.1.0",
+    "react-dom": "18.2.0",
+    "react-icons": "^5.0.1",
+    "react-perfect-scrollbar": "^1.5.8",
+    "react-router-dom": "^6.23.0",
     "react-toastify": "^11.0.2",
-    "reactstrap": "^9.2.3",
-    "redux": "^5.0.1",
-    "redux-thunk": "^3.1.0",
-    "sass": "^1.82.0"
+    "vite": "^5.2.11",
+    "vite-jsconfig-paths": "^2.0.1",
+    "web-vitals": "^3.5.2",
+    "yup": "^1.4.0"
   },
-  "optionalDependencies": {
-    "jquery": "^3.7.1",
-    "typescript": "^5.7.2"
+  "resolutions": {
+    "autoprefixer": "10.4.5"
   },
-  "scripts": {
-    "start": "react-scripts start",
-    "build": "cross-env CI=false react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "install:clean": "rm -rf node_modules/ && rm -rf package-lock.json && npm install && npm start",
-    "compile:scss": "sass src/assets/scss/light-bootstrap-dashboard-pro-react.scss src/assets/css/light-bootstrap-dashboard-pro-react.css",
-    "minify:scss": "sass src/assets/scss/light-bootstrap-dashboard-pro-react.scss src/assets/css/light-bootstrap-dashboard-pro-react.min.css --style compressed",
-    "build:scss": "npm run compile:scss && npm run minify:scss"
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
   },
   "browserslist": {
     "production": [
@@ -54,6 +53,26 @@
     ]
   },
   "devDependencies": {
-    "cross-env": "^7.0.3"
-  }
+    "@babel/core": "^7.24.4",
+    "@babel/eslint-parser": "^7.23.10",
+    "@babel/plugin-proposal-class-properties": "^7.18.6",
+    "@babel/plugin-proposal-private-property-in-object": "^7.20.5",
+    "@svgr/webpack": "^8.1.0",
+    "@testing-library/jest-dom": "^6.4.2",
+    "@testing-library/react": "^15.0.5",
+    "@testing-library/user-event": "^14.5.2",
+    "env-cmd": "^10.1.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-config-react-app": "^7.0.1",
+    "eslint-plugin-flowtype": "^8.0.3",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "prettier": "3.2.5",
+    "sass": "^1.75.0"
+  },
+  "packageManager": "yarn@4.1.1"
 }

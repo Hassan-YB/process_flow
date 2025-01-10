@@ -1,21 +1,26 @@
 # Use Node 18 (LTS) Alpine base image
 FROM node:18-alpine
 
-# Create app directory inside container
+# Set environment variables for better reliability
+ENV NODE_ENV=development
+ENV PORT=3000
+
+# Create app directory inside the container
 WORKDIR /app
 
-# Copy ONLY package.json first
-COPY package.json ./
+# Copy ONLY package.json and package-lock.json for caching npm install
+COPY package.json package-lock.json ./
 
-# Install dependencies. 
-# Using --legacy-peer-deps to avoid strict peer dependency conflicts.
+# Install dependencies with safer npm flags
 RUN npm install --legacy-peer-deps
 
-# Copy the rest of your React code
+RUN npm install redux-thunk react-redux redux axios --legacy-peer-deps
+
+# Copy the rest of the application code
 COPY . .
 
 # Expose the port your React dev server runs on
 EXPOSE 3000
 
-# Start the development server
-CMD ["npm", "start"]
+# Start the development server with Vite and expose to host
+CMD ["npm", "run", "start"]
