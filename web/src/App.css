@@ -6,15 +6,15 @@ body {
 
 .app {
   display: flex;
-  flex-direction: row; /* Ensures Sidebar and main content are in a row */
-  height: 100vh; /* Full height for the layout */
+  flex-direction: row;
+  height: 100vh;
 }
 
 .main-content {
-  flex: 1; /* Takes up remaining space */
-  padding: 20px; /* Add some spacing */
-  background-color: #f7f8fc; /* Optional background */
-  overflow-y: auto; /* Enable scrolling if content exceeds height */
+  flex: 1;
+  padding: 20px;
+  background-color: #f7f8fc;
+  overflow-y: auto;
 }
 
 .App-logo {
