@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, Link } from 'react-router-dom';
-import NavBar from '../../../layouts/AdminLayout/NavBar/navIndex';
+// import NavBar from '../../../layouts/AdminLayout/NavBar/navIndex';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 // react-bootstrap
@@ -11,10 +11,10 @@ import { Card, Button, Alert } from 'react-bootstrap';
 import { userLogin } from "../../../actions/userActions";
 
 // third party
-import { CopyToClipboard } from 'react-copy-to-clipboard';
+// import { CopyToClipboard } from 'react-copy-to-clipboard';
 
 // project import
-import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
+// import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
 import AuthLogin from './JWTLogin';
 
 // assets
@@ -49,7 +49,6 @@ const Signin1 = () => {
 
   return (
     <React.Fragment>
-      <NavBar/>
       <div className="auth-wrapper">
         <div className="auth-content">
           <div className="auth-bg">

@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { showSuccessToast, showErrorToast } from "../utils/toastUtils";
 
 // API Base URL
-const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_URL = `${BASE_URL}/api/v1/users`;
 
 //const navigate = useNavigate();

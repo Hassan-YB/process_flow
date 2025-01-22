@@ -4,7 +4,7 @@ import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
 import Invoice from "../../assets/img/invoice.png";
 import MainCard from "../../components/Card/MainCard";
 import '../../assets/css/style.css';
-import Breadcrumb from "../../layouts/AdminLayout/Breadcrumb";
+//import Breadcrumb from "../../layouts/AdminLayout/Breadcrumb";
 import InvoiceCard from '../../components/Widgets/Statistic/InvoiceCard';
 import SubCard from '../../components/Widgets/Statistic/SubCard';
 import PaymentCard from '../../components/Widgets/Statistic/PaymentCard';
@@ -15,7 +15,7 @@ import Print from '../../assets/img/print.png'
 import { Row, Col, Card, Table, ListGroup } from 'react-bootstrap';
 
 
-const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_URL = `${BASE_URL}/api/v1/payment`;
 
 const Invoicing = () => {
@@ -109,7 +109,6 @@ const Invoicing = () => {
 
   return (
     <div className="container">
-      <Breadcrumb title={"Billing"} main={"Dashboard"} item={"Billing"}/>
       <Row>
         {/* Subscription Card */}
         <Col md={6} xl={4}>

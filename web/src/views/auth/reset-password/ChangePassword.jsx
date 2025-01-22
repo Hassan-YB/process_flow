@@ -7,14 +7,15 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { Card, Row, Col } from 'react-bootstrap';
 
 // project import
-import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
+ //
+//import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
 
 import { showSuccessToast, showErrorToast } from "../../../utils/toastUtils";
 
 // assets
 import logoDark from '../../../assets/img/processflow_logo.png';
 
-import NavBar from '../../../layouts/AdminLayout/NavBar/index';
+//import NavBar from '../../../layouts/AdminLayout/NavBar/index';
 
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
@@ -56,7 +57,6 @@ const ChangePassword = () => {
     return (
       <React.Fragment>
         <div className="container">
-        <Breadcrumb title={"Change Password"} main={"Dashboard"} item={"Change Password"}/>
         <div className="">
           <div className="auth-content text-center col-12 col-md-6 mx-auto">
             <Card className="borderless">

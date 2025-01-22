@@ -95,7 +95,6 @@ const MainCard = (props) => {
 
   card = (
     <Card className={mainCardClass.join(' ')} style={fullScreenStyle}>
-      {cardHeader}
       <Collapse in={!collapseCard}>
         <div>
           <Card.Body>{children}</Card.Body>

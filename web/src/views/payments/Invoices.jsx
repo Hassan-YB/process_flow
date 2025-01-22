@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
 import MainCard from "../../components/Card/MainCard";
-import Breadcrumb from "../../layouts/AdminLayout/Breadcrumb";
+//import Breadcrumb from "../../layouts/AdminLayout/Breadcrumb";
 import Print from '../../assets/img/print.png'
 
-const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_URL = `${BASE_URL}/api/v1/payment`;
 
 const InvoicesList = () => {
@@ -38,7 +38,6 @@ const InvoicesList = () => {
 
   return (
     <div className="container mt-5" >
-      <Breadcrumb title={"Invoices"} main={"Dashboard"} item={"Invoices"}/>
       <MainCard>
       <div className="row justify-content-center mt-4">
         {invoices.map((invoice) => (

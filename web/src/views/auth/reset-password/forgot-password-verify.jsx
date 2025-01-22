@@ -7,14 +7,14 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { Card, Row, Col } from 'react-bootstrap';
 
 // project import
-import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
+// import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
 
 import { showSuccessToast, showErrorToast } from "../../../utils/toastUtils";
 
 // assets
 import logoDark from '../../../assets/img/processflow_logo.png';
 
-import NavBar from '../../../layouts/AdminLayout/NavBar/navIndex';
+// import NavBar from '../../../layouts/AdminLayout/NavBar/navIndex';
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 
@@ -51,7 +51,6 @@ const ForgotPasswordVerify = () => {
   
     return (
       <React.Fragment>
-        <NavBar/>
         <div className="auth-wrapper">
           <div className="auth-content text-center">
             <Card className="borderless">

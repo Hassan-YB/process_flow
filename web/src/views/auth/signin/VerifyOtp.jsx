@@ -5,7 +5,7 @@ import { Breadcrumb, Card, Row, Col } from "react-bootstrap";
 import { verifyOtp, resendOtp } from "../../../actions/userActions";
 import { showSuccessToast, showErrorToast } from "../../../utils/toastUtils";
 import logoDark from '../../../assets/img/processflow_logo.png';
-import NavBar from '../../../layouts/AdminLayout/NavBar/navIndex';
+// import NavBar from '../../../layouts/AdminLayout/NavBar/navIndex';
 
 const VerifyOtp = () => {
   const location = useLocation();
@@ -52,7 +52,6 @@ const VerifyOtp = () => {
 
   return (
     <React.Fragment>
-      <NavBar/>
       <div className="auth-wrapper">
         <div className="auth-content text-center">
           <Card className="borderless">

@@ -7,14 +7,17 @@ import { Card, Row, Col } from 'react-bootstrap';
 import { useDispatch } from "react-redux";
 import { userSignup } from "../../../actions/userActions";
 
-// project import
-import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
+import { FaEye, FaEyeSlash } from "react-icons/fa";
+
+import Nav from "../../../components/Nav/loginNav"
 
 // assets
-import logoDark from '../../../assets/img/processflow_logo.png';;
+import logoDark from '../../../assets/img/processflow_logo.png';
 
-import NavBar from '../../../layouts/AdminLayout/NavBar/navIndex';
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+// import NavBar from '../../../layouts/AdminLayout/NavBar/navIndex';
+
+// project import
+// import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
 
 
 // ==============================|| SIGN UP 1 ||============================== //
@@ -52,16 +55,28 @@ const SignUp1 = () => {
 
   return (
     <React.Fragment>
-      <NavBar/>
+      <Nav/>
+      <div className="container-fluid min-vh-100 d-flex align-items-center">
+        <Row className="w-100">
+        {/* Left Column */}
+        <Col md={6} className="d-sm-none d-md-flex bg-gradient-nav text-white justify-content-center align-items-center">
+            <div className="text-center px-5">
+              <h1 className="fw-bold">Let’s create something amazing</h1>
+              <p className="mt-3">Work with Us.</p>
+            </div>
+            </Col>
+        {/* Right Column */}
+        <Col xs={12} md={6} className="d-flex justify-content-center align-items-center">
       <div className="auth-wrapper">
         <div className="auth-content" style={{marginTop:'75px', marginBottom:'50px'}}>
-          <Card className="borderless">
+          <Card className="w-100 order border-0">
             <Row className="align-items-center">
               <Col>
                 <Card.Body className="card-body">
-                  <div className="text-center">
-                  <img src={logoDark} alt="Logo" className="img-fluid mb-4" />
-                  <h4 className="mb-3 f-w-400">Sign up</h4>
+                  <div className="">
+                    {/*}
+                  <img src={logoDark} alt="Logo" className="img-fluid mb-4" />*/}
+                  <h4 className="mb-4 f-w-400">Create your account</h4>
                   </div>
                   <form onSubmit={handleSubmit}>
                   <label>Name</label>
@@ -144,6 +159,9 @@ const SignUp1 = () => {
             </Row>
           </Card>
         </div>
+      </div>
+      </Col>
+      </Row>
       </div>
     </React.Fragment>
   );

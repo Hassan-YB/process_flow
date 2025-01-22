@@ -7,14 +7,14 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { Card, Row, Col } from 'react-bootstrap';
 
 // project import
-import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
+// import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
 
 import { showSuccessToast, showErrorToast } from "../../../utils/toastUtils";
 
 // assets
 import logoDark from '../../../assets/img/processflow_logo.png';
 
-import NavBar from '../../../layouts/AdminLayout/NavBar/navIndex';
+// import NavBar from '../../../layouts/AdminLayout/NavBar/navIndex';
 
 // ==============================|| RESET PASSWORD 1 ||============================== //
 
@@ -34,7 +34,6 @@ const ResetPassword1 = () => {
 
   return (
     <React.Fragment>
-      <NavBar/>
       <div className="auth-wrapper">
         <div className="auth-content text-center">
           <Card className="borderless">

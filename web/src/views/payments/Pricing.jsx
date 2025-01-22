@@ -4,10 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
 import CheckmarkIcon from "../../assets/img/checkmark.png";
 import MainCard from "../../components/Card/MainCard";
-import Breadcrumb from "../../layouts/AdminLayout/Breadcrumb";
+//import Breadcrumb from "../../layouts/AdminLayout/Breadcrumb";
 import ConfirmationModal from "../../components/Modal/ConfirmationModal";
 
-const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_URL = `${BASE_URL}/api/v1/payment`;
 
 const Pricing = () => {
@@ -113,8 +113,9 @@ const Pricing = () => {
 
   return (
     <div className="container">
-      <Breadcrumb title={"Pricing"} main={"Dashboard"} item={"Pricing"} />
-      <MainCard>
+      <h1>Pricing</h1>
+      <p>Hello kong, Welcome back!</p>
+      <MainCard className="mt-4">
         <div className="row justify-content-center">
           <h4 className="mb-5 text-center">Pricing Plans</h4>
           {prices.map((price) => (

@@ -3,10 +3,10 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useLocation } from "react-router-dom";
 import CheckoutForm from "./CheckoutForm";
-import Breadcrumb from "../../layouts/AdminLayout/Breadcrumb";
+//import Breadcrumb from "../../layouts/AdminLayout/Breadcrumb";
 
 
-const STRIPE_KEY = import.meta.env.VITE_APP_STRIPE_PUBLISHABLE_KEY;
+const STRIPE_KEY = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
 
 const stripePromise = loadStripe(STRIPE_KEY);
 
@@ -27,7 +27,6 @@ const Checkout = () => {
 
   return (
     <div>
-      <Breadcrumb title={"Checkout"} main={"Dashboard"} item={"Checkout"} />
     <div className="container mt-5">
       <h3 className="text-center mb-4">Checkout</h3>
       <div className="row mt-5">
