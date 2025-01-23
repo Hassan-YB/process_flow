@@ -18,6 +18,10 @@ import ChangePassword from "./views/auth/reset-password/ChangePassword"
 import Profile from './views/profile/Profile';
 
 import Sidebar from './components/Sidebar/sidebar';
+import PrivateRoute from './config/privateroutes';
+
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
 
@@ -32,12 +36,24 @@ function App() {
   return (
     <Router>
       <div>
+      <ToastContainer
+          position="top-center"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
         <Routes>
           {/* Wrap with MainLayout if route doesn't match noSidebarRoutes */}
           <Route
             path="*"
             element={
               !noSidebarRoutes.includes(window.location.pathname) ? (
+                <PrivateRoute>
                 <MainLayout>
                   <Routes>
                     <Route path="/" element={<Dashboard />} />
@@ -48,6 +64,7 @@ function App() {
                     <Route path="/change-password" element={<ChangePassword />} />
                   </Routes>
                 </MainLayout>
+                </PrivateRoute>
               ) : (
                 <AuthRoutes />
               )

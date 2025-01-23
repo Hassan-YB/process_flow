@@ -14,10 +14,7 @@ import Nav from "../../../components/Nav/loginNav"
 // assets
 import logoDark from '../../../assets/img/processflow_logo.png';
 
-// import NavBar from '../../../layouts/AdminLayout/NavBar/navIndex';
-
-// project import
-// import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
+import { showSuccessToast, showErrorToast } from "../../../utils/toastUtils";
 
 
 // ==============================|| SIGN UP 1 ||============================== //
@@ -28,8 +25,11 @@ const SignUp1 = () => {
     email: "",
     phone_number: "",
     password: "",
+    confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState("");
   const [newsletter, setNewsletter] = useState(false);
 
   const dispatch = useDispatch();
@@ -46,11 +46,23 @@ const SignUp1 = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(userSignup(formData, navigate));
+
+    // Frontend validation for password confirmation
+    if (formData.password !== formData.confirmPassword) {
+      showErrorToast("Passwords do not match");
+      return;
+    }
+
+    const { confirmPassword, ...submitData } = formData; // Exclude confirmPassword before submitting
+    dispatch(userSignup(submitData, navigate));
   };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
+  };
+
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
   };
 
   return (
@@ -76,52 +88,54 @@ const SignUp1 = () => {
                         <div className="">
                           {/*}
                   <img src={logoDark} alt="Logo" className="img-fluid mb-4" />*/}
-                          <h4 className="mb-4 f-w-400">Create your account</h4>
+                          <h4 className="mb-2 f-w-400">Create your account</h4>
+                          <p className="mb-4">
+                            Please fill in the details below to get started.</p>
                         </div>
                         <form onSubmit={handleSubmit}>
-                          <label>Name</label>
+                          <label>Name*</label>
                           <div className="input-group mb-3">
                             <input
                               type="text"
                               name="full_name"
                               className="form-control"
-                              placeholder="Full Name"
+                              placeholder="Enter Your Full Name"
                               value={formData.full_name}
                               onChange={handleChange}
                               required
                             />
                           </div>
-                          <label>Email</label>
+                          <label>Email*</label>
                           <div className="input-group mb-3">
                             <input
                               type="email"
                               name="email"
                               className="form-control"
-                              placeholder="Email address"
+                              placeholder="Enter Your Email address"
                               value={formData.email}
                               onChange={handleChange}
                               required
                             />
                           </div>
-                          <label>Phone</label>
+                          <label>Phone*</label>
                           <div className="input-group mb-3">
                             <input
                               type="text"
                               name="phone_number"
                               className="form-control"
-                              placeholder="Phone number"
+                              placeholder="Enter Your Phone number"
                               value={formData.phone_number}
                               onChange={handleChange}
                               required
                             />
                           </div>
-                          <label>Password</label>
+                          <label>Password*</label>
                           <div className="input-group mb-4">
                             <input
                               type={showPassword ? "text" : "password"}
                               name="password"
                               className="form-control"
-                              placeholder="Password"
+                              placeholder="Enter Password"
                               value={formData.password}
                               onChange={handleChange}
                               required
@@ -134,6 +148,26 @@ const SignUp1 = () => {
                               {showPassword ? <FaEye /> : <FaEyeSlash />}
                             </div>
                           </div>
+                          <label>Confirm Password*</label>
+                          <div className="input-group mb-4">
+                            <input
+                              type={showConfirmPassword ? "text" : "password"}
+                              name="confirmPassword"
+                              className="form-control"
+                              placeholder="Confirm Password"
+                              value={formData.confirmPassword}
+                              onChange={handleChange}
+                              required
+                            />
+                            <div
+                              className="input-group-text"
+                              style={{ cursor: "pointer", background: '#fff' }}
+                              onClick={toggleConfirmPasswordVisibility}
+                            >
+                              {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
+                            </div>
+                          </div>
+                          {error && <p className="text-danger">{error}</p>}
                           <div className="text-center">
                             <button type="submit" className="btn btn-primary btn-block mb-4 auth-btn"
                               style={{

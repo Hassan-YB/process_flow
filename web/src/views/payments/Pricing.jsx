@@ -152,10 +152,10 @@ const Pricing = () => {
                   />
                 )}
                 <button
-                  className="btn btn-primary mt-3"
+                  className="btn btn-primary mt-3 auth-btn"
                   onClick={() => handleSubscribeClick(price)}
                   style={{
-                    background: "linear-gradient(to right, #9860DA, #C374E2",
+                    //background: "linear-gradient(to right, #9860DA, #C374E2",
                     border: "none",
                     borderRadius: "20px",
                     padding: "10px 20px",

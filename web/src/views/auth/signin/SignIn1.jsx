@@ -71,27 +71,29 @@ const Signin1 = () => {
                   <Card.Body>
                     <div className="text-center">
                       <h4 className="mb-3 f-w-400">Log In</h4>
+                      <p className="mb-4">
+                      Welcome back! Please enter your details to log in.</p>
                     </div>
                     <form onSubmit={handleSubmit}>
-                      <label>Email</label>
+                      <label>Email*</label>
                       <div className="input-group mb-3">
                         <input
                           type="email"
                           name="email"
                           className="form-control"
-                          placeholder="Email address"
+                          placeholder="Enter Your Email address"
                           value={loginData.email}
                           onChange={handleChange}
                           required
                         />
                       </div>
-                      <label>Password</label>
+                      <label>Password*</label>
                       <div className="input-group mb-3">
                         <input
                           type={showPassword ? "text" : "password"}
                           name="password"
                           className="form-control"
-                          placeholder="Password"
+                          placeholder="Enter Your Password"
                           value={loginData.password}
                           onChange={handleChange}
                           required

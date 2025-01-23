@@ -7,9 +7,6 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { Card, Row, Col } from 'react-bootstrap';
 import Nav from "../../../components/Nav/signupNav"
 
-// project import
-// import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
-
 import { showSuccessToast, showErrorToast } from "../../../utils/toastUtils";
 
 // assets
@@ -48,13 +45,16 @@ const ResetPassword1 = () => {
           {/* Right Column */}
           <Col xs={12} md={6} className="d-flex justify-content-center align-items-center">
             <div className="auth-wrapper">
-              <div className="auth-content text-center mx-auto">
+              <div className="auth-content mx-auto">
                 <Card className="borderless">
-                  <Row className="align-items-center text-center">
+                  <Row className="align-items-center">
                     <Col>
                       <Card.Body className="card-body">
-                        <h4 className="mb-4 mt-2 f-w-400">Forgot Password</h4>
+                        <h4 className="mb-2 mt-2 f-w-400 text-center">Forgot Password</h4>
+                        <p className="mb-4 text-center">
+                        Enter your phone number to reset password.</p>
                         <form onSubmit={handleSubmit}>
+                        <label>Phone Number*</label>
                           <div className="input-group mb-4">
                             <input
                               type="text"
@@ -66,6 +66,7 @@ const ResetPassword1 = () => {
                               required
                             />
                           </div>
+                          <div className="text-center">
                           <button type="submit" 
                           className="btn btn-block btn-primary mb-4 auth-btn"
                             style={{
@@ -76,13 +77,14 @@ const ResetPassword1 = () => {
                             }}>
                             Send OTP
                           </button>
-                        </form>
                         <p className="mb-0 text-muted">
                           Don’t have an account?{" "}
                           <NavLink to="/auth/signup" className="f-w-400 text-decoration-underline">
                             Signup
                           </NavLink>
                         </p>
+                        </div>
+                        </form>
                       </Card.Body>
                     </Col>
                   </Row>

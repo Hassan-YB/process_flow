@@ -66,24 +66,28 @@ const VerifyOtp = () => {
           {/* Right Column */}
           <Col xs={12} md={6} className="d-flex justify-content-center align-items-center">
             <div className="auth-wrapper">
-              <div className="auth-content text-center mx-auto">
+              <div className="auth-content mx-auto">
                 <Card className="borderless">
-                  <Row className="align-items-center text-center">
+                  <Row className="align-items-center">
                     <Col>
                       <Card.Body className="card-body">
-                        <h4 className="mb-4 mt-2 f-w-400">Verify OTP</h4>
+                        <h4 className="mb-2 mt-2 f-w-400 text-center">Verify OTP</h4>
+                        <p className="mb-4 text-center">
+                        Please enter the 6-digit code sent to your phone.</p>
                         <form onSubmit={handleSubmit}>
+                        <label>OTP*</label>
                           <div className="input-group mb-4">
                             <input
                               type="text"
                               name="otp_code"
                               className="form-control"
-                              placeholder="Enter 6 digit code"
+                              placeholder="Enter 6 Digit Code"
                               value={otpData.otp_code}
                               onChange={handleChange}
                               required
                             />
                           </div>
+                          <div className="text-center">
                           <button type="submit" className="btn btn-primary btn-block mb-3 auth-btn"
                             style={{
                               border: "none",
@@ -93,7 +97,6 @@ const VerifyOtp = () => {
                             }}>
                             Verify
                           </button>
-                        </form>
                         <p className="mb-0 text-muted mt-4">
                           {timer > 0 ? (
                             <span className="f-w-400 text-muted">
@@ -112,6 +115,8 @@ const VerifyOtp = () => {
                             </span>
                           )}
                         </p>
+                        </div>
+                        </form>
                       </Card.Body>
                     </Col>
                   </Row>
