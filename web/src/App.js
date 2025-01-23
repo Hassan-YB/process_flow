@@ -1,4 +1,5 @@
 import logo from './logo.svg';
+import React, { useState, useEffect } from "react";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -32,27 +33,27 @@ function App() {
     <Router>
       <div>
         <Routes>
-        {/* Wrap with MainLayout if route doesn't match noSidebarRoutes */}
-        <Route
-          path="*"
-          element={
-            !noSidebarRoutes.includes(window.location.pathname) ? (
-              <MainLayout>
-                <Routes>
-                  <Route path="/" element={<Dashboard />} />
-                  <Route path="/profile" element={<Profile />} />
-                  <Route path="/billing" element={<Invoicing />} />
-                  <Route path="/pricing" element={<Pricing />} />
-                  <Route path="/checkout" element={<Checkout />} />
-                  <Route path="/change-password" element={<ChangePassword />} />
-                </Routes>
-              </MainLayout>
-            ) : (
-              <AuthRoutes />
-            )
-          }
-        />
-      </Routes>
+          {/* Wrap with MainLayout if route doesn't match noSidebarRoutes */}
+          <Route
+            path="*"
+            element={
+              !noSidebarRoutes.includes(window.location.pathname) ? (
+                <MainLayout>
+                  <Routes>
+                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/billing" element={<Invoicing />} />
+                    <Route path="/pricing" element={<Pricing />} />
+                    <Route path="/checkout" element={<Checkout />} />
+                    <Route path="/change-password" element={<ChangePassword />} />
+                  </Routes>
+                </MainLayout>
+              ) : (
+                <AuthRoutes />
+              )
+            }
+          />
+        </Routes>
       </div>
     </Router>
   );
@@ -60,10 +61,33 @@ function App() {
 
 // Main Layout Component with Sidebar
 function MainLayout({ children }) {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768); // Track if the screen is mobile
+  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+      if (window.innerWidth > 768) {
+        setIsSidebarVisible(true); // Always show sidebar on desktop
+      }
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const toggleSidebar = () => {
+    setIsSidebarVisible((prev) => !prev);
+  };
+
   return (
     <div className="app">
-      <Sidebar />
-      <div className="main-content">{children}</div>
+      {/* Sidebar */}
+      <Sidebar isSidebarVisible={isSidebarVisible} toggleSidebar={toggleSidebar} isMobile={isMobile} />
+
+      {/* Main Content */}
+      <div className={`main-content ${isMobile && !isSidebarVisible ? "adjust-for-hamburger" : ""}`}>
+        {children}
+      </div>
     </div>
   );
 }

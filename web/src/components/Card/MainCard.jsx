@@ -104,7 +104,7 @@ const MainCard = (props) => {
     </Card>
   );
 
-  return <React.Fragment>{card}</React.Fragment>;
+  return <React.Fragment><div className='mt-4'>{card}</div></React.Fragment>;
 };
 
 export default MainCard;

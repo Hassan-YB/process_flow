@@ -4,12 +4,14 @@ import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
 import Invoice from "../../assets/img/invoice.png";
 import MainCard from "../../components/Card/MainCard";
 import '../../assets/css/style.css';
-//import Breadcrumb from "../../layouts/AdminLayout/Breadcrumb";
+import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
 import InvoiceCard from '../../components/Widgets/Statistic/InvoiceCard';
 import SubCard from '../../components/Widgets/Statistic/SubCard';
 import PaymentCard from '../../components/Widgets/Statistic/PaymentCard';
 import ConfirmationModal from '../../components/Modal/ConfirmationModal'
 import Print from '../../assets/img/print.png'
+import "./payments.css"
+import { FaSearch } from "react-icons/fa";
 
 // react-bootstrap
 import { Row, Col, Card, Table, ListGroup } from 'react-bootstrap';
@@ -97,7 +99,7 @@ const Invoicing = () => {
           status: "canceled",
         },
       }));
-      
+
       setStatus("Canceled");
       setShowModal(false);
     } catch (error) {
@@ -109,6 +111,8 @@ const Invoicing = () => {
 
   return (
     <div className="container">
+      <Breadcrumb pageName="Billing" />
+
       <Row>
         {/* Subscription Card */}
         <Col md={6} xl={4}>
@@ -150,50 +154,50 @@ const Invoicing = () => {
           />
         </Col>
       </Row>
-      <MainCard>
+      <MainCard className="mt-4">
         {/* Invoice Table */}
-      <div>
-        <h4 className="mb-3">Invoices</h4>
-        <div className="overflow-auto">
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Date</th>
-              <th>Plan</th>
-              <th>Amount</th>
-              <th>Status</th>
-              <th>PDF</th>
-            </tr>
-          </thead>
-          <tbody>
-          {invoices
-        .filter(invoice => invoice.status.toLowerCase() !== "draft")
-        .map((invoice, index) => (
-              <tr key={invoice.id}>
-                <td>{index + 1}</td>
-                <td>{new Date(invoice.period_start).toLocaleDateString()}</td>
-                <td>{subscription.price?.title || "N/A"}</td>
-                <td>{`${invoice.amount_paid || "N/A"} ${invoice.currency || ""}`}</td>
-                <td>{invoice.is_paid ? "Paid" : "Unpaid"}</td>
-                <td>
-                  {invoice.hosted_invoice_url ? (
-                    <a href={invoice.hosted_invoice_url} target="_blank" rel="noopener noreferrer">
-                      <img
-                        src={Print}
-                        style={{ width: "24px", height: "24px" }}
-                      />
-                    </a>
-                  ) : (
-                    "N/A"
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </Table>
+        <div>
+          <h4 className="mb-3">Invoices</h4>
+          <div className="overflow-auto">
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Date</th>
+                  <th>Plan</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                  <th>PDF</th>
+                </tr>
+              </thead>
+              <tbody>
+                {invoices
+                  .filter(invoice => invoice.status.toLowerCase() !== "draft")
+                  .map((invoice, index) => (
+                    <tr key={invoice.id}>
+                      <td>{index + 1}</td>
+                      <td>{new Date(invoice.period_start).toLocaleDateString()}</td>
+                      <td>{subscription.price?.title || "N/A"}</td>
+                      <td>{`${invoice.amount_paid || "N/A"} ${invoice.currency || ""}`}</td>
+                      <td>{invoice.is_paid ? "Paid" : "Unpaid"}</td>
+                      <td>
+                        {invoice.hosted_invoice_url ? (
+                          <a href={invoice.hosted_invoice_url} target="_blank" rel="noopener noreferrer">
+                            <img
+                              src={Print}
+                              style={{ width: "24px", height: "24px" }}
+                            />
+                          </a>
+                        ) : (
+                          "N/A"
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+              </tbody>
+            </Table>
+          </div>
         </div>
-      </div>
       </MainCard>
 
       <ConfirmationModal

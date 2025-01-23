@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
 import CheckmarkIcon from "../../assets/img/checkmark.png";
 import MainCard from "../../components/Card/MainCard";
-//import Breadcrumb from "../../layouts/AdminLayout/Breadcrumb";
+import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
 import ConfirmationModal from "../../components/Modal/ConfirmationModal";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -113,8 +113,7 @@ const Pricing = () => {
 
   return (
     <div className="container">
-      <h1>Pricing</h1>
-      <p>Hello kong, Welcome back!</p>
+      <Breadcrumb pageName="Pricing" />
       <MainCard className="mt-4">
         <div className="row justify-content-center">
           <h4 className="mb-5 text-center">Pricing Plans</h4>

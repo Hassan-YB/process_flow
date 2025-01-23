@@ -13,8 +13,19 @@ body {
 .main-content {
   flex: 1;
   padding: 20px;
-  background-color: #f7f8fc;
+  background-color: #fbf9fd;
   overflow-y: auto;
+  transition: margin-top 0.3s ease-in-out;
+}
+
+.main-content.adjust-for-hamburger {
+  margin-top: 50px; /* Adjust this value based on the height of the hamburger button */
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    margin-top: 0; /* Default for small screens */
+  }
 }
 
 .App-logo {
@@ -47,6 +58,7 @@ body {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -56,9 +68,21 @@ body {
 .auth-wrapper {
   width: 100%;
 }
-
+/*
 .auth-content {
-  padding: 50px;
+  padding: 50px 130px;
+}
+
+@media screen and (max-width: 600px) {
+  .auth-content {
+    padding: 0px;
+  }
+}*/
+
+@media (min-width: 1100px) and (orientation: landscape) {
+  .auth-content {
+    padding: 0px 130px;
+  }
 }
 
 .bg-gradient-nav {
@@ -66,3 +90,11 @@ body {
   min-height: 100vh;
 }
 
+
+.auth-btn {
+  background: linear-gradient(to right, #6f42c1, #a445b2);
+}
+
+.auth-btn:hover {
+  background: #6149CD;
+}

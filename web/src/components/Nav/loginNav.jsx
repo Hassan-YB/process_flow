@@ -1,5 +1,5 @@
 import React from 'react';
-import './Navbar.css'; 
+import './Navbar.css';
 
 // assets
 import logoDark from '../../assets/img/processflow_logo.png';
@@ -11,8 +11,8 @@ const loginNav = () => {
         <img src={logoDark} alt="Logo" />
       </div>
       <div className="auth-links">
-        <a href="#">Already a member?</a>
-        <a href="#" className="create-account">Login</a>
+        <a href="#" className='d-none d-md-block'>Already a member?</a>
+        <a href="/auth/signin" className="create-account">Login</a>
       </div>
     </nav>
   );

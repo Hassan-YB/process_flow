@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import axios from "axios";
 import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
-//import Breadcrumb from "../../layouts/AdminLayout/Breadcrumb";
+import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_URL = `${BASE_URL}/api/v1/users/profile/`;
@@ -97,6 +97,7 @@ const UpdateProfile = () => {
 
   return (
     <div className="container">
+      <Breadcrumb pageName="Profile" />
     <div className="d-flex justify-content-center align-items-center">
       <div
         className="card p-4"

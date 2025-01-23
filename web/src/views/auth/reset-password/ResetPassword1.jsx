@@ -5,6 +5,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 
 // react-bootstrap
 import { Card, Row, Col } from 'react-bootstrap';
+import Nav from "../../../components/Nav/signupNav"
 
 // project import
 // import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
@@ -34,48 +35,62 @@ const ResetPassword1 = () => {
 
   return (
     <React.Fragment>
-      <div className="auth-wrapper">
-        <div className="auth-content text-center">
-          <Card className="borderless">
-            <Row className="align-items-center text-center">
-              <Col>
-                <Card.Body className="card-body">
-                  <img src={logoDark} alt="Logo" className="img-fluid mb-4" />
-                  <h4 className="mb-3 f-w-400">Forgot Password</h4>
-                  <form onSubmit={handleSubmit}>
-                    <div className="input-group mb-4">
-                      <input
-                        type="text"
-                        name="phone_number"
-                        className="form-control"
-                        placeholder="Enter your phone number"
-                        value={phoneNumber}
-                        onChange={(e) => setPhoneNumber(e.target.value)}
-                        required
-                      />
-                    </div>
-                    <button type="submit" className="btn btn-block btn-primary mb-4"
-                    style={{
-                      background: "linear-gradient(to right, #6f42c1, #a445b2)",
-                      border: "none",
-                      borderRadius: "20px",
-                      padding: "10px 20px",
-                      color: "#fff",
-                    }}>
-                      Send OTP
-                    </button>
-                  </form>
-                  <p className="mb-0 text-muted">
-                    Don’t have an account?{" "}
-                    <NavLink to="/auth/signup" className="f-w-400 text-decoration-underline">
-                      Signup
-                    </NavLink>
-                  </p>
-                </Card.Body>
-              </Col>
-            </Row>
-          </Card>
-        </div>
+      <Nav />
+      <div className="container-fluid min-vh-100 d-flex align-items-center">
+        <Row className="w-100">
+          {/* Left Column */}
+          <Col md={6} className="d-none d-md-flex bg-gradient-nav text-white justify-content-center align-items-center">
+            <div className="text-center px-5">
+              <h1 className="fw-bold">Let’s create something amazing</h1>
+              <p className="mt-3">Work with Us.</p>
+            </div>
+          </Col>
+          {/* Right Column */}
+          <Col xs={12} md={6} className="d-flex justify-content-center align-items-center">
+            <div className="auth-wrapper">
+              <div className="auth-content text-center mx-auto">
+                <Card className="borderless">
+                  <Row className="align-items-center text-center">
+                    <Col>
+                      <Card.Body className="card-body">
+                        <h4 className="mb-4 mt-2 f-w-400">Forgot Password</h4>
+                        <form onSubmit={handleSubmit}>
+                          <div className="input-group mb-4">
+                            <input
+                              type="text"
+                              name="phone_number"
+                              className="form-control"
+                              placeholder="Enter your phone number"
+                              value={phoneNumber}
+                              onChange={(e) => setPhoneNumber(e.target.value)}
+                              required
+                            />
+                          </div>
+                          <button type="submit" 
+                          className="btn btn-block btn-primary mb-4 auth-btn"
+                            style={{
+                              border: "none",
+                              borderRadius: "20px",
+                              padding: "10px 40px",
+                              color: "#fff",
+                            }}>
+                            Send OTP
+                          </button>
+                        </form>
+                        <p className="mb-0 text-muted">
+                          Don’t have an account?{" "}
+                          <NavLink to="/auth/signup" className="f-w-400 text-decoration-underline">
+                            Signup
+                          </NavLink>
+                        </p>
+                      </Card.Body>
+                    </Col>
+                  </Row>
+                </Card>
+              </div>
+            </div>
+          </Col>
+        </Row>
       </div>
     </React.Fragment>
   );

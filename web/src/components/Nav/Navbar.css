@@ -1,42 +1,47 @@
 .custom-navbar {
-    position: absolute;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 40px;
-    color: grey;
-    background-color: transparent;
-    z-index: 10;
-    top: 0;
-    width: 100%;
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  color: grey;
+  background-color: transparent;
+  z-index: 10;
+  top: 0;
+  width: 100%;
+}
+
+@media screen and (max-width: 500px) {
+  .custom-navbar {
+    padding: 20px 15px;
   }
-  
-  .logo {
-    display: flex;
-    align-items: center;
-    font-size: 1.5rem;
-    font-weight: bold;
-  }
-  
-  .logo img {
-    height: 40px;
-    margin-right: 10px;
-  }
-  
-  .auth-links {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .auth-links a {
-    text-decoration: none;
-    font-size: 1rem;
-    color: grey;
-  }
-  
-  .auth-links a.create-account {
-    color: #6c63ff;
-    font-weight: bold;
-  }
-  
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.logo img {
+  height: 40px;
+  margin-right: 10px;
+}
+
+.auth-links {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.auth-links a {
+  text-decoration: none;
+  font-size: 1rem;
+  color: grey;
+}
+
+.auth-links a.create-account {
+  color: #6c63ff;
+  font-weight: bold;
+}

@@ -11,8 +11,8 @@ const signupNav = () => {
         <img src={logoDark} alt="Logo" />
       </div>
       <div className="auth-links">
-        <a href="#">New User?</a>
-        <a href="#" className="create-account">Create Account</a>
+        <a href="#" className='d-none d-md-block'>New User?</a>
+        <a href="/auth/signup" className="create-account">Create Account</a>
       </div>
     </nav>
   );

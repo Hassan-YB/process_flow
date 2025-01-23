@@ -5,6 +5,7 @@ import { Breadcrumb, Card, Row, Col } from "react-bootstrap";
 import { verifyOtp, resendOtp } from "../../../actions/userActions";
 import { showSuccessToast, showErrorToast } from "../../../utils/toastUtils";
 import logoDark from '../../../assets/img/processflow_logo.png';
+import Nav from "../../../components/Nav/loginNav"
 // import NavBar from '../../../layouts/AdminLayout/NavBar/navIndex';
 
 const VerifyOtp = () => {
@@ -25,7 +26,7 @@ const VerifyOtp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (otpData.otp_code) {
-      dispatch(verifyOtp({ email, otp_code: otpData.otp_code}, navigate ));
+      dispatch(verifyOtp({ email, otp_code: otpData.otp_code }, navigate));
     } else {
       showErrorToast("Please enter the OTP.");
     }
@@ -52,60 +53,73 @@ const VerifyOtp = () => {
 
   return (
     <React.Fragment>
-      <div className="auth-wrapper">
-        <div className="auth-content text-center">
-          <Card className="borderless">
-            <Row className="align-items-center text-center">
-              <Col>
-                <Card.Body className="card-body">
-                  <img src={logoDark} alt="Logo" className="img-fluid mb-4" />
-                  <h4 className="mb-3 f-w-400">Verify OTP</h4>
-                  <form onSubmit={handleSubmit}>
-                    <div className="input-group mb-4">
-                      <input
-                        type="text"
-                        name="otp_code"
-                        className="form-control"
-                        placeholder="Enter 6 digit code"
-                        value={otpData.otp_code}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                    <button type="submit" className="btn btn-primary btn-block mb-3"
-                    style={{
-                      background: "linear-gradient(to right, #6f42c1, #a445b2)",
-                      border: "none",
-                      borderRadius: "20px",
-                      padding: "10px 20px",
-                      color: "#fff",
-                    }}>
-                      Verify
-                    </button>
-                  </form>
-                  <p className="mb-0 text-muted mt-4">
-                    {timer > 0 ? (
-                      <span className="f-w-400 text-muted">
-                        Resend OTP in {timer} sec
-                      </span>
-                    ) : (
-                      <span>
-                        Didn’t receive an OTP?{" "}
-                        <a
-                          onClick={handleResendOtp}
-                          className="f-w-400 text-decoration-underline"
-                          style={{ cursor: "pointer" }}
-                        >
-                          Resend OTP
-                        </a>
-                      </span>
-                    )}
-                  </p>
-                </Card.Body>
-              </Col>
-            </Row>
-          </Card>
-        </div>
+      <Nav />
+      <div className="container-fluid min-vh-100 d-flex align-items-center">
+        <Row className="w-100">
+          {/* Left Column */}
+          <Col md={6} className="d-none d-md-flex bg-gradient-nav text-white justify-content-center align-items-center">
+            <div className="text-center px-5">
+              <h1 className="fw-bold">Let’s create something amazing</h1>
+              <p className="mt-3">Work with Us.</p>
+            </div>
+          </Col>
+          {/* Right Column */}
+          <Col xs={12} md={6} className="d-flex justify-content-center align-items-center">
+            <div className="auth-wrapper">
+              <div className="auth-content text-center mx-auto">
+                <Card className="borderless">
+                  <Row className="align-items-center text-center">
+                    <Col>
+                      <Card.Body className="card-body">
+                        <h4 className="mb-4 mt-2 f-w-400">Verify OTP</h4>
+                        <form onSubmit={handleSubmit}>
+                          <div className="input-group mb-4">
+                            <input
+                              type="text"
+                              name="otp_code"
+                              className="form-control"
+                              placeholder="Enter 6 digit code"
+                              value={otpData.otp_code}
+                              onChange={handleChange}
+                              required
+                            />
+                          </div>
+                          <button type="submit" className="btn btn-primary btn-block mb-3 auth-btn"
+                            style={{
+                              border: "none",
+                              borderRadius: "20px",
+                              padding: "10px 40px",
+                              color: "#fff",
+                            }}>
+                            Verify
+                          </button>
+                        </form>
+                        <p className="mb-0 text-muted mt-4">
+                          {timer > 0 ? (
+                            <span className="f-w-400 text-muted">
+                              Resend OTP in {timer} sec
+                            </span>
+                          ) : (
+                            <span>
+                              Didn’t receive an OTP?{" "}
+                              <a
+                                onClick={handleResendOtp}
+                                className="f-w-400 text-decoration-underline"
+                                style={{ cursor: "pointer" }}
+                              >
+                                Resend OTP
+                              </a>
+                            </span>
+                          )}
+                        </p>
+                      </Card.Body>
+                    </Col>
+                  </Row>
+                </Card>
+              </div>
+            </div>
+          </Col>
+        </Row>
       </div>
     </React.Fragment>
   );

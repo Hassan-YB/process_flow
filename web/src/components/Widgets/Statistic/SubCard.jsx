@@ -18,7 +18,7 @@ const SubCard = ({ params }) => {
 
     return (
         <Card className={cardClass.join(' ')} style={{minHeight:'172px'}}>
-            <Card.Body>
+            <Card.Body className='text-light'>
                 <div className="d-flex justify-content-between align-items-center mb-4">
 
                     <span style={{ fontWeight: "bold", fontSize: "18px" }}>
