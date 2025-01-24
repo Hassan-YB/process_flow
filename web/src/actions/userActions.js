@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { showSuccessToast, showErrorToast } from "../utils/toastUtils";
 
 // API Base URL
-const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_URL = `${BASE_URL}/api/v1/users`;
 
 //const navigate = useNavigate();
@@ -31,7 +31,8 @@ export const userSignup = (userData, navigate) => async (dispatch) => {
 
     navigate("/auth/verify", { state: { email: userData.email, phone_number: userData.phone_number } });
   } catch (error) {
-    console.error('Signup Error:', error.response?.data || error.message);
+    //console.error('Signup Error:', error.response?.data || error.message);
+    showErrorToast(error.response?.data || error.message);
   }
 };
 
@@ -68,12 +69,13 @@ export const verifyOtp = (otpData, navigate) => async (dispatch) => {
 
       navigate("/pricing");
     } else {
-      console.error("Email or password missing from localStorage.");
+      //console.error("Email or password missing from localStorage.");
       showErrorToast("Could not log in automatically. Please log in manually.");
     }
   } catch (error) {
-    console.error('Verify OTP Error:', error.response?.data || error.message);
-    showErrorToast("Failed to send OTP. Please resend.");
+    ///console.error('Verify OTP Error:', error.response?.data || error.message);
+    //showErrorToast("Failed to send OTP. Please resend.");
+    showErrorToast(error.response?.data || error.message);
   }
 };
 
@@ -84,8 +86,9 @@ export const resendOtp = (otpData) => async (dispatch) => {
     dispatch({ type: RESEND_OTP_SUCCESS, payload: data });
     showSuccessToast("OTP has been resent successfully!");
   } catch (error) {
-    console.error("Resend OTP Error:", error.response?.data || error.message);
-    showErrorToast("Failed to resend OTP. Please try again.");
+    //console.error("Resend OTP Error:", error.response?.data || error.message);
+    //showErrorToast("Failed to resend OTP. Please try again.");
+    showErrorToast(error.response?.data || error.message);
   }
 };
 
@@ -107,8 +110,9 @@ export const userLogin = (loginData) => async (dispatch) => {
     window.location.href = "/pricing";
     showSuccessToast("successfully logged in.")
   } catch (error) {
-    console.error("Login Error:", error.response?.data || error.message);
-    showErrorToast("Invalid login credentials. Please try again.");
+    //console.error("Login Error:", error.response?.data || error.message);
+    //showErrorToast("Invalid login credentials. Please try again.");
+    showErrorToast(error.response?.data || error.message);
   }
 };
 
@@ -133,8 +137,9 @@ export const logout = (refreshToken) => async (dispatch) => {
     showSuccessToast("Logged out successfully!");
     window.location.href = "/auth/signin";
   } catch (error) {
-    console.error("Logout Error:", error.response?.data || error.message);
-    showErrorToast("Failed to resend OTP. Please try again.");
+    //console.error("Logout Error:", error.response?.data || error.message);
+    //showErrorToast("Failed to resend OTP. Please try again.");
+    showErrorToast(error.response?.data || error.message);
   }
 };
 
@@ -153,8 +158,9 @@ export const changePassword = (passwordData) => async (dispatch) => {
 
     window.location.href = "profile";
   } catch (error) {
-    console.error('Change Password Error:', error.response.data);
-    showErrorToast(error.response?.data?.error || "Failed to change password. Please try again.");
+    //console.error('Change Password Error:', error.response.data);
+    //showErrorToast(error.response?.data?.error || "Failed to change password. Please try again.");
+    showErrorToast(error.response?.data?.error || error.message);
   }
 };
 
@@ -165,7 +171,7 @@ export const forgotPassword = (phoneData, navigate) => async (dispatch) => {
     showSuccessToast(data.message);
     navigate("/auth/password-otp-verify");
   } catch (error) {
-    console.error("Forgot Password Error:", error.response?.data || error.message);
+    //console.error("Forgot Password Error:", error.response?.data || error.message);
     showErrorToast(
       error.response?.data?.message || "Failed to send OTP. Please try again."
     );
@@ -178,7 +184,7 @@ export const forgotPasswordVerify = (verifyData) => async (dispatch) => {
     showSuccessToast(data.message);
     window.location.href = "/auth/signin"; 
   } catch (error) {
-    console.error("Forgot Password Verify Error:", error.response?.data || error.message);
+    //console.error("Forgot Password Verify Error:", error.response?.data || error.message);
     showErrorToast(
       error.response?.data?.message || "Failed to reset password. Please try again."
     );

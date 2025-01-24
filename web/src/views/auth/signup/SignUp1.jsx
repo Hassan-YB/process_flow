@@ -7,14 +7,14 @@ import { Card, Row, Col } from 'react-bootstrap';
 import { useDispatch } from "react-redux";
 import { userSignup } from "../../../actions/userActions";
 
-// project import
-import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
+import { FaKey, FaMobileAlt, FaSignInAlt, FaLockOpen, FaLock, FaUserPlus, FaEye, FaEyeSlash} from 'react-icons/fa';
+
+import Nav from "../../../components/Nav/loginNav"
 
 // assets
-import logoDark from '../../../assets/img/processflow_logo.png';;
+import logoDark from '../../../assets/img/processflow_logo.png';
 
-import NavBar from '../../../layouts/AdminLayout/NavBar/navIndex';
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { showSuccessToast, showErrorToast } from "../../../utils/toastUtils";
 
 
 // ==============================|| SIGN UP 1 ||============================== //
@@ -25,8 +25,11 @@ const SignUp1 = () => {
     email: "",
     phone_number: "",
     password: "",
+    confirmPassword: "",
   });
   const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [error, setError] = useState("");
   const [newsletter, setNewsletter] = useState(false);
 
   const dispatch = useDispatch();
@@ -43,107 +46,157 @@ const SignUp1 = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(userSignup(formData, navigate));
+
+    // Frontend validation for password confirmation
+    if (formData.password !== formData.confirmPassword) {
+      showErrorToast("Passwords do not match");
+      return;
+    }
+
+    const { confirmPassword, ...submitData } = formData; // Exclude confirmPassword before submitting
+    dispatch(userSignup(submitData, navigate));
   };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
 
+  const toggleConfirmPasswordVisibility = () => {
+    setShowConfirmPassword(!showConfirmPassword);
+  };
+
   return (
     <React.Fragment>
-      <NavBar/>
-      <div className="auth-wrapper">
-        <div className="auth-content" style={{marginTop:'75px', marginBottom:'50px'}}>
-          <Card className="borderless">
-            <Row className="align-items-center">
-              <Col>
-                <Card.Body className="card-body">
-                  <div className="text-center">
-                  <img src={logoDark} alt="Logo" className="img-fluid mb-4" />
-                  <h4 className="mb-3 f-w-400">Sign up</h4>
-                  </div>
-                  <form onSubmit={handleSubmit}>
-                  <label>Name</label>
-                    <div className="input-group mb-3">
-                      <input
-                        type="text"
-                        name="full_name"
-                        className="form-control"
-                        placeholder="Full Name"
-                        value={formData.full_name}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                    <label>Email</label>
-                    <div className="input-group mb-3">
-                      <input
-                        type="email"
-                        name="email"
-                        className="form-control"
-                        placeholder="Email address"
-                        value={formData.email}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                    <label>Phone</label>
-                    <div className="input-group mb-3">
-                      <input
-                        type="text"
-                        name="phone_number"
-                        className="form-control"
-                        placeholder="Phone number"
-                        value={formData.phone_number}
-                        onChange={handleChange}
-                        required
-                      />
-                    </div>
-                    <label>Password</label>
-                    <div className="input-group mb-4">
-                      <input
-                        type={showPassword ? "text" : "password"}
-                        name="password"
-                        className="form-control"
-                        placeholder="Password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        required
-                      />
-                      <div
-                        className="input-group-text"
-                        style={{ cursor: "pointer", background:'#fff' }}
-                        onClick={togglePasswordVisibility}
-                      >
-                        {showPassword ? <FaEye /> : <FaEyeSlash />}
-                    </div>
-                    </div>
-                    <div className="text-center">
-                    <button type="submit" className="btn btn-primary btn-block mb-4"
-                    style={{
-                      background: "linear-gradient(to right, #6f42c1, #a445b2)",
-                      border: "none",
-                      borderRadius: "20px",
-                      padding: "10px 20px",
-                      color: "#fff",
-                    }}>
-                      Sign up
-                    </button>
-                  
-                  <p className="mb-2">
-                    Already have an account?{" "}
-                    <NavLink to="/auth/signin" className="f-w-400 text-decoration-underline">
-                      Signin
-                    </NavLink>
-                  </p>
-                  </div>
-                  </form>
-                </Card.Body>
-              </Col>
-            </Row>
-          </Card>
-        </div>
+      <Nav />
+      <div className="container-fluid min-vh-100 d-flex align-items-center">
+        <Row className="w-100">
+          {/* Left Column */}
+          <Col md={6} className="d-none d-md-flex bg-gradient-nav text-white justify-content-center align-items-center">
+            <div className="text-center px-5">
+              <h1 className="fw-bold">Let’s create something amazing</h1>
+              <p className="mt-3">Work with Us.</p>
+            </div>
+          </Col>
+          {/* Right Column */}
+          <Col xs={12} md={6} className="d-flex justify-content-center align-items-center">
+            <div className="auth-wrapper">
+              <div className="auth-content mx-auto" style={{ marginTop: '75px', marginBottom: '50px' }}>
+                <Card className="w-100 order border-0">
+                  <Row className="align-items-center">
+                    <Col>
+                      <Card.Body className="card-body">
+                      <div className="text-center"> 
+                      <FaUserPlus size={50}/></div>
+                        <div className="">
+                          {/*}
+                  <img src={logoDark} alt="Logo" className="img-fluid mb-4" />*/}
+                          <h4 className="mb-2 mt-4 f-w-400">Create your account</h4>
+                          <p className="mb-4">
+                            Please fill in the details below to get started.</p>
+                        </div>
+                        <form onSubmit={handleSubmit}>
+                          <label>Name*</label>
+                          <div className="input-group mb-3">
+                            <input
+                              type="text"
+                              name="full_name"
+                              className="form-control"
+                              placeholder="Enter Your Full Name"
+                              value={formData.full_name}
+                              onChange={handleChange}
+                              required
+                            />
+                          </div>
+                          <label>Email*</label>
+                          <div className="input-group mb-3">
+                            <input
+                              type="email"
+                              name="email"
+                              className="form-control"
+                              placeholder="Enter Your Email address"
+                              value={formData.email}
+                              onChange={handleChange}
+                              required
+                            />
+                          </div>
+                          <label>Phone*</label>
+                          <div className="input-group mb-3">
+                            <input
+                              type="text"
+                              name="phone_number"
+                              className="form-control"
+                              placeholder="Enter Your Phone number"
+                              value={formData.phone_number}
+                              onChange={handleChange}
+                              required
+                            />
+                          </div>
+                          <label>Password*</label>
+                          <div className="input-group mb-4">
+                            <input
+                              type={showPassword ? "text" : "password"}
+                              name="password"
+                              className="form-control"
+                              placeholder="Enter Password"
+                              value={formData.password}
+                              onChange={handleChange}
+                              required
+                            />
+                            <div
+                              className="input-group-text"
+                              style={{ cursor: "pointer", background: '#fff' }}
+                              onClick={togglePasswordVisibility}
+                            >
+                              {showPassword ? <FaEye /> : <FaEyeSlash />}
+                            </div>
+                          </div>
+                          <label>Confirm Password*</label>
+                          <div className="input-group mb-4">
+                            <input
+                              type={showConfirmPassword ? "text" : "password"}
+                              name="confirmPassword"
+                              className="form-control"
+                              placeholder="Confirm Password"
+                              value={formData.confirmPassword}
+                              onChange={handleChange}
+                              required
+                            />
+                            <div
+                              className="input-group-text"
+                              style={{ cursor: "pointer", background: '#fff' }}
+                              onClick={toggleConfirmPasswordVisibility}
+                            >
+                              {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
+                            </div>
+                          </div>
+                          {error && <p className="text-danger">{error}</p>}
+                          <div className="text-center">
+                            <button type="submit" className="btn btn-primary btn-block mb-4 auth-btn"
+                              style={{
+                                border: "none",
+                                borderRadius: "20px",
+                                padding: "10px 40px",
+                                color: "#fff",
+                              }}>
+                              Sign up
+                            </button>
+
+                            <p className="mb-2">
+                              Already have an account?{" "}
+                              <NavLink to="/auth/signin" className="f-w-400 text-decoration-underline">
+                                Signin
+                              </NavLink>
+                            </p>
+                          </div>
+                        </form>
+                      </Card.Body>
+                    </Col>
+                  </Row>
+                </Card>
+              </div>
+            </div>
+          </Col>
+        </Row>
       </div>
     </React.Fragment>
   );

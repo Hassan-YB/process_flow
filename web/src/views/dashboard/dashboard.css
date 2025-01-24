@@ -1,0 +1,23 @@
+.search-container {
+    display: inline-block;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    color: #888;
+    font-size: 1rem;
+}
+
+.search-input {
+    padding-left: 35px;
+    border: none;
+    box-shadow: none;
+}
+
+.search-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}

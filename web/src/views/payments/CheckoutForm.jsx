@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
 
 
-const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
 const API_URL = `${BASE_URL}/api/v1/payment`;
 
 const CheckoutForm = ({ subscriptionId }) => {

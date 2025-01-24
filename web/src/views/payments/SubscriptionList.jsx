@@ -7,7 +7,7 @@ import '../../assets/css/style.css';
 import Breadcrumb from "../../layouts/AdminLayout/Breadcrumb";
 
 
-const BASE_URL = import.meta.env.VITE_APP_BASE_URL;
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_URL = `${BASE_URL}/api/v1/payment`;
 
 const SubscriptionList = () => {
@@ -25,8 +25,8 @@ const SubscriptionList = () => {
         const { data } = await axios.get(`${API_URL}/subscriptions/`, config);
         setSubscriptions(data);
       } catch (error) {
-        console.error("Error fetching subscriptions:", error.response?.data || error.message);
-        showErrorToast("Failed to load subscriptions.");
+        //console.error("Error fetching subscriptions:", error.response?.data || error.message);
+        //showErrorToast("Failed to load subscriptions.");
       } finally {
         setLoading(false);
       }
@@ -49,8 +49,8 @@ const SubscriptionList = () => {
       const { data } = await axios.get(`${API_URL}/subscriptions/`, config);
       setSubscriptions(data);
     } catch (error) {
-      console.error("Error canceling subscription:", error.response?.data || error.message);
-      showErrorToast("Failed to cancel subscription. Please try again.");
+      //console.error("Error canceling subscription:", error.response?.data || error.message);
+      //showErrorToast("Failed to cancel subscription. Please try again.");
     }
   };  
 
