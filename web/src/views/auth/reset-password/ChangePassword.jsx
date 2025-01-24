@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { changePassword } from "../../../actions/userActions";
-import { NavLink, useNavigate } from 'react-router-dom';
 
 // react-bootstrap
 import { Card, Row, Col } from 'react-bootstrap';
@@ -11,10 +10,7 @@ import Breadcrumb from "../../../components/Breadcrumb/breadcrumb";
 
 import { showSuccessToast, showErrorToast } from "../../../utils/toastUtils";
 
-// assets
-import logoDark from '../../../assets/img/processflow_logo.png';
-
-import { FaKey, FaMobileAlt, FaSignInAlt, FaLockOpen, FaLock, FaUserPlus, FaEye, FaEyeSlash} from 'react-icons/fa';
+import { FaLock, FaEye, FaEyeSlash} from 'react-icons/fa';
 
 
 const ChangePassword = () => {
@@ -25,8 +21,7 @@ const ChangePassword = () => {
     });
     const [showPassword, setShowPassword] = useState(false);
     const [showPasswordOld, setShowPasswordOld] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false); // State for confirm password visibility
-    const [error, setError] = useState("");
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   
     const dispatch = useDispatch();
   
@@ -39,7 +34,7 @@ const ChangePassword = () => {
       e.preventDefault();
   
       if (!passwords.old_password || !passwords.new_password || !passwords.confirm_password) {
-        setError("Please fill in all fields.");
+        showErrorToast("Please fill in all fields.");
         return;
       }
   
@@ -67,7 +62,7 @@ const ChangePassword = () => {
   
     return (
       <React.Fragment>
-        <div className="container">
+        <div className="container-fluid">
         <Breadcrumb pageName="Change Password" />
         <div className="">
           <div className="auth-content col-12 col-md-8 mx-auto">

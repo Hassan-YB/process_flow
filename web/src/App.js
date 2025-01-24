@@ -1,4 +1,4 @@
-import logo from './logo.svg';
+
 import React, { useState, useEffect } from "react";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -13,7 +13,6 @@ import PasswordVerifyOtp from './views/auth/reset-password/forgot-password-verif
 import Invoicing from './views/payments/Invoicing';
 import Pricing from './views/payments/Pricing';
 import Checkout from './views/payments/Checkout';
-import CheckoutForm from './views/payments/CheckoutForm';
 import ChangePassword from "./views/auth/reset-password/ChangePassword"
 import Profile from './views/profile/Profile';
 
@@ -78,16 +77,21 @@ function App() {
 
 // Main Layout Component with Sidebar
 function MainLayout({ children }) {
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768); // Track if the screen is mobile
-  const [isSidebarVisible, setIsSidebarVisible] = useState(true);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [isSidebarVisible, setIsSidebarVisible] = useState(window.innerWidth > 768);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-      if (window.innerWidth > 768) {
-        setIsSidebarVisible(true); // Always show sidebar on desktop
+      const isMobileView = window.innerWidth <= 768;
+      setIsMobile(isMobileView);
+
+      if (isMobileView) {
+        setIsSidebarVisible(false);
+      } else {
+        setIsSidebarVisible(true);
       }
     };
+
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);

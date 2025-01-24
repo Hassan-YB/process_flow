@@ -1,23 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate, Link, NavLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useNavigate, NavLink } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { logout } from "../../actions/userActions";
 import './sidebar.css'
-import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
+import { showErrorToast } from "../../utils/toastUtils";
 // assets
 import logoDark from '../../assets/img/processflow_logo.png';
 import {
-  FaChartPie, FaProjectDiagram, FaInbox,
-  FaBell, FaCommentDots, FaChevronDown, FaFileInvoiceDollar,
+  FaChartPie, FaChevronDown, FaFileInvoiceDollar,
   FaUserCircle, FaSignOutAlt, FaBars
 } from "react-icons/fa";
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
-const API_URL = `${BASE_URL}/api/v1/users`;
 
 const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
 
   const dispatch = useDispatch();
 
