@@ -6,7 +6,7 @@ import { verifyOtp, resendOtp } from "../../../actions/userActions";
 import { showSuccessToast, showErrorToast } from "../../../utils/toastUtils";
 import logoDark from '../../../assets/img/processflow_logo.png';
 import Nav from "../../../components/Nav/loginNav"
-// import NavBar from '../../../layouts/AdminLayout/NavBar/navIndex';
+import { FaKey, FaMobileAlt, FaSignInAlt, FaLockOpen, FaLock, FaUserPlus, FaEye, FaEyeSlash} from 'react-icons/fa';
 
 const VerifyOtp = () => {
   const location = useLocation();
@@ -71,7 +71,9 @@ const VerifyOtp = () => {
                   <Row className="align-items-center">
                     <Col>
                       <Card.Body className="card-body">
-                        <h4 className="mb-2 mt-2 f-w-400 text-center">Verify OTP</h4>
+                      <div className="text-center"> 
+                      <FaMobileAlt size={50}/></div>
+                        <h4 className="mb-2 mt-4 f-w-400 text-center">Verify OTP</h4>
                         <p className="mb-4 text-center">
                         Please enter the 6-digit code sent to your phone.</p>
                         <form onSubmit={handleSubmit}>

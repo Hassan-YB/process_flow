@@ -25,8 +25,8 @@ const SubscriptionList = () => {
         const { data } = await axios.get(`${API_URL}/subscriptions/`, config);
         setSubscriptions(data);
       } catch (error) {
-        console.error("Error fetching subscriptions:", error.response?.data || error.message);
-        showErrorToast("Failed to load subscriptions.");
+        //console.error("Error fetching subscriptions:", error.response?.data || error.message);
+        //showErrorToast("Failed to load subscriptions.");
       } finally {
         setLoading(false);
       }
@@ -49,8 +49,8 @@ const SubscriptionList = () => {
       const { data } = await axios.get(`${API_URL}/subscriptions/`, config);
       setSubscriptions(data);
     } catch (error) {
-      console.error("Error canceling subscription:", error.response?.data || error.message);
-      showErrorToast("Failed to cancel subscription. Please try again.");
+      //console.error("Error canceling subscription:", error.response?.data || error.message);
+      //showErrorToast("Failed to cancel subscription. Please try again.");
     }
   };  
 

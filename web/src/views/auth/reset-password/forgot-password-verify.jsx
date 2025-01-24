@@ -16,7 +16,7 @@ import { showSuccessToast, showErrorToast } from "../../../utils/toastUtils";
 import logoDark from '../../../assets/img/processflow_logo.png';
 
 // import NavBar from '../../../layouts/AdminLayout/NavBar/navIndex';
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaKey, FaMobileAlt, FaSignInAlt, FaLockOpen, FaLock, FaUserPlus, FaEye, FaEyeSlash} from 'react-icons/fa';
 
 
 const ForgotPasswordVerify = () => {
@@ -87,7 +87,9 @@ const ForgotPasswordVerify = () => {
                   <Row className="align-items-center">
                     <Col>
                       <Card.Body className="card-body">
-                        <h4 className="mb-2 mt-2 f-w-400 text-center">Verify Password OTP</h4>
+                      <div className="text-center"> 
+                      <FaKey size={50}/></div>
+                        <h4 className="mb-2 mt-4 f-w-400 text-center">Verify Password OTP</h4>
                         <p className="mb-4 text-center">
                         Enter the OTP and your new password to reset.</p>
                         <form onSubmit={handleSubmit}>

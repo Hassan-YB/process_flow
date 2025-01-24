@@ -22,8 +22,8 @@ const InvoicesList = () => {
         const { data } = await axios.get(`${API_URL}/invoices/`, config);
         setInvoices(data);
       } catch (error) {
-        console.error("Error fetching invoices:", error.response?.data || error.message);
-        showErrorToast("Failed to load invoices.");
+        //console.error("Error fetching invoices:", error.response?.data || error.message);
+        //showErrorToast("Failed to load invoices.");
       } finally {
         setLoading(false);
       }

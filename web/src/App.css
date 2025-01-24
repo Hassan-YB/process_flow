@@ -19,12 +19,12 @@ body {
 }
 
 .main-content.adjust-for-hamburger {
-  margin-top: 50px; /* Adjust this value based on the height of the hamburger button */
+  margin-top: 65px;
 }
 
 @media (max-width: 768px) {
   .main-content {
-    margin-top: 0; /* Default for small screens */
+    margin-top: 0;
   }
 }
 

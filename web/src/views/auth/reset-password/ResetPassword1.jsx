@@ -6,6 +6,7 @@ import { NavLink, useNavigate } from 'react-router-dom';
 // react-bootstrap
 import { Card, Row, Col } from 'react-bootstrap';
 import Nav from "../../../components/Nav/signupNav"
+import { FaKey, FaMobileAlt, FaSignInAlt, FaLockOpen, FaLock, FaUserPlus } from 'react-icons/fa';
 
 import { showSuccessToast, showErrorToast } from "../../../utils/toastUtils";
 
@@ -50,7 +51,9 @@ const ResetPassword1 = () => {
                   <Row className="align-items-center">
                     <Col>
                       <Card.Body className="card-body">
-                        <h4 className="mb-2 mt-2 f-w-400 text-center">Forgot Password</h4>
+                      <div className="text-center"> 
+                        <FaLockOpen size={50}/></div>
+                        <h4 className="mb-2 mt-4 f-w-400 text-center">Forgot Password</h4>
                         <p className="mb-4 text-center">
                         Enter your phone number to reset password.</p>
                         <form onSubmit={handleSubmit}>

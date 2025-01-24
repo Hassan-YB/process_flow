@@ -7,6 +7,8 @@
   box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
   border-right: 1px solid #dfdfdf;
   transition: transform 0.3s ease-in-out;
+  z-index: 1000;
+  left: 0;
 }
 
 .sidebar.hidden {
@@ -39,20 +41,23 @@
   align-items: center;
   gap: 10px;
   font-size: 16px;
+  color: #333;
   cursor: pointer;
   transition: background 0.3s ease;
+}
+
+.sidebar-menu li:hover {
+  color: #333;
 }
 
 .sidebar-menu .dropdown-item.active {
   background-color: #6149CD;
   color: #fff !important;
   border-radius: 22px;
-  padding: 10px 20px;
 }
 
 .sidebar-menu .dropdown-item.active a {
-  color: inherit;
-  /* Ensures link text inherits the color from li */
+  color: #fff;
 }
 
 .sidebar-footer {
@@ -83,21 +88,26 @@
 }
 
 .dropdown-list li {
-  padding: 10px 20px;
-  font-size: 14px;
-  color: #666;
+  padding: 10px 26px;
+  font-size: 16px;
+  color: #333;
   cursor: pointer;
   transition: background 0.3s ease;
 }
 
 .dropdown-list li:hover {
-  background-color: #6149CD;
+  /*background-color: #6149CD;
   color: #fff !important;
-  border-radius: 18px;
+  border-radius: 22px;
+  padding: 10px 26px;*/
+}
+
+.dropdown-list li a {
+  color: #000 !important;
 }
 
 .dropdown-list li a:hover {
-  color: #fff !important;
+  color: #000 !important;
 }
 
 .chevron {
@@ -145,20 +155,50 @@
 }
 
 
+.mobile-header {
+  display: none;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+  height: 65px;
+  z-index: 1001; /* Ensure it stays above the sidebar */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
 .hamburger-btn {
   display: none;
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 1001;
   background: transparent;
   border: none;
   font-size: 1.5rem;
   cursor: pointer;
 }
 
+.mobile-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+}
+
 @media (max-width: 768px) {
   .hamburger-btn {
     display: block;
   }
+
+  .mobile-header {
+    display: flex;
+  }
+
+  .sidebar {
+    top: 64px; /* Push sidebar below the header on small screens */
+    position: fixed;
+    height: calc(100vh - 50px); /* Adjust height for the mobile header */
+  }
+
 }

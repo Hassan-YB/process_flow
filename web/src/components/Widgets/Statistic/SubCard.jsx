@@ -17,8 +17,9 @@ const SubCard = ({ params }) => {
     }
 
     return (
-        <Card className={cardClass.join(' ')} style={{minHeight:'172px'}}>
-            <Card.Body className='text-light'>
+        <Card className={cardClass.join(' ')} style={{ minHeight: '172px' }}>
+            <Card.Body>
+                <div className='d-flex flex-column justify-content-between'>
                 <div className="d-flex justify-content-between align-items-center mb-4">
 
                     <span style={{ fontWeight: "bold", fontSize: "18px" }}>
@@ -40,17 +41,20 @@ const SubCard = ({ params }) => {
                     <span style={{ fontWeight: "bold", fontSize: "18px" }}>
                         {params.planName}
                     </span>
-                    <span>
-                        Valid until
-                    </span>
+                    {params.validUntil && (
+                        <span>
+                            Valid until
+                        </span>
+                    )}
                 </div>
                 <div className="d-flex justify-content-between align-items-center mb-3">
                     <span style={{ fontWeight: "bold", fontSize: "18px" }}>
-                    {params.planAmount}
+                        {params.planAmount}
                     </span>
                     <span>
-                    {params.validUntil}
+                        {params.validUntil}
                     </span>
+                </div>
                 </div>
             </Card.Body>
         </Card>

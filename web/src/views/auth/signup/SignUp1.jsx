@@ -7,7 +7,7 @@ import { Card, Row, Col } from 'react-bootstrap';
 import { useDispatch } from "react-redux";
 import { userSignup } from "../../../actions/userActions";
 
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaKey, FaMobileAlt, FaSignInAlt, FaLockOpen, FaLock, FaUserPlus, FaEye, FaEyeSlash} from 'react-icons/fa';
 
 import Nav from "../../../components/Nav/loginNav"
 
@@ -85,10 +85,12 @@ const SignUp1 = () => {
                   <Row className="align-items-center">
                     <Col>
                       <Card.Body className="card-body">
+                      <div className="text-center"> 
+                      <FaUserPlus size={50}/></div>
                         <div className="">
                           {/*}
                   <img src={logoDark} alt="Logo" className="img-fluid mb-4" />*/}
-                          <h4 className="mb-2 f-w-400">Create your account</h4>
+                          <h4 className="mb-2 mt-4 f-w-400">Create your account</h4>
                           <p className="mb-4">
                             Please fill in the details below to get started.</p>
                         </div>

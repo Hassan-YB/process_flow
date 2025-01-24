@@ -55,22 +55,28 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
     <>
       {/* Hamburger button for mobile screens */}
       {isMobile && (
+        <div className="mobile-header">
         <button className="hamburger-btn" onClick={toggleSidebar}>
           <FaBars />
         </button>
+        <div className="mobile-logo">
+          <img src={logoDark} alt="Logo" />
+        </div>
+      </div>
       )}
 
       <div className={`sidebar ${isSidebarVisible ? "visible" : "hidden"}`}>
         <div className="sidebar-content">
-          <div className="sidebar-logo">
-            <img src={logoDark} alt="Logo" />
-          </div>
+        {!isMobile && (
+            <div className="sidebar-logo">
+              <img src={logoDark} alt="Logo" />
+            </div>
+          )}
           <ul className="sidebar-menu">
-            <li className={`dropdown-item ${window.location.pathname === '/' ? 'active' : ''}`}>
-              <NavLink to="/" className="text-decoration-none">
-                <FaChartPie />
-                <span className="mx-2">Dashboard</span></NavLink>
-            </li>
+            <NavLink to="/" className="text-decoration-none">
+              <li className={`dropdown-item ${window.location.pathname === '/' ? 'active' : ''}`}>
+                <FaChartPie />Dashboard
+              </li></NavLink>
 
             {/* Dropdown 1 */}
             <li onClick={() => toggleDropdown("profile")} className="dropdown-item">
@@ -81,12 +87,12 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
             </li>
             {openDropdown === "profile" && (
               <ul className="dropdown-list">
-                <li className={`dropdown-item ${window.location.pathname === '/profile' ? 'active' : ''}`}>
-                  <NavLink to="/profile" className="text-decoration-none text-dark">
-                    Update Profile</NavLink></li>
-                <li className={`dropdown-item ${window.location.pathname === '/change-password' ? 'active' : ''}`}>
-                  <NavLink to="/change-password" className="text-decoration-none text-dark">
-                    Change Password</NavLink></li>
+                <NavLink to="/profile" className="text-decoration-none text-dark">
+                  <li className={`dropdown-item ${window.location.pathname === '/profile' ? 'active' : ''}`}>
+                    Update Profile</li></NavLink>
+                <NavLink to="/change-password" className="text-decoration-none text-dark">
+                  <li className={`dropdown-item ${window.location.pathname === '/change-password' ? 'active' : ''}`}>
+                    Change Password</li></NavLink>
               </ul>
             )}
 
@@ -96,12 +102,12 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
             </li>
             {openDropdown === "subscription" && (
               <ul className="dropdown-list">
-                <li className={`dropdown-item ${window.location.pathname === '/pricing' ? 'active' : ''}`}>
-                  <NavLink to="/pricing" className="text-decoration-none text-dark">
-                    Pricing</NavLink></li>
-                <li className={`dropdown-item ${window.location.pathname === '/billing' ? 'active' : ''}`}>
-                  <NavLink to="/billing" className="text-decoration-none text-dark">
-                    Billing</NavLink></li>
+                <NavLink to="/pricing" className="text-decoration-none">
+                  <li className={`dropdown-item ${window.location.pathname === '/pricing' ? 'active' : ''}`}>
+                    Pricing</li></NavLink>
+                <NavLink to="/billing" className="text-decoration-none text-dark">
+                  <li className={`dropdown-item ${window.location.pathname === '/billing' ? 'active' : ''}`}>
+                    Billing</li></NavLink>
               </ul>
             )}
 

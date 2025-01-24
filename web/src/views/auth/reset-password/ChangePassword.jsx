@@ -14,7 +14,7 @@ import { showSuccessToast, showErrorToast } from "../../../utils/toastUtils";
 // assets
 import logoDark from '../../../assets/img/processflow_logo.png';
 
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaKey, FaMobileAlt, FaSignInAlt, FaLockOpen, FaLock, FaUserPlus, FaEye, FaEyeSlash} from 'react-icons/fa';
 
 
 const ChangePassword = () => {
@@ -75,7 +75,9 @@ const ChangePassword = () => {
               <Row className="align-items-center">
                 <Col>
                   <Card.Body className="card-body">
-                  <h4 className="mb-2 text-center">Change Password</h4>
+                  <div className="text-center"> 
+                  <FaLock size={50}/></div>
+                  <h4 className="mb-2 mt-4 text-center">Change Password</h4>
                   <p className="mb-4 text-center">
                   Update your password by filling in the fields below.</p>
                     <form onSubmit={handleSubmit}>

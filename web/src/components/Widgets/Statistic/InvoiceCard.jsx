@@ -17,13 +17,14 @@ const InvoiceCard = ({ params, onStatusClick }) => {
     }
 
     return (
-        <Card className={cardClass.join(' ')} style={{minHeight:'172px'}}>
-            <Card.Body className='text-light'>
+        <Card className={cardClass.join(' ')} style={{ minHeight: '172px' }}>
+            <Card.Body >
                 <div className="d-flex justify-content-between align-items-center mb-4">
 
                     <span style={{ fontWeight: "bold", fontSize: "18px" }}>
                         {params.title}
                     </span>
+                    {params.nextBill && params.nextBill.trim() !== "" ? (
                     <span
                         style={{
                             background: params.status === "active" ? "#4caf50" : "#f44336",
@@ -38,21 +39,44 @@ const InvoiceCard = ({ params, onStatusClick }) => {
                     >
                         {params.status}
                     </span>
+                    ) : (
+                        <a href='/pricing'
+                        style={{
+                            background: "#4caf50",
+                            color: "white",
+                            borderRadius: "10px",
+                            padding: "5px 10px",
+                            fontSize: "12px",
+                            fontWeight: "bold",
+                            textDecoration: "None",
+                            cursor: params.status === "pointer",}}
+                        >Subscribe Now</a>
+                    )}
                 </div>
                 <div className="d-flex justify-content-between align-items-center mb-0">
-                    <span style={{ fontWeight: "bold", fontSize: "18px" }}>
-                        Your next bill is
-                    </span>
-                    <span>
-                    {params.nextBill}
-                    </span>
+                    {params.nextBill && params.nextBill.trim() !== "" ? (
+                        <>
+                            <span style={{ fontWeight: "bold", fontSize: "18px" }}>
+                                Your next bill is
+                            </span>
+                            <span>
+                                {params.nextBill}
+                            </span>
+                        </>
+                    ) : (
+                        <span style={{ fontWeight: "bold", fontSize: "18px" }}>
+                            No upcoming invoice.
+                        </span>
+                    )}
                 </div>
                 <div className="d-flex justify-content-between align-items-center mb-3">
-                    <span style={{ fontWeight: "bold", fontSize: "18px" }}>
-                    on
-                    </span>
+                    {params.nextBill && params.nextBill.trim() !== "" ? (
+                        <span style={{ fontWeight: "bold", fontSize: "18px" }}>
+                            on
+                        </span>
+                    ) : ("")}
                     <span>
-                    {params.nextBillDate}
+                        {params.nextBillDate}
                     </span>
                 </div>
             </Card.Body>

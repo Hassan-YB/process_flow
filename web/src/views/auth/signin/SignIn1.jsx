@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink, Link } from 'react-router-dom';
 // import NavBar from '../../../layouts/AdminLayout/NavBar/navIndex';
-import { FaEye, FaEyeSlash } from "react-icons/fa";
+import { FaKey, FaMobileAlt, FaSignInAlt, FaLockOpen, FaLock, FaUserPlus, FaEye, FaEyeSlash} from 'react-icons/fa';
 
 // react-bootstrap
 import { Card, Button, Alert, Row, Col } from 'react-bootstrap';
@@ -69,8 +69,10 @@ const Signin1 = () => {
                 </div>
                 <Card className="borderless ">
                   <Card.Body>
+                  <div className="text-center"> 
+                  <FaSignInAlt size={50}/></div>
                     <div className="text-center">
-                      <h4 className="mb-3 f-w-400">Log In</h4>
+                      <h4 className="mb-3 mt-4 f-w-400">Log In</h4>
                       <p className="mb-4">
                       Welcome back! Please enter your details to log in.</p>
                     </div>
