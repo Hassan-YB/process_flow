@@ -3,7 +3,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
 import CheckmarkIcon from "../../assets/img/checkmark.png";
-import MainCard from "../../components/Card/MainCard";
 import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
 import ConfirmationModal from "../../components/Modal/ConfirmationModal";
 

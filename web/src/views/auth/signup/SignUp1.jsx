@@ -7,12 +7,9 @@ import { Card, Row, Col } from 'react-bootstrap';
 import { useDispatch } from "react-redux";
 import { userSignup } from "../../../actions/userActions";
 
-import { FaKey, FaMobileAlt, FaSignInAlt, FaLockOpen, FaLock, FaUserPlus, FaEye, FaEyeSlash} from 'react-icons/fa';
+import { FaUserPlus, FaEye, FaEyeSlash} from 'react-icons/fa';
 
 import Nav from "../../../components/Nav/loginNav"
-
-// assets
-import logoDark from '../../../assets/img/processflow_logo.png';
 
 import { showSuccessToast, showErrorToast } from "../../../utils/toastUtils";
 
@@ -68,8 +65,8 @@ const SignUp1 = () => {
   return (
     <React.Fragment>
       <Nav />
-      <div className="container-fluid min-vh-100 d-flex align-items-center">
-        <Row className="w-100">
+      <div className="container-fluid min-vh-100 d-flex justify-content-center justify-content-md-start align-items-center">
+        <Row>
           {/* Left Column */}
           <Col md={6} className="d-none d-md-flex bg-gradient-nav text-white justify-content-center align-items-center">
             <div className="text-center px-5">

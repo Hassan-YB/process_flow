@@ -153,6 +153,7 @@ const UpdateProfile = () => {
               <div className="mt-2 text-center">
                 <img
                   src={profile.photoPreview || profile.photo}
+                  alt="Profile"
                   style={{
                     width: "100px",
                     height: "100px",

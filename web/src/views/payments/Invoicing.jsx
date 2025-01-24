@@ -1,7 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
-import Invoice from "../../assets/img/invoice.png";
 import MainCard from "../../components/Card/MainCard";
 import '../../assets/css/style.css';
 import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
@@ -11,10 +8,9 @@ import PaymentCard from '../../components/Widgets/Statistic/PaymentCard';
 import ConfirmationModal from '../../components/Modal/ConfirmationModal'
 import Print from '../../assets/img/print.png'
 import "./payments.css"
-import { FaSearch } from "react-icons/fa";
 
 // react-bootstrap
-import { Row, Col, Card, Table, ListGroup } from 'react-bootstrap';
+import { Row, Col, Table } from 'react-bootstrap';
 
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -190,6 +186,7 @@ const Invoicing = () => {
                             <a href={invoice.hosted_invoice_url} target="_blank" rel="noopener noreferrer">
                               <img
                                 src={Print}
+                                alt="Invoice"
                                 style={{ width: "24px", height: "24px" }}
                               />
                             </a>

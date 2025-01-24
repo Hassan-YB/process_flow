@@ -70,8 +70,8 @@ const ForgotPasswordVerify = () => {
   return (
     <React.Fragment>
       <Nav />
-      <div className="container-fluid min-vh-100 d-flex align-items-center">
-        <Row className="w-100">
+      <div className="container-fluid min-vh-100 d-flex justify-content-center justify-content-md-start align-items-center">
+        <Row>
           {/* Left Column */}
           <Col md={6} className="d-none d-md-flex bg-gradient-nav text-white justify-content-center align-items-center">
             <div className="text-center px-5">
@@ -83,7 +83,7 @@ const ForgotPasswordVerify = () => {
           <Col xs={12} md={6} className="d-flex justify-content-center align-items-center">
             <div className="auth-wrapper">
               <div className="auth-content mx-auto">
-                <Card className="borderless">
+                <Card className="borderless mt-5">
                   <Row className="align-items-center">
                     <Col>
                       <Card.Body className="card-body">
