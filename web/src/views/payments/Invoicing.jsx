@@ -63,6 +63,7 @@ const Invoicing = () => {
 
   // Provide fallback values if subscriptionData is null
   const subscription = subscriptionData?.subscription || {};
+  console.log("Subscriptions : ", subscription)
   const price = subscriptionData?.price || {};
 
   const handleStatusClick = () => {
