@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from "react-router-dom";
 import Dashboard from './views/dashboard/dashboard';
 import Signin from './views/auth/signin/SignIn1';
 import Signup from './views/auth/signup/SignUp1';
@@ -23,6 +23,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
+  const location = useLocation();
 
   const noSidebarRoutes = [
     "/auth/signin",
@@ -33,7 +34,6 @@ function App() {
   ];
 
   return (
-    <Router>
       <div>
       <ToastContainer
           position="top-center"
@@ -51,7 +51,7 @@ function App() {
           <Route
             path="*"
             element={
-              !noSidebarRoutes.includes(window.location.pathname) ? (
+              !noSidebarRoutes.includes(location.pathname) ? (
                 <PrivateRoute>
                 <MainLayout>
                   <Routes>
@@ -71,7 +71,6 @@ function App() {
           />
         </Routes>
       </div>
-    </Router>
   );
 }
 
@@ -115,6 +114,11 @@ function MainLayout({ children }) {
 
 // Authentication Routes (Without Sidebar)
 function AuthRoutes() {
+  const location = useLocation();
+
+  useEffect(() => {
+  }, [location.pathname]);
+
   return (
     <Routes>
       <Route path="/auth/signin" element={<Signin />} />

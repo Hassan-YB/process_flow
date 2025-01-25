@@ -103,7 +103,7 @@ const CheckoutForm = ({ subscriptionId }) => {
                 padding: "10px 20px",
                 color: "#fff",
               }}>
-              "Confirm Payment"
+              Confirm Payment
             </button>
           )}
         </form>
