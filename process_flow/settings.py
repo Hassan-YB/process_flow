@@ -63,7 +63,9 @@ INSTALLED_APPS = [
     #custom_apps
     'users',
     'core',
-    'payment'
+    'payment',
+    'projects',
+    'notifications'
 ]
 
 MIDDLEWARE = [

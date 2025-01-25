@@ -7,4 +7,4 @@ class GenderChoices(TextChoices):
 
 class NotificationChoices(TextChoices):
     ACCOUNT = 'account', 'Account'
-    PRODUCT = 'product', 'Product'
+    PROJECT = 'project', 'Project'
