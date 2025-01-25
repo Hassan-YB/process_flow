@@ -27,7 +27,7 @@ const Checkout = () => {
 
   return (
     <div>
-    <div className="container mt-5">
+    <div className="container-fluid mt-5">
       <h3 className="text-center mb-4">Checkout</h3>
       <div className="row mt-5">
         {/* Plan Details Section */}

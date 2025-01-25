@@ -1,22 +1,14 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { forgotPasswordVerify } from "../../../actions/userActions";
-import { NavLink, useNavigate } from 'react-router-dom';
 
 // react-bootstrap
 import { Card, Row, Col } from 'react-bootstrap';
 import Nav from "../../../components/Nav/signupNav"
 
-// project import
-// import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
-
 import { showSuccessToast, showErrorToast } from "../../../utils/toastUtils";
 
-// assets
-import logoDark from '../../../assets/img/processflow_logo.png';
-
-// import NavBar from '../../../layouts/AdminLayout/NavBar/navIndex';
-import { FaKey, FaMobileAlt, FaSignInAlt, FaLockOpen, FaLock, FaUserPlus, FaEye, FaEyeSlash} from 'react-icons/fa';
+import { FaKey, FaEye, FaEyeSlash} from 'react-icons/fa';
 
 
 const ForgotPasswordVerify = () => {
@@ -27,8 +19,7 @@ const ForgotPasswordVerify = () => {
     confirm_password: "",
   });
   const [showPassword, setShowPassword] = useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false); // Visibility for confirm_password
-  const [error, setError] = useState("");
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -70,7 +61,7 @@ const ForgotPasswordVerify = () => {
   return (
     <React.Fragment>
       <Nav />
-      <div className="container-fluid min-vh-100 d-flex align-items-center">
+      <div className="container-fluid min-vh-100 d-flex justify-content-center justify-content-md-start align-items-center">
         <Row className="w-100">
           {/* Left Column */}
           <Col md={6} className="d-none d-md-flex bg-gradient-nav text-white justify-content-center align-items-center">

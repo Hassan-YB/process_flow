@@ -3,7 +3,6 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
 import CheckmarkIcon from "../../assets/img/checkmark.png";
-import MainCard from "../../components/Card/MainCard";
 import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
 import ConfirmationModal from "../../components/Modal/ConfirmationModal";
 
@@ -112,7 +111,7 @@ const Pricing = () => {
   const isAnyPriceActive = prices.some((price) => price.is_active);
 
   return (
-    <div className="container">
+    <div className="container-fluid">
       <Breadcrumb pageName="Pricing" />
       <div className="mt-4">
       <div className="row justify-content-center">

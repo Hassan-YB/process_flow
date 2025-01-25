@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
 import { showSuccessToast, showErrorToast } from "../utils/toastUtils";
 
 // API Base URL
@@ -31,8 +30,20 @@ export const userSignup = (userData, navigate) => async (dispatch) => {
 
     navigate("/auth/verify", { state: { email: userData.email, phone_number: userData.phone_number } });
   } catch (error) {
-    //console.error('Signup Error:', error.response?.data || error.message);
-    showErrorToast(error.response?.data || error.message);
+    const errors = error.response?.data || {};
+    let errorMessage = "An error occurred. Please check your input.";
+
+    // Process specific errors
+    if (typeof errors === "object") {
+      const errorMessages = Object.values(errors)
+        .flat()
+        .join(" ");
+      errorMessage = errorMessages;
+    } else if (typeof errors === "string") {
+      errorMessage = errors;
+    }
+
+    showErrorToast(errorMessage);
   }
 };
 
@@ -68,14 +79,24 @@ export const verifyOtp = (otpData, navigate) => async (dispatch) => {
       localStorage.removeItem("signupPassword");
 
       navigate("/pricing");
-    } else {
-      //console.error("Email or password missing from localStorage.");
-      showErrorToast("Could not log in automatically. Please log in manually.");
-    }
+      window.location.reload();
+    } 
   } catch (error) {
-    ///console.error('Verify OTP Error:', error.response?.data || error.message);
-    //showErrorToast("Failed to send OTP. Please resend.");
-    showErrorToast(error.response?.data || error.message);
+    const errors = error.response?.data || {};
+    let errorMessage = "An error occurred. Please try again.";
+
+    if (errors.non_field_errors) {
+      errorMessage = errors.non_field_errors.join(" ");
+    } else if (typeof errors === "object") {
+      const errorMessages = Object.values(errors)
+        .flat()
+        .join(" ");
+      errorMessage = errorMessages;
+    } else if (typeof errors === "string") {
+      errorMessage = errors;
+    }
+
+    showErrorToast(errorMessage);
   }
 };
 
@@ -110,9 +131,21 @@ export const userLogin = (loginData) => async (dispatch) => {
     window.location.href = "/pricing";
     showSuccessToast("successfully logged in.")
   } catch (error) {
-    //console.error("Login Error:", error.response?.data || error.message);
-    //showErrorToast("Invalid login credentials. Please try again.");
-    showErrorToast(error.response?.data || error.message);
+    const errors = error.response?.data || {};
+    let errorMessage = "An error occurred. Please try again.";
+
+    if (errors.non_field_errors) {
+      errorMessage = errors.non_field_errors.join(" ");
+    } else if (typeof errors === "object") {
+      const errorMessages = Object.values(errors)
+        .flat()
+        .join(" ");
+      errorMessage = errorMessages;
+    } else if (typeof errors === "string") {
+      errorMessage = errors;
+    }
+
+    showErrorToast(errorMessage);
   }
 };
 

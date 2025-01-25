@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { Breadcrumb, Card, Row, Col } from "react-bootstrap";
+import { Card, Row, Col } from "react-bootstrap";
 import { verifyOtp, resendOtp } from "../../../actions/userActions";
-import { showSuccessToast, showErrorToast } from "../../../utils/toastUtils";
-import logoDark from '../../../assets/img/processflow_logo.png';
+import { showErrorToast } from "../../../utils/toastUtils";
 import Nav from "../../../components/Nav/loginNav"
-import { FaKey, FaMobileAlt, FaSignInAlt, FaLockOpen, FaLock, FaUserPlus, FaEye, FaEyeSlash} from 'react-icons/fa';
+import { FaMobileAlt} from 'react-icons/fa';
 
 const VerifyOtp = () => {
   const location = useLocation();
@@ -54,7 +53,7 @@ const VerifyOtp = () => {
   return (
     <React.Fragment>
       <Nav />
-      <div className="container-fluid min-vh-100 d-flex align-items-center">
+      <div className="container-fluid min-vh-100 d-flex justify-content-center justify-content-md-start align-items-center">
         <Row className="w-100">
           {/* Left Column */}
           <Col md={6} className="d-none d-md-flex bg-gradient-nav text-white justify-content-center align-items-center">
