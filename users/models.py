@@ -36,3 +36,31 @@ class OTP(BaseDateTimeModel):
 
     def is_valid(self):
         return (now() - self.updated_at).seconds < 300  # 5 minutes validity
+
+class FCMDevice(BaseDateTimeModel):
+    """
+    Model representing a device to which notifications can be sent.
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="fcm_devices")
+    name = models.CharField(max_length=255)
+    platform = models.CharField(max_length=255, null=True, blank=True)
+    token = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+    @classmethod
+    def register_or_update_device(cls, user, token, name=None, platform=None):
+        if not token:
+            return None, False
+
+        fcm_device, created = cls.objects.update_or_create(
+            user=user,
+            token=token,
+            defaults={
+                'name': name or "Unnamed Device",
+                'platform': platform or "Unknown"
+            }
+        )
+
+        return fcm_device, created

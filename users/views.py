@@ -3,18 +3,30 @@ from rest_framework.viewsets import ViewSet
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
-from rest_framework import status
+from rest_framework.generics import ListAPIView
 from rest_framework_simplejwt.tokens import RefreshToken
+from django.db.models import Q
 
+from notifications.models import Notification, NotificationChoices
+from notifications.utils import MessageManager
+from core.pagination import CountPagination
+
+from .models import FCMDevice, User
 from .serializers import (
     SignupSerializer, OTPVerificationSerializer, LoginSerializer, ChangePasswordSerializer,
-    ProfileSerializer, ForgotPasswordSerializer, ResendOTPSerializer
+    ProfileSerializer, ForgotPasswordSerializer, ResendOTPSerializer, UserSearchSerializer
 )
 
 class SignupView(APIView):
     def post(self, request):
         serializer = SignupSerializer(data=request.data)
         if serializer.is_valid():
+            # Register device
+            token = request.data.get('fcm_token')
+            name = request.data.get('device_name', '')
+            platform = request.data.get('device_platform', '')
+            FCMDevice.register_or_update_device(token=token, name=name, platform=platform)
+
             serializer.save()
             return Response(
                 {"message": "User created successfully. Please check your email for OTP verification."},
@@ -36,6 +48,18 @@ class LoginView(APIView):
     def post(self, request):
         serializer = LoginSerializer(data=request.data)
         if serializer.is_valid():
+            user = serializer.user
+
+            # Register device
+            token = request.data.get('fcm_token')
+            name = request.data.get('device_name', '')
+            platform = request.data.get('device_platform', '')
+            FCMDevice.register_or_update_device(user=user, token=token, name=name, platform=platform)
+
+            # 1- Login Notification
+            title, message, description = MessageManager.get_message('login')
+            Notification.create_and_send_notification(user=user, message=message, title=title, description=description, type=NotificationChoices.ACCOUNT)
+            
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -50,6 +74,10 @@ class ChangePasswordView(APIView):
                 return Response({"error": "Old password is incorrect"}, status=status.HTTP_400_BAD_REQUEST)
             user.set_password(serializer.validated_data['new_password'])
             user.save()
+
+            # 2- Password Changed Notification
+            title, message, description = MessageManager.get_message('password_changed')
+            Notification.create_and_send_notification(user=user, message=message, title=title, description=description, type=NotificationChoices.ACCOUNT)
             return Response({"message": "Password updated successfully"}, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
@@ -110,3 +138,30 @@ class LogoutView(APIView):
             return Response({"message": "Logout successful."}, status=status.HTTP_200_OK)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+
+class UserSearchView(ListAPIView):
+    serializer_class = UserSearchSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = CountPagination
+
+    def post(self, request, *args, **kwargs):
+        search_query = request.data.get('search', '').strip()
+
+        if not search_query:
+            return Response({"error": "Search query is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Perform case-insensitive search across multiple fields
+        users = User.objects.filter(
+            Q(email__icontains=search_query) |
+            Q(full_name__icontains=search_query) |
+            Q(phone_number__icontains=search_query)
+        ).exclude(id=request.user.id).order_by('-date_joined')
+
+        # Paginate the queryset
+        page = self.paginate_queryset(users)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(users, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)

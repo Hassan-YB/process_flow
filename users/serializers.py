@@ -229,3 +229,8 @@ class ResendOTPSerializer(serializers.Serializer):
         # if not is_success:
         #     raise serializers.ValidationError(msg)
         return {"message": "OTP resent successfully."}
+
+class UserSearchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'email', 'full_name', 'phone_number', 'company', 'role']

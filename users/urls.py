@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import (
     SignupView, OTPVerificationView, LoginView, ProfileViewSet,
-    ChangePasswordView, ForgotPasswordView, ResendOTPView, LogoutView
+    ChangePasswordView, ForgotPasswordView, ResendOTPView, LogoutView,
+    UserSearchView
 )
 
 urlpatterns = [
@@ -16,4 +17,5 @@ urlpatterns = [
         'get': 'retrieve',
         'put': 'update',
     }), name='user_profile'),
+    path('search/', UserSearchView.as_view(), name='user-search'),
 ]
