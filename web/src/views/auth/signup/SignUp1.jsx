@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, Link, useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 // react-bootstrap
 import { Card, Row, Col } from 'react-bootstrap';
@@ -7,14 +7,11 @@ import { Card, Row, Col } from 'react-bootstrap';
 import { useDispatch } from "react-redux";
 import { userSignup } from "../../../actions/userActions";
 
-import { FaKey, FaMobileAlt, FaSignInAlt, FaLockOpen, FaLock, FaUserPlus, FaEye, FaEyeSlash} from 'react-icons/fa';
+import { FaUserPlus, FaEye, FaEyeSlash} from 'react-icons/fa';
 
 import Nav from "../../../components/Nav/loginNav"
 
-// assets
-import logoDark from '../../../assets/img/processflow_logo.png';
-
-import { showSuccessToast, showErrorToast } from "../../../utils/toastUtils";
+import { showErrorToast } from "../../../utils/toastUtils";
 
 
 // ==============================|| SIGN UP 1 ||============================== //
@@ -29,8 +26,6 @@ const SignUp1 = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [error, setError] = useState("");
-  const [newsletter, setNewsletter] = useState(false);
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -38,10 +33,6 @@ const SignUp1 = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
-  };
-
-  const handleCheckboxChange = () => {
-    setNewsletter(!newsletter);
   };
 
   const handleSubmit = (e) => {
@@ -68,7 +59,7 @@ const SignUp1 = () => {
   return (
     <React.Fragment>
       <Nav />
-      <div className="container-fluid min-vh-100 d-flex align-items-center">
+      <div className="container-fluid min-vh-100 d-flex justify-content-center justify-content-md-start align-items-center">
         <Row className="w-100">
           {/* Left Column */}
           <Col md={6} className="d-none d-md-flex bg-gradient-nav text-white justify-content-center align-items-center">
@@ -169,7 +160,6 @@ const SignUp1 = () => {
                               {showConfirmPassword ? <FaEye /> : <FaEyeSlash />}
                             </div>
                           </div>
-                          {error && <p className="text-danger">{error}</p>}
                           <div className="text-center">
                             <button type="submit" className="btn btn-primary btn-block mb-4 auth-btn"
                               style={{

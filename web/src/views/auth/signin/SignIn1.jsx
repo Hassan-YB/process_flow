@@ -1,24 +1,16 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { NavLink, Link } from 'react-router-dom';
-// import NavBar from '../../../layouts/AdminLayout/NavBar/navIndex';
-import { FaKey, FaMobileAlt, FaSignInAlt, FaLockOpen, FaLock, FaUserPlus, FaEye, FaEyeSlash} from 'react-icons/fa';
+import { NavLink } from 'react-router-dom';
+import { FaSignInAlt, FaEye, FaEyeSlash} from 'react-icons/fa';
 
 // react-bootstrap
-import { Card, Button, Alert, Row, Col } from 'react-bootstrap';
+import { Card, Row, Col } from 'react-bootstrap';
 
 import { userLogin } from "../../../actions/userActions";
 
-import Nav from "../../../components/Nav/signupNav"
+import Nav from "../../../components/Nav/signupNav";
 
-// project import
-// import Breadcrumb from '../../../layouts/AdminLayout/Breadcrumb';
-import AuthLogin from './JWTLogin';
-
-// assets
-import logoDark from '../../../assets/img/processflow_logo.png';
-
-import { showSuccessToast, showErrorToast } from "../../../utils/toastUtils";
+import { showErrorToast } from "../../../utils/toastUtils";
 
 // ==============================|| SIGN IN 1 ||============================== //
 
@@ -48,7 +40,7 @@ const Signin1 = () => {
   return (
     <React.Fragment>
       <Nav />
-      <div className="container-fluid min-vh-100 d-flex align-items-center">
+      <div className="container-fluid min-vh-100 d-flex justify-content-center justify-content-md-start align-items-center">
         <Row className="w-100">
           {/* Left Column */}
           <Col md={6} className="d-none d-md-flex bg-gradient-nav text-white justify-content-center align-items-center">

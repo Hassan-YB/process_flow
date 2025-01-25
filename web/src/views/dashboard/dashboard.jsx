@@ -1,6 +1,5 @@
 import React from "react";
-import { Container, Row, Col, Card, ProgressBar } from "react-bootstrap";
-import { FaSearch } from "react-icons/fa";
+import { Container, Row, Col } from "react-bootstrap";
 import Activities from "../../assets/images/activities.png";
 import Tasks from "../../assets/images/tasks.png";
 import Revenue from "../../assets/images/Revenue.png";
@@ -14,11 +13,11 @@ const Dashboard = () => {
 
       <Row>
         <Col md={8}>
-          <img src={Revenue} />
+          <img src={Revenue} alt='dashboard'/>
         </Col>
         <Col md={4}>
-          <img src={Tasks} />
-          <img src={Activities} />
+          <img src={Tasks} alt='dashboard'/>
+          <img src={Activities} alt='dashboard'/>
         </Col>
       </Row>
 

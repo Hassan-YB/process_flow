@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { PaymentElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,8 @@ const CheckoutForm = ({ subscriptionId }) => {
   const elements = useElements();
   const navigate = useNavigate();
 
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -20,6 +22,8 @@ const CheckoutForm = ({ subscriptionId }) => {
       showErrorToast("Stripe or elements not loaded. Please refresh and try again.");
       return;
     }
+
+    setLoading(true);
 
     try {
       // Confirm payment
@@ -33,8 +37,9 @@ const CheckoutForm = ({ subscriptionId }) => {
 
       // Check for errors in payment confirmation
       if (error) {
-        console.error("Payment Error:", error.message);
+        //console.error("Payment Error:", error.message);
         showErrorToast("Payment failed. Please try again.");
+        setLoading(false);
         return;
       }
 
@@ -43,12 +48,14 @@ const CheckoutForm = ({ subscriptionId }) => {
         await handleSubscriptionSuccess(subscriptionId);
         navigate("/billing")
       } else {
-        console.error("Payment not completed. Status:", paymentIntent?.status);
+        //console.error("Payment not completed. Status:", paymentIntent?.status);
         showErrorToast("Payment not successful. Please try again.");
       }
     } catch (error) {
-      console.error("Payment Processing Error:", error.message);
+      //console.error("Payment Processing Error:", error.message);
       showErrorToast("An error occurred during payment. Please try again.");
+    } finally {
+      setLoading(false); // Hide loader
     }
   };
 
@@ -66,9 +73,9 @@ const CheckoutForm = ({ subscriptionId }) => {
       );
 
       showSuccessToast("Subscription activated successfully!");
-      console.log("Subscription Success Response:", data);
+      //onsole.log("Subscription Success Response:", data);
     } catch (error) {
-      console.error("Subscription Success Error:", error.response?.data || error.message);
+      //console.error("Subscription Success Error:", error.response?.data || error.message);
       showErrorToast("Failed to activate subscription. Please try again.");
     }
   };
@@ -76,26 +83,31 @@ const CheckoutForm = ({ subscriptionId }) => {
   return (
     <div className="justify-content-center align-items-center">
       <div
-          className="card text-center p-4"
-          style={{
-            borderRadius: "15px",
-            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-    <form onSubmit={handleSubmit}>
-      <PaymentElement />
-      <button className="btn btn-primary mt-4" disabled={!stripe} 
-      style={{
-          background: "linear-gradient(to right, #6f42c1, #a445b2)",
-          border: "none",
-          borderRadius: "20px",
-          padding: "10px 20px",
-          color: "#fff",
-        }}>
-        Confirm Payment
-      </button>
-    </form>
-    </div>
+        className="card text-center p-4"
+        style={{
+          borderRadius: "15px",
+          boxShadow: "0 4px 10px rgba(0, 0, 0, 0.1)",
+        }}
+      >
+        <form onSubmit={handleSubmit}>
+          <PaymentElement />
+
+          {loading ? (
+            <span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          ) : (
+            <button className="btn btn-primary mt-4" disabled={!stripe}
+              style={{
+                background: "linear-gradient(to right, #6f42c1, #a445b2)",
+                border: "none",
+                borderRadius: "20px",
+                padding: "10px 20px",
+                color: "#fff",
+              }}>
+              Confirm Payment
+            </button>
+          )}
+        </form>
+      </div>
     </div>
   );
 };

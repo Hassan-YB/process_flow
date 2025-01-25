@@ -35,8 +35,8 @@ const UpdateProfile = () => {
           photo: data.photo ? `${BASE_URL}${data.photo}` : null,
         });
       } catch (error) {
-        console.error("Error fetching profile:", error.response?.data || error.message);
-        showErrorToast("Failed to fetch profile. Please try again.");
+        //console.error("Error fetching profile:", error.response?.data || error.message);
+        //showErrorToast("Failed to fetch profile. Please try again.");
       } finally {
         setLoading(false);
       }
@@ -84,7 +84,7 @@ const UpdateProfile = () => {
       await axios.put(API_URL, formData, config);
       showSuccessToast("Profile updated successfully!");
     } catch (error) {
-      console.error("Error updating profile:", error.response?.data || error.message);
+      //console.error("Error updating profile:", error.response?.data || error.message);
       showErrorToast("Failed to update profile. Please try again.");
     } finally {
       setUpdating(false);
@@ -96,7 +96,7 @@ const UpdateProfile = () => {
   }
 
   return (
-    <div className="container">
+    <div className="container-fluid">
       <Breadcrumb pageName="Profile" />
     <div className="d-flex justify-content-center align-items-center">
       <div
@@ -153,6 +153,7 @@ const UpdateProfile = () => {
               <div className="mt-2 text-center">
                 <img
                   src={profile.photoPreview || profile.photo}
+                  alt='profile'
                   style={{
                     width: "100px",
                     height: "100px",
