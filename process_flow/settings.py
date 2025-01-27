@@ -16,6 +16,8 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 import os
+import firebase_admin
+from firebase_admin import credentials
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
@@ -187,6 +189,9 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_BLACKLIST_ENABLED': True,
 }
+
+cred = credentials.Certificate("process_flow/firebase_cred.json")
+firebase_admin.initialize_app(cred)
 
 SENDGRID_API_KEY = os.environ.get('SENDGRID_API_KEY')
 
