@@ -4,18 +4,18 @@ class MessageManager:
     MESSAGES = {
         'registration': {
             'title': 'Registration Successful!',
-            'message': 'You have successfully created a new eLoad account',
+            'message': 'You have successfully created a new process flow account',
             'description': ''
         },
         'login': {
             'title': 'Account Login',
-            'message': 'New login session initiated on your eLoad account',
+            'message': 'New login session initiated on your process flow account',
             'description': "A new login session was successfully initiated on your account.\nDate and Time :  {date};    {time}\n"
 
         },
         'password_changed': {
             'title': 'Password Changed',
-            'message': 'Your eLoad password was successfully changed.',
+            'message': 'Your process flow password was successfully changed.',
             'description': ''
         },
     }
