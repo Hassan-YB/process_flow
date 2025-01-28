@@ -42,6 +42,7 @@ class Notification(BaseDateTimeModel):
                 token=device_token,
             )
             response = messaging.send(message)
+            print(response)
             return response
         except Exception as e:
             print(e)
