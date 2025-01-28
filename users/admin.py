@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import User, OTP
+from .models import User, OTP, FCMDevice
 
 @admin.register(User)
 class CustomUserAdmin(UserAdmin):
@@ -27,4 +27,12 @@ class OTPAdmin(admin.ModelAdmin):
     list_display = ('user', 'code', 'verification_type', 'is_verified', 'updated_at')
     list_filter = ('verification_type', 'is_verified')
     search_fields = ('user__email', 'code')
+    ordering = ('-updated_at',)
+
+@admin.register(FCMDevice)
+class FCMDeviceAdmin(admin.ModelAdmin):
+    model = FCMDevice
+    list_display = ('user', 'name', 'platform', 'token', 'created_at', 'updated_at')
+    list_filter = ('platform',)
+    search_fields = ('user__email', 'name', 'token')
     ordering = ('-updated_at',)
