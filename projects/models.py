@@ -20,6 +20,13 @@ class Project(BaseDateTimeModel):
     class Meta:
         ordering = ['-created_at']
 
+class ProjectAttachment(BaseDateTimeModel):
+    project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='attachments')
+    file = models.FileField(upload_to='project_attachments/')
+
+    def __str__(self):
+        return f"Attachment for {self.project.title}"
+
 class ProjectAssignee(BaseDateTimeModel):
     project = models.ForeignKey(Project, on_delete=models.CASCADE, related_name='assignees')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -46,6 +53,9 @@ class Task(BaseDateTimeModel):
     def __str__(self):
         return self.title
 
+    class Meta:
+        ordering = ['-created_at']
+
 class TaskAssignee(BaseDateTimeModel):
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='assignees')
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
@@ -59,11 +69,10 @@ class TaskAssignee(BaseDateTimeModel):
 class TaskAttachment(BaseDateTimeModel):
     task = models.ForeignKey(Task, on_delete=models.CASCADE, related_name='attachments')
     file = models.FileField(upload_to='task_attachments/')
-    uploaded_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Attachment for {self.task.title} by {self.uploaded_by.email}" 
+        return f"Attachment for {self.task.title} by {self.task.creator.email}" 
+
 
 class TaskCompletionRequest(BaseDateTimeModel):
     class StatusChoices(models.TextChoices):
@@ -78,6 +87,13 @@ class TaskCompletionRequest(BaseDateTimeModel):
 
     def __str__(self):
         return f"Completion request for {self.task.title}" 
+
+class TaskCompletionAttachment(BaseDateTimeModel):
+    task_completion_request = models.ForeignKey(TaskCompletionRequest, on_delete=models.CASCADE, related_name='attachments')
+    file = models.FileField(upload_to='task_completion_attachments/')
+
+    def __str__(self):
+        return f"Completion Attachment for {self.task_completion_request.task.title}"
 
 class Category(BaseDateTimeModel):
     name = models.CharField(max_length=100)
