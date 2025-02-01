@@ -2,6 +2,11 @@ from django.db import models
 from core.models import BaseDateTimeModel
 from users.models import User
 
+class Priority(models.TextChoices):
+    low = 'low', 'Low'
+    medium = 'medium', 'Medium'
+    high = 'high', 'High'
+
 class Project(BaseDateTimeModel):
     class StatusChoices(models.TextChoices):
         IN_PROGRESS = 'in_progress', 'In Progress'
@@ -11,6 +16,7 @@ class Project(BaseDateTimeModel):
     start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_projects')
+    priority = models.CharField(max_length=50, choices=Priority.choices, default=Priority.low)
     status = models.CharField(max_length=20, choices=StatusChoices.choices, default=StatusChoices.IN_PROGRESS)
     is_open = models.BooleanField(default=True)
 
@@ -47,6 +53,8 @@ class Task(BaseDateTimeModel):
     title = models.CharField(max_length=255)
     description = models.TextField()
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_tasks')
+    priority = models.CharField(max_length=50, choices=Priority.choices, default=Priority.low)
+    due_date = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=20, choices=StatusChoices.choices, default=StatusChoices.PENDING)
     completion_requested = models.BooleanField(default=False)
 
