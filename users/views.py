@@ -29,7 +29,6 @@ class SignupView(APIView):
             platform = request.data.get('device_platform', '')
             FCMDevice.register_or_update_device(user=user, token=token, name=name, platform=platform)
 
-            serializer.save()
             return Response(
                 {"message": "User created successfully. Please check your email for OTP verification."},
                 status=status.HTTP_201_CREATED

@@ -4,8 +4,10 @@ from django.contrib.auth import authenticate
 from django.contrib.auth.password_validation import validate_password
 from core.services.sms import SMSService
 from django.db import transaction
+from django.contrib.auth import get_user_model
 
-from .models import User
+User = get_user_model()
+
 from .models import OTP
 
 import random
@@ -43,6 +45,7 @@ class SignupSerializer(serializers.ModelSerializer):
         #     raise serializers.ValidationError({"phone_number": [msg]})
 
         # 3. If sending SMS succeeds, create the User
+        print(validated_data['password'])
         user = User.objects.create_user(
             email=email,
             username=username,
@@ -90,7 +93,8 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
 
     def validate(self, data):
-        user = authenticate(username=data['email'], password=data['password'])
+        user = authenticate(request=self.context.get('request'), username=data['email'], password=data['password'])
+
         if not user:
             raise serializers.ValidationError("Invalid email or password.")
         if not user.is_active:
