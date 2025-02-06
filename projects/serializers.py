@@ -32,6 +32,13 @@ class TaskSerializer(serializers.ModelSerializer):
         fields = '__all__'
         read_only_fields = ['creator']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # If updating an existing instance, make project field read-only and not required.
+        if self.instance is not None:
+            self.fields['project'].read_only = True
+            self.fields['project'].required = False
+
     def create(self, validated_data):
         attachments = validated_data.pop('attachments', [])
         task = Task.objects.create(**validated_data)
@@ -44,6 +51,8 @@ class TaskSerializer(serializers.ModelSerializer):
     def update(self, instance, validated_data):
         attachments = validated_data.pop('attachments', [])
         del_attachments = validated_data.pop('del_attachments', [])
+        
+        validated_data.pop('project', None)
 
         # Delete specific attachments
         TaskAttachment.objects.filter(id__in=del_attachments, task=instance).delete()

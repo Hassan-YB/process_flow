@@ -15,6 +15,7 @@ class Project(BaseDateTimeModel):
     title = models.CharField(max_length=255)
     start_date = models.DateField()
     end_date = models.DateField(null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name='created_projects')
     priority = models.CharField(max_length=50, choices=Priority.choices, default=Priority.low)
     status = models.CharField(max_length=20, choices=StatusChoices.choices, default=StatusChoices.IN_PROGRESS)

@@ -28,11 +28,14 @@ clean-build: down-all
 clean-run: clean-build
 	$(MAKE) run
 
+migrate:
+	$(MAKE_MIGRATIONS)
+	$(APPLY_MIGRATIONS)
+
 migrations:
 	$(MAKE_MIGRATIONS)
 	
 apply-migrations:
-	
 	$(APPLY_MIGRATIONS)
 
 shell:

@@ -21,11 +21,13 @@ class SignupView(APIView):
     def post(self, request):
         serializer = SignupSerializer(data=request.data)
         if serializer.is_valid():
+            user = serializer.save()  # Save the user first
+
             # Register device
             token = request.data.get('fcm_token')
             name = request.data.get('device_name', '')
             platform = request.data.get('device_platform', '')
-            FCMDevice.register_or_update_device(token=token, name=name, platform=platform)
+            FCMDevice.register_or_update_device(user=user, token=token, name=name, platform=platform)
 
             serializer.save()
             return Response(
