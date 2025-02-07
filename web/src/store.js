@@ -1,11 +1,12 @@
-import { createStore, combineReducers, applyMiddleware } from 'redux';
-import { thunk } from 'redux-thunk'; // Corrected import
+import { configureStore } from '@reduxjs/toolkit';
 import { userReducer } from './reducers/userReducer';
+import notificationsReducer from './config/notificationsSlice';
 
-const rootReducer = combineReducers({
-  user: userReducer,
+const store = configureStore({
+  reducer: {
+    user: userReducer,
+    notifications: notificationsReducer,
+  },
 });
-
-const store = createStore(rootReducer, applyMiddleware(thunk));
 
 export default store;

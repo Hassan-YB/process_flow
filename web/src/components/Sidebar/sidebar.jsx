@@ -107,6 +107,23 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
               </ul>
             )}
 
+            {/* Dropdown 3 
+            <li onClick={() => toggleDropdown("projects")} className="dropdown-item">
+              <FaFileInvoiceDollar /> Projects <FaChevronDown className={`chevron ${openDropdown === "projects" ? "rotate" : ""}`} />
+            </li>
+            {openDropdown === "projects" && (
+              <ul className="dropdown-list">
+                <NavLink to="/projects" className="text-decoration-none">
+                  <li className={`dropdown-item ${window.location.pathname === '/projects' ? 'active' : ''}`}>
+                  Projects</li></NavLink>
+              </ul>
+            )}*/}
+
+            <NavLink to="/notifications" className="text-decoration-none">
+              <li className={`dropdown-item ${window.location.pathname === '/notifications' ? 'active' : ''}`}>
+                <FaChartPie />Notifications
+              </li></NavLink>
+
           </ul>
         </div>
         <div className="sidebar-footer">
