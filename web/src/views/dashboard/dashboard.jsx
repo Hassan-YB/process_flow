@@ -1,107 +1,157 @@
-import React from "react";
-import { Container, Row, Col } from "react-bootstrap";
-import Activities from "../../assets/images/activities.png";
-import Tasks from "../../assets/images/tasks.png";
-import Revenue from "../../assets/images/Revenue.png";
-import "./dashboard.css"
-import Breadcrumb  from "../../components/Breadcrumb/breadcrumb";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } from "recharts";
+import { Container, Row, Col, Button, Card } from "react-bootstrap";
+import MainCard from "../../components/Card/MainCard";
+import ProjectList from "../projects/ProjectsList";
+import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
+import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
+import { FaTasks, FaCheckCircle, FaClock, FaClipboardCheck } from "react-icons/fa";
+
+const BASE_URL = process.env.REACT_APP_BASE_URL;
+const API_URL = `${BASE_URL}/api/v1/projects/dashboard/`;
 
 const Dashboard = () => {
+  const [chartData, setChartData] = useState(null);
+  const [selectedWeek, setSelectedWeek] = useState("thisWeek");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const accessToken = localStorage.getItem("accessToken"); // ✅ Fetch token correctly
+        const response = await axios.get(API_URL, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+
+        const data = response.data;
+
+        // ✅ Corrected API data mapping
+        const projectsData = [
+          { category: "Total Projects", value: data.total_projects },
+          { category: "Completed Projects", value: data.completed_projects },
+          { category: "In Progress Projects", value: data.in_progress_projects },
+        ];
+
+        const tasksData = [
+          { category: "Total Tasks", value: data.total_tasks },
+          { category: "Completed Tasks", value: data.completed_tasks },
+          { category: "Pending Tasks", value: data.pending_tasks },
+          { category: "Overdue Tasks", value: data.overdue_tasks },
+        ];
+
+        setChartData({ projects: projectsData, tasks: tasksData });
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  if (!chartData) return <p>Loading...</p>;
+
+  const cardData = [
+    {
+      title: "In Progress Projects",
+      value: "12",
+      change: "+2",
+      icon: <FaTasks size={30} color="purple" />,
+    },
+    {
+      title: "Completed Projects",
+      value: "24",
+      change: "+5",
+      icon: <FaCheckCircle size={30} color="purple" />,
+    },
+    {
+      title: "Pending Tasks",
+      value: "18",
+      change: "+7",
+      icon: <FaClock size={30} color="purple" />,
+    },
+    {
+      title: "Completed Tasks",
+      value: "42",
+      change: "+15",
+      icon: <FaClipboardCheck size={30} color="purple" />,
+    },
+  ];
+
   return (
-    <Container>
+    <div className="container-fluid">
       <Breadcrumb pageName="Dashboard" />
 
-      <Row>
-        <Col md={8}>
-          <img src={Revenue} alt='dashboard'/>
+      <Row className="g-3">
+      {cardData.map((card, index) => (
+        <Col key={index} md={3}>
+          <Card className="shadow-sm border-0 p-3">
+            <Card.Body className="text-center">
+              <div className="mb-2">{card.icon}</div>
+              <Card.Title className="fw-bold">{card.value}</Card.Title>
+              <Card.Text className="text-muted">{card.title}</Card.Text>
+              <small className="text-success">{card.change}</small>
+            </Card.Body>
+          </Card>
         </Col>
-        <Col md={4}>
-          <img src={Tasks} alt='dashboard'/>
-          <img src={Activities} alt='dashboard'/>
+      ))}
+    </Row>
+
+      <Row className="mb-4 d-none">
+        <Col>
+          <Button
+            variant={selectedWeek === "thisWeek" ? "primary" : "outline-primary"}
+            onClick={() => setSelectedWeek("thisWeek")}
+          >
+            This Week
+          </Button>
+          <Button
+            variant={selectedWeek === "lastWeek" ? "primary" : "outline-primary"}
+            className="ms-2"
+            onClick={() => setSelectedWeek("lastWeek")}
+          >
+            Last Week
+          </Button>
         </Col>
       </Row>
 
-      {/* Revenue and Progress 
-      <Row>
-        <Col md={8}>
-          <Card className="mb-4">
-            <Card.Body>
-              <h5>Revenue</h5>
-              <p>This Week</p>
-              <div style={{ height: "200px", background: "#f0f0f0" }}>
-                Chart Placeholder
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={4}>
-          <Card className="mb-4">
-            <Card.Body>
-              <h5>85%</h5>
-              <p>Tasks Done</p>
-              <ProgressBar now={85} />
-            </Card.Body>
-          </Card>
-          <Card>
-            <Card.Body>
-              <h5>58%</h5>
-              <p>Team Activities</p>
-              <ProgressBar now={58} />
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>*/}
+      {/* Projects Chart */}
+      <MainCard>
+        <Row>
+          <h5 className="mb-4">Projects Overview</h5>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={chartData.projects}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#E4E4E4" />
+              <XAxis dataKey="category" tick={{ fill: "#A3A3A3" }} />
+              <YAxis tick={{ fill: "#A3A3A3" }} allowDecimals={false} />
+              <Tooltip contentStyle={{ backgroundColor: "#fff", borderRadius: "10px", padding: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }} />
+              <Legend />
+              <Line type="monotone" dataKey="value" stroke="#6A35FF" strokeWidth={3} dot={{ r: 5, fill: "#6A35FF" }} />
+            </LineChart>
+          </ResponsiveContainer>
+        </Row>
+      </MainCard>
 
-      {/* Visitors and Featured Projects 
-      <Row>
-        <Col md={6}>
-          <Card className="mb-4">
-            <Card.Body>
-              <h5>Visitors</h5>
-              <div style={{ height: "200px", background: "#f0f0f0" }}>
-                Bar Chart Placeholder
-              </div>
-            </Card.Body>
-          </Card>
-        </Col>
-        <Col md={6}>
-          <Card className="mb-4">
-            <Card.Body>
-              <h5>Featured Projects</h5>
-              <ul>
-                <li>AFD Marketing Project - $400</li>
-                <li>DNP Finance Project - $920</li>
-                <li>ADO Marketing Project - $340</li>
-              </ul>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>*/}
+      {/* Tasks Chart */}
+      <MainCard>
+        <Row>
+          <h5 className="mb-4">Tasks Overview</h5>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={chartData.tasks}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#E4E4E4" />
+              <XAxis dataKey="category" tick={{ fill: "#A3A3A3" }} />
+              <YAxis tick={{ fill: "#A3A3A3" }} allowDecimals={false} />
+              <Tooltip contentStyle={{ backgroundColor: "#fff", borderRadius: "10px", padding: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }} />
+              <Legend />
+              <Line type="monotone" dataKey="value" stroke="#6A35FF" strokeWidth={3} dot={{ r: 5, fill: "#6A35FF" }} />
+            </LineChart>
+          </ResponsiveContainer>
+        </Row>
+      </MainCard>
 
-      {/* Discover Projects 
-      <Row>
-        <Col>
-          <Card className="mb-4 text-center">
-            <Card.Body>
-              <h5>Discover all Projects</h5>
-              <button className="btn btn-primary">Show all Projects</button>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>*/}
-
-      {/* Profile Card 
-      <Row>
-        <Col>
-          <Card className="mb-4">
-            <Card.Body>
-              <h5>Tony Cook</h5>
-              <p>Total Registered Users: 2,309</p>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>*/}
-    </Container>
+      <ProjectList />
+    </div>
   );
 };
 
