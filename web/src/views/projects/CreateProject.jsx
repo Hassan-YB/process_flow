@@ -4,6 +4,7 @@ import { Form, Button, Container, Card, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
 import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
+import '../dashboard/dashboard.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_URL = `${BASE_URL}/api/v1/projects/`;
@@ -120,13 +121,10 @@ const CreateProject = () => {
                   />
                 </Form.Group>
 
-                <div className="d-flex justify-content-end">
-                  <Button variant="secondary" className="me-2" onClick={() => window.history.back()}>
-                    Cancel
-                  </Button>
-                  <Button type="submit" variant="primary">
+                <div className="d-flex justify-content-center">
+                  <button type="submit" className="c-form-btn btn-block">
                     Create Project
-                  </Button>
+                  </button>
                 </div>
               </Form>
             </Card.Body>

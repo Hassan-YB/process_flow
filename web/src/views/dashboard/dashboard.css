@@ -21,3 +21,23 @@
     border-color: #007bff;
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
 }
+
+.c-btn {
+    background: #fff;
+    border: 1px solid #6f42c1;
+    border-radius: 20px;
+    padding: 10px 20px;
+    color: #6f42c1;
+  }
+
+.c-form-btn {
+    background: linear-gradient(to right, #6f42c1, #a445b2);
+    border: 1px solid #6f42c1;
+    border-radius: 20px;
+    padding: 10px 45px;
+    color: #fff;
+  }
+
+a {
+    color: #6f42c1;
+}

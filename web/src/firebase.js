@@ -14,10 +14,14 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
+onMessage(messaging, (payload) => {
+  console.log('Message received. ', payload);
+  // ...
+});
 
 // Register Service Worker
 navigator.serviceWorker
-  .register("/firebase-messaging-sw.js") // Ensure it's in the public folder
+  .register("/firebase-messaging-sw.js")
   .then((registration) => {
     console.log("Service Worker registered:", registration);
   })
@@ -25,22 +29,6 @@ navigator.serviceWorker
     console.error("Service Worker registration failed:", error);
   });
 
-// Request Notification Permission Automatically
-{/*}
-export const requestNotificationPermission = async () => {
-  try {
-    const permission = await Notification.requestPermission();
-    if (permission === "granted") {
-      const token = await getToken(messaging, { vapidKey: "BPuYx4IA7SS5Hoqdn8IdnCASVqFwLVqMertnjRKwrvJe07w5drfDxWUU-w8NECtvZ7I8zzA6sn6kFoKUQI7IAjs" });
-      console.log("FCM Token:", token);
-      return token;
-    } else {
-      console.warn("Notification permission denied by the user.");
-    }
-  } catch (error) {
-    console.error("Error getting FCM token", error);
-  }
-};*/}
 // Request Notification Permission
 export const requestNotificationPermission = async () => {
   try {
@@ -59,10 +47,17 @@ export const requestNotificationPermission = async () => {
 
 // Listen for Foreground Messages
 export const onMessageListener = () =>
-  new Promise((resolve) => {
+  new Promise((resolve, reject) => {
+    console.log("✅ onMessageListener Registered");
+
     onMessage(messaging, (payload) => {
-      console.log("Foreground Notification:", payload);
+      console.log("🔔 Foreground Notification Received:", payload);
       resolve(payload);
+
+      if (payload.notification) {
+        const { title, body } = payload.notification;
+        new Notification(title, { body, icon: "/logo192.png" });
+      }
     });
   });
 

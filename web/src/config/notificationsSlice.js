@@ -74,16 +74,9 @@ const notificationsSlice = createSlice({
         state.status = "loading";
       })
       .addCase(fetchNotifications.fulfilled, (state, action) => {
-        console.log("Fetched Notifications:", action.payload);
-        if (!action.payload) {
-          console.error("❌ No notifications received from API.");
-          return;
-        }
         state.items = action.payload; // Ensure this properly updates
         state.unreadCount = action.payload.filter((n) => !n.is_read).length;
         state.status = "succeeded";
-
-        console.log("Updated Redux State:", state.items);
       })      
       .addCase(fetchNotifications.rejected, (state, action) => {
         state.error = action.error.message;

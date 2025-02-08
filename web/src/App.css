@@ -68,6 +68,7 @@ body {
 .auth-wrapper {
   width: 100%;
 }
+
 /*
 .auth-content {
   padding: 50px 130px;
@@ -98,3 +99,5 @@ body {
 .auth-btn:hover {
   background: #6149CD;
 }
+
+

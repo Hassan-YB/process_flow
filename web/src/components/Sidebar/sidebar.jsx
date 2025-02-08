@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../actions/userActions";
 import './sidebar.css'
 import { showErrorToast } from "../../utils/toastUtils";
@@ -16,6 +16,9 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
+
+  const unreadCount = useSelector((state) => state.notifications.unreadCount);
+  
 
   // State to track if the user is logged in
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("accessToken"));
@@ -122,6 +125,9 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
             <NavLink to="/notifications" className="text-decoration-none">
               <li className={`dropdown-item ${window.location.pathname === '/notifications' ? 'active' : ''}`}>
                 <FaChartPie />Notifications
+                {unreadCount > 0 && (
+                  <span className="notification-badge">{unreadCount}</span> // Show counter
+                )}
               </li></NavLink>
 
           </ul>

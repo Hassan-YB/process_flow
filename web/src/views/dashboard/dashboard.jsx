@@ -18,7 +18,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const accessToken = localStorage.getItem("accessToken"); // ✅ Fetch token correctly
+        const accessToken = localStorage.getItem("accessToken");
         const response = await axios.get(API_URL, {
           headers: {
             Authorization: `Bearer ${accessToken}`,
@@ -27,7 +27,6 @@ const Dashboard = () => {
 
         const data = response.data;
 
-        // ✅ Corrected API data mapping
         const projectsData = [
           { category: "Total Projects", value: data.total_projects },
           { category: "Completed Projects", value: data.completed_projects },
@@ -55,25 +54,25 @@ const Dashboard = () => {
   const cardData = [
     {
       title: "In Progress Projects",
-      value: "12",
+      value: chartData.projects.find((item) => item.category === "In Progress Projects")?.value || 0,
       change: "+2",
       icon: <FaTasks size={30} color="purple" />,
     },
     {
       title: "Completed Projects",
-      value: "24",
+      value: chartData.projects.find((item) => item.category === "Completed Projects")?.value || 0,
       change: "+5",
       icon: <FaCheckCircle size={30} color="purple" />,
     },
     {
       title: "Pending Tasks",
-      value: "18",
+      value: chartData.tasks.find((item) => item.category === "Pending Tasks")?.value || 0,
       change: "+7",
       icon: <FaClock size={30} color="purple" />,
     },
     {
       title: "Completed Tasks",
-      value: "42",
+      value: chartData.tasks.find((item) => item.category === "Completed Tasks")?.value || 0,
       change: "+15",
       icon: <FaClipboardCheck size={30} color="purple" />,
     },
@@ -89,9 +88,8 @@ const Dashboard = () => {
           <Card className="shadow-sm border-0 p-3">
             <Card.Body className="text-center">
               <div className="mb-2">{card.icon}</div>
-              <Card.Title className="fw-bold">{card.value}</Card.Title>
-              <Card.Text className="text-muted">{card.title}</Card.Text>
-              <small className="text-success">{card.change}</small>
+              <h4 className="fw-bold mt-2">{card.title}</h4>
+              <h4 className="fw-bold mt-2">{card.value}</h4>
             </Card.Body>
           </Card>
         </Col>
@@ -123,8 +121,8 @@ const Dashboard = () => {
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={chartData.projects}>
               <CartesianGrid strokeDasharray="3 3" stroke="#E4E4E4" />
-              <XAxis dataKey="category" tick={{ fill: "#A3A3A3" }} />
-              <YAxis tick={{ fill: "#A3A3A3" }} allowDecimals={false} />
+              <XAxis dataKey="category" tick={{ fill: "#6f42c1" }} />
+              <YAxis tick={{ fill: "#6f42c1" }} allowDecimals={false} />
               <Tooltip contentStyle={{ backgroundColor: "#fff", borderRadius: "10px", padding: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }} />
               <Legend />
               <Line type="monotone" dataKey="value" stroke="#6A35FF" strokeWidth={3} dot={{ r: 5, fill: "#6A35FF" }} />
@@ -140,8 +138,8 @@ const Dashboard = () => {
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={chartData.tasks}>
               <CartesianGrid strokeDasharray="3 3" stroke="#E4E4E4" />
-              <XAxis dataKey="category" tick={{ fill: "#A3A3A3" }} />
-              <YAxis tick={{ fill: "#A3A3A3" }} allowDecimals={false} />
+              <XAxis dataKey="category" tick={{ fill: "#6f42c1" }} />
+              <YAxis tick={{ fill: "#6f42c1" }} allowDecimals={false} />
               <Tooltip contentStyle={{ backgroundColor: "#fff", borderRadius: "10px", padding: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }} />
               <Legend />
               <Line type="monotone" dataKey="value" stroke="#6A35FF" strokeWidth={3} dot={{ r: 5, fill: "#6A35FF" }} />

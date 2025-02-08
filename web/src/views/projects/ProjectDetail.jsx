@@ -12,6 +12,7 @@ import opentaskbg from "../../assets/img/open_tasks_bg.png"
 import completetask from "../../assets/img/complete_task.png"
 import completetasksbg from "../../assets/img/complete_tasks_bg.png"
 import { FaRegCalendarAlt } from "react-icons/fa";
+import '../dashboard/dashboard.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const PROJECT_API_URL = `${BASE_URL}/api/v1/projects/`;
@@ -78,61 +79,61 @@ const ProjectDetail = () => {
       <div className="d-flex justify-content-between align-items-center mt-4">
         <h3>Project Detail</h3>
         <Link to={`/task/create/${id}`}>
-          <Button variant="primary">+ New Task</Button>
+          <button type="submit" className="c-btn btn-block mb-4">+ New Task</button>
         </Link>
       </div>
 
-      
+
 
       {project ? (
         <>
-        <MainCard>
-        <Row className="align-items-center">
-          {/* Project Logo */}
-          <Col xs={2} className="d-flex justify-content-center">
-            {project.uploads.length > 0 ? (
-              project.uploads[0].file.match(/\.(jpeg|jpg|gif|png|svg)$/i) ? (
-                <img
-                  src={project.uploads[0].file}
-                  alt="Project Logo"
-                  width="50"
-                  height="50"
-                  className="rounded"
-                />
-              ) : (
-                <a href={project.uploads[0].file} target="_blank" rel="noopener noreferrer">
-                  📎 Attachment
-                </a>
-              )
-            ) : (
-              <img src={opentask} alt="Default Project Logo" width="50" height="50" />
-            )}
-          </Col>
+          <MainCard>
+            <Row className="align-items-center">
+              {/* Project Logo */}
+              <Col xs={2} className="d-flex justify-content-center">
+                {project.uploads.length > 0 ? (
+                  project.uploads[0].file.match(/\.(jpeg|jpg|gif|png|svg)$/i) ? (
+                    <img
+                      src={project.uploads[0].file}
+                      alt="Project Logo"
+                      width="50"
+                      height="50"
+                      className="rounded"
+                    />
+                  ) : (
+                    <a href={project.uploads[0].file} target="_blank" rel="noopener noreferrer">
+                      📎 Attachment
+                    </a>
+                  )
+                ) : (
+                  <img src={opentask} alt="Default Project Logo" width="50" height="50" />
+                )}
+              </Col>
 
-          {/* Project Info */}
-          <Col xs={10}>
-            <h5 className="fw-bold mb-1">{project.title}</h5>
-            <div className="d-flex align-items-center text-muted" style={{ fontSize: "14px" }}>
-              {/*<span>Client: <a href="#" className="text-primary text-decoration-none">
+              {/* Project Info */}
+              <Col xs={10}>
+                <h5 className="fw-bold mb-1">{project.title}</h5>
+                <div className="d-flex align-items-center text-muted" style={{ fontSize: "14px" }}>
+                  {/*<span>Client: <a href="#" className="text-primary text-decoration-none">
             Moontheme</a></span>*/}
-              <span className="mt-3">
-                <FaRegCalendarAlt className="me-1" /> {project.start_date} - {project.end_date}
-              </span>
-              <span>
-               {/*} <img
+                  <span className="mt-3">
+                    <FaRegCalendarAlt className="me-1" /> {project.start_date} - {project.end_date}
+                  </span>
+                  <span>
+                    {/*} <img
                   src={opentask}
                   alt="User"
                   width="20"
                   height="20"
                   className="rounded-circle me-1"
                 />*/}
-                {project.creator.first_name}
-              </span>
-            </div>
-          </Col>
-        </Row>
-      </MainCard>
-      
+                    {project.creator.first_name}
+                  </span>
+                </div>
+              </Col>
+            </Row>
+          </MainCard>
+
           <Row>
             <Col md={8}>
               <MainCard>
@@ -219,11 +220,11 @@ const ProjectDetail = () => {
                       <td>{task.status}</td>
                       <td>{task.due_date}</td>
                       <td>
-                        <Button variant="danger" onClick={() => handleDeleteTask(task.id)}>
+                        <button type="submit" className="c-btn btn-block" onClick={() => handleDeleteTask(task.id)}>
                           Delete
-                        </Button>
+                        </button>
                         <Link to={`/task/edit/${task.id}`}>
-                          <Button variant="warning" className="ms-2">Edit</Button>
+                          <button type="submit" className="c-btn btn-block ms-2">Edit</button>
                         </Link>
                       </td>
                     </tr>
