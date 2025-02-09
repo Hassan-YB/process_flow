@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } from "recharts";
-import { Container, Row, Col, Button, Card } from "react-bootstrap";
+import { Spinner, Container, Row, Col, Button, Card } from "react-bootstrap";
 import MainCard from "../../components/Card/MainCard";
 import ProjectList from "../projects/ProjectsList";
 import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
@@ -11,6 +11,7 @@ import opentask from "../../assets/img/open_task.png"
 import opentaskbg from "../../assets/img/open_tasks_bg.png"
 import completetask from "../../assets/img/complete_task.png"
 import completetasksbg from "../../assets/img/complete_tasks_bg.png"
+import CircularProgress from "../../components/Widgets/CircularProgress/CircularProgress"
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_URL = `${BASE_URL}/api/v1/projects/dashboard/`;
@@ -18,6 +19,7 @@ const API_URL = `${BASE_URL}/api/v1/projects/dashboard/`;
 const Dashboard = () => {
   const [chartData, setChartData] = useState(null);
   const [selectedWeek, setSelectedWeek] = useState("thisWeek");
+  const [dashboardData, setDashboardData] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -45,6 +47,7 @@ const Dashboard = () => {
         ];
 
         setChartData({ projects: projectsData, tasks: tasksData });
+        setDashboardData(data);
       } catch (error) {
         console.error("Error fetching dashboard data:", error);
       }
@@ -53,32 +56,49 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  if (!chartData) return <p>Loading...</p>;
+  if (!chartData) {
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+        <Spinner animation="border" variant="primary" size="lg" />
+      </div>
+    );
+  }
+
+  const { completed_tasks, total_tasks, completed_projects, total_projects } = dashboardData;
+
+  const taskCompletionPercentage = total_tasks > 0 
+    ? Math.round((completed_tasks / total_tasks) * 100) 
+    : 0;
+
+  const projectCompletionPercentage = total_projects > 0 
+    ? Math.round((completed_projects / total_projects) * 100) 
+    : 0;
+
 
   const cardData = [
     {
       title: "In Progress Projects",
       value: chartData.projects.find((item) => item.category === "In Progress Projects")?.value || 0,
       change: "+2",
-      icon: <FaTasks size={30} color="purple" />,
+      icon: <FaTasks size={30} color="#a445b2" />,
     },
     {
       title: "Completed Projects",
       value: chartData.projects.find((item) => item.category === "Completed Projects")?.value || 0,
       change: "+5",
-      icon: <FaCheckCircle size={30} color="purple" />,
+      icon: <FaCheckCircle size={30} color="#a445b2" />,
     },
     {
       title: "Pending Tasks",
       value: chartData.tasks.find((item) => item.category === "Pending Tasks")?.value || 0,
       change: "+7",
-      icon: <FaClock size={30} color="purple" />,
+      icon: <FaClock size={30} color="#a445b2" />,
     },
     {
       title: "Completed Tasks",
       value: chartData.tasks.find((item) => item.category === "Completed Tasks")?.value || 0,
       change: "+15",
-      icon: <FaClipboardCheck size={30} color="purple" />,
+      icon: <FaClipboardCheck size={30} color="#a445b2" />,
     },
   ];
 
@@ -152,9 +172,9 @@ const Dashboard = () => {
                 boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)"
               }}>
                 <div className="d-flex flex-column align-items-start">
-                  <img src={opentask} alt="title" width="35" height="35" />
-                  <span className="mt-2" style={{ fontSize: "14px", fontWeight: "500" }}>Open</span>
-                  <span style={{ fontSize: "22px", fontWeight: "bold" }}>80</span>
+                <CircularProgress percentage={taskCompletionPercentage} color="#7D5EF2" />
+                  <span className="mt-2" style={{ fontSize: "14px", fontWeight: "500" }}>Tasks Completed</span>
+                  <span style={{ fontSize: "22px", fontWeight: "bold" }}>{taskCompletionPercentage}% </span>
                 </div>
               </Card>
             </Col>
@@ -173,9 +193,9 @@ const Dashboard = () => {
                 boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)"
               }}>
                 <div className="d-flex flex-column align-items-start">
-                  <img src={completetask} alt="title" width="35" height="35" />
-                  <span className="mt-2" style={{ fontSize: "14px", fontWeight: "500" }}>Completed</span>
-                  <span style={{ fontSize: "22px", fontWeight: "bold" }}>10</span>
+                  <CircularProgress percentage={projectCompletionPercentage} color="#17A673" />
+                  <span className="mt-2" style={{ fontSize: "14px", fontWeight: "500" }}>Projects Completed</span>
+                  <span style={{ fontSize: "22px", fontWeight: "bold" }}>{projectCompletionPercentage}% </span>
                 </div>
               </Card>
             </Col>

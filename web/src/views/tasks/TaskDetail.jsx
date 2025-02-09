@@ -66,7 +66,7 @@ const TaskDetail = () => {
 
           {/* Project Info */}
           <Col xs={10}>
-            <div className="d-flex flex-column justify-content-between">
+            <div className="d-flex flex-column flex-sm-row justify-content-between">
               <span className="mt-2">
                 <h4 className="fw-bold mb-1">{task.title}</h4>
               </span>

@@ -4,7 +4,6 @@ import axios from "axios";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_URL = `${BASE_URL}/api/v1/notifications`;
 
-// Function to get accessToken from localStorage
 const getAccessToken = () => localStorage.getItem("accessToken");
 
 // Fetch notifications
@@ -78,7 +77,7 @@ const notificationsSlice = createSlice({
   },
   reducers: {
     incrementUnread: (state) => {
-      state.unreadCount += 1;
+      state.unreadCount += 1; // Ensure count updates in Redux
     },
   },
   extraReducers: (builder) => {
