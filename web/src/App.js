@@ -35,6 +35,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useDispatch } from "react-redux";
 import NotificationList from "./views/Notifications/NotificationList";
 
+
 function App() {
   const location = useLocation();
 

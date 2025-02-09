@@ -5,12 +5,12 @@ import { logout } from "../../actions/userActions";
 import './sidebar.css'
 import { showErrorToast } from "../../utils/toastUtils";
 import { onMessageListener } from "../../firebase";
-import { fetchNotifications } from "../../config/notificationsSlice";
+import { fetchNotifications, incrementUnread } from "../../config/notificationsSlice";
 // assets
 import logoDark from '../../assets/img/processflow_logo.png';
 import {
-  FaChartPie, FaChevronDown, FaFileInvoiceDollar,
-  FaUserCircle, FaSignOutAlt, FaBars
+  FaChartPie, FaChevronDown, FaFileInvoiceDollar, FaPlus,
+  FaUserCircle, FaSignOutAlt, FaBars, FaBell
 } from "react-icons/fa";
 
 
@@ -19,22 +19,24 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
 
   const dispatch = useDispatch();
 
-  const unreadCount = useSelector((state) => state.notifications.unreadCount);
-  const [localUnreadCount, setLocalUnreadCount] = useState(unreadCount);
-
+  const { unreadCount } = useSelector((state) => state.notifications);
   useEffect(() => {
-    dispatch(fetchNotifications()); 
-    console.log(" unread call ")
-
-    // Listen for real-time Firebase notifications
+    const fetchData = async () => {
+      await dispatch(fetchNotifications());
+    };
+  
+    fetchData();
+  
+  
     onMessageListener()
       .then((payload) => {
-        console.log("📩 New Notification Received:", payload);
-        setLocalUnreadCount((prev) => prev + 1); // Increment unread count locally
+    
+        dispatch(incrementUnread());
+        dispatch(fetchNotifications());
       })
-      .catch((err) => console.error("❌ Failed to receive message", err));
+      .catch((err) => console.error("Failed to receive message", err));
   }, [dispatch]);
-
+  
 
   // State to track if the user is logged in
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("accessToken"));
@@ -126,27 +128,16 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
               </ul>
             )}
 
-            {/* Dropdown 3 
-            <li onClick={() => toggleDropdown("projects")} className="dropdown-item">
-              <FaFileInvoiceDollar /> Projects <FaChevronDown className={`chevron ${openDropdown === "projects" ? "rotate" : ""}`} />
-            </li>
-            {openDropdown === "projects" && (
-              <ul className="dropdown-list">
-                <NavLink to="/projects" className="text-decoration-none">
-                  <li className={`dropdown-item ${window.location.pathname === '/projects' ? 'active' : ''}`}>
-                  Add Project</li></NavLink>
-              </ul>
-            )}*/}
-
             <NavLink to="/" className="text-decoration-none">
               <li className={`dropdown-item ${window.location.pathname === '/project/create' ? 'active' : ''}`}>
-                <FaChartPie />Add Project
+                <FaPlus />Add Project
               </li></NavLink>
 
             <NavLink to="/notifications" className="text-decoration-none">
               <li className={`dropdown-item ${window.location.pathname === '/notifications' ? 'active' : ''}`}>
-                <FaChartPie />Notifications
-                {localUnreadCount > 0 && <span className="notification-badge">{localUnreadCount}</span>}
+                <FaBell />Notifications
+                {unreadCount > 0 && <span className="notification-badge">{unreadCount}</span>}
+
               </li></NavLink>
 
           </ul>

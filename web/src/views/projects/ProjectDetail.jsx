@@ -12,6 +12,7 @@ import opentaskbg from "../../assets/img/open_tasks_bg.png"
 import completetask from "../../assets/img/complete_task.png"
 import completetasksbg from "../../assets/img/complete_tasks_bg.png"
 import { FaRegCalendarAlt } from "react-icons/fa";
+import TaskPriorityBadge from "../../components/Badge/badge"
 import '../dashboard/dashboard.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -88,9 +89,9 @@ const ProjectDetail = () => {
       {project ? (
         <>
           <MainCard>
-            <Row className="align-items-center">
+            <Row className="align-items-center flex-column flex-sm-row">
               {/* Project Logo */}
-              <Col xs={2} className="d-flex justify-content-center flex-column flex-sm-row">
+              <Col xs={12} md={2} className="d-flex align-items-center justify-content-center">
                 {project.uploads.length > 0 ? (
                   project.uploads[0].file.match(/\.(jpeg|jpg|gif|png|svg)$/i) ? (
                     <img
@@ -111,14 +112,21 @@ const ProjectDetail = () => {
               </Col>
 
               {/* Project Info */}
-              <Col xs={10}>
-                <h5 className="fw-bold mb-1">{project.title}</h5>
+              <Col xs={12} md={10}>
+                <div className="d-flex flex-column flex-sm-row justify-content-between">
+                  <span className="mt-2">
+                    <h4 className="fw-bold mb-1">{project.title}</h4>
+                  </span>
+                  <span className="mt-2">
+                    <TaskPriorityBadge priority={project.priority} />
+                  </span>
+                </div>
                 <div className="d-flex align-items-center text-muted" style={{ fontSize: "14px" }}>
                   <span className="mt-3">
                     <FaRegCalendarAlt className="me-1" /> {project.start_date} - {project.end_date}
                   </span>
                   <span>
-                    {project.creator.first_name}
+                    {project.status}
                   </span>
                 </div>
               </Col>
@@ -183,46 +191,46 @@ const ProjectDetail = () => {
           <MainCard>
             {project.tasks.length > 0 ? (
               <div className="table-responsive">
-              <Table striped bordered hover>
-                <thead>
-                  <tr>
-                    <th>ID</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Priority</th>
-                    <th>Status</th>
-                    <th>Due Date</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {project.tasks.map((task) => (
-                    <tr key={task.id}>
-                      <td>{task.id}</td>
-                      <td>
-                        <Link
-                          to={`/task/${task.id}`}
-                          style={{ textDecoration: "none", fontWeight: "bold" }}
-                        >
-                          {task.title}
-                        </Link>
-                      </td>
-                      <td>{task.description}</td>
-                      <td>{task.priority}</td>
-                      <td>{task.status}</td>
-                      <td>{task.due_date}</td>
-                      <td>
-                        <button type="submit" className="c-btn btn-block" onClick={() => handleDeleteTask(task.id)}>
-                          Delete
-                        </button>
-                        <Link to={`/task/edit/${task.id}`}>
-                          <button type="submit" className="c-btn btn-block ms-2">Edit</button>
-                        </Link>
-                      </td>
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Title</th>
+                      <th>Description</th>
+                      <th>Priority</th>
+                      <th>Status</th>
+                      <th>Due Date</th>
+                      <th>Actions</th>
                     </tr>
-                  ))}
-                </tbody>
-              </Table>
+                  </thead>
+                  <tbody>
+                    {project.tasks.map((task) => (
+                      <tr key={task.id}>
+                        <td>{task.id}</td>
+                        <td>
+                          <Link
+                            to={`/task/${task.id}`}
+                            style={{ textDecoration: "none", fontWeight: "bold" }}
+                          >
+                            {task.title}
+                          </Link>
+                        </td>
+                        <td>{task.description}</td>
+                        <td>{task.priority}</td>
+                        <td>{task.status}</td>
+                        <td>{task.due_date}</td>
+                        <td>
+                          <button type="submit" className="c-btn btn-block" onClick={() => handleDeleteTask(task.id)}>
+                            Delete
+                          </button>
+                          <Link to={`/task/edit/${task.id}`}>
+                            <button type="submit" className="c-btn btn-block ms-2">Edit</button>
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </Table>
               </div>
             ) : (
               <p>No tasks available for this project.</p>
@@ -230,7 +238,7 @@ const ProjectDetail = () => {
           </MainCard>
         </>
       ) : (
-        <p>Loading...</p>
+        <p>No project found.</p>
       )}
     </div>
   );
