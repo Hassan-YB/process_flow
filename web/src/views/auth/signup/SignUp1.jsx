@@ -7,11 +7,27 @@ import { Card, Row, Col } from 'react-bootstrap';
 import { useDispatch } from "react-redux";
 import { userSignup } from "../../../actions/userActions";
 
-import { FaUserPlus, FaEye, FaEyeSlash} from 'react-icons/fa';
+import { FaUserPlus, FaEye, FaEyeSlash } from 'react-icons/fa';
 
 import Nav from "../../../components/Nav/loginNav"
 
 import { showErrorToast } from "../../../utils/toastUtils";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { initializeApp } from "firebase/app";
+
+
+const firebaseConfig = {
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.REACT_APP_FIREBASE_APP_ID,
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const messaging = getMessaging(app);
 
 
 // ==============================|| SIGN UP 1 ||============================== //
@@ -35,18 +51,49 @@ const SignUp1 = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const requestFCMToken = async () => {
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        const fcmToken = await getToken(messaging, {
+          vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY,
+        });
+
+        console.log("FCM Token:", fcmToken);
+        return fcmToken;
+      } else {
+        console.warn("Notification permission denied.");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error getting FCM token:", error);
+      return null;
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Frontend validation for password confirmation
     if (formData.password !== formData.confirmPassword) {
       showErrorToast("Passwords do not match");
       return;
     }
 
-    const { confirmPassword, ...submitData } = formData; // Exclude confirmPassword before submitting
+    const fcmToken = await requestFCMToken(); // Fetch FCM token
+
+    if (!fcmToken) {
+      showErrorToast("Unable to get FCM Token. Please enable notifications.");
+      return;
+    }
+
+    const { confirmPassword, ...submitData } = formData;
+    submitData.fcm_token = fcmToken; // Send FCM token to backend
+    submitData.device_name = "Web Device"; // Set device name
+    submitData.device_platform = "web"; // Set platform as web
+
     dispatch(userSignup(submitData, navigate));
   };
+
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
@@ -76,8 +123,8 @@ const SignUp1 = () => {
                   <Row className="align-items-center">
                     <Col>
                       <Card.Body className="card-body">
-                      <div className="text-center"> 
-                      <FaUserPlus size={50}/></div>
+                        <div className="text-center">
+                          <FaUserPlus size={50} /></div>
                         <div className="">
                           {/*}
                   <img src={logoDark} alt="Logo" className="img-fluid mb-4" />*/}

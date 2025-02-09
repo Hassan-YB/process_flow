@@ -4,21 +4,27 @@ import axios from "axios";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_URL = `${BASE_URL}/api/v1/notifications`;
 
-// Function to get accessToken from localStorage (or use another method)
+// Function to get accessToken from localStorage
 const getAccessToken = () => localStorage.getItem("accessToken");
 
 // Fetch notifications
+// Fetch notifications with pagination
 export const fetchNotifications = createAsyncThunk(
   "notifications/fetchNotifications",
-  async () => {
+  async ({ page = 1 }) => {
     const token = getAccessToken();
-    const response = await axios.get(`${API_URL}/?ordering=-created_at`, {
+    const response = await axios.get(`${API_URL}/?ordering=-created_at&page=${page}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
 
     console.log("API Response Data:", response.data);
-    
-    return response.data.results || []; // ✅ Only return the `results` array
+
+    return {
+      results: response.data.results || [],
+      nextPage: response.data.next ? page + 1 : null,
+      prevPage: response.data.previous ? page - 1 : null,
+      totalPages: response.data.total_pages || 1
+    };
   }
 );
 
@@ -65,25 +71,28 @@ const notificationsSlice = createSlice({
     items: [],
     unreadCount: 0,
     status: "idle",
-    error: null
+    error: null,
+    totalPages: 1,
+    nextPage: null,
+    prevPage: null,
   },
-  reducers: {},
+  reducers: {
+    incrementUnread: (state) => {
+      state.unreadCount += 1;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchNotifications.pending, (state) => {
         state.status = "loading";
       })
       .addCase(fetchNotifications.fulfilled, (state, action) => {
-        console.log("Fetched Notifications:", action.payload);
-        if (!action.payload) {
-          console.error("❌ No notifications received from API.");
-          return;
-        }
-        state.items = action.payload; // Ensure this properly updates
-        state.unreadCount = action.payload.filter((n) => !n.is_read).length;
+        state.items = action.payload.results;
+        state.unreadCount = action.payload.results.filter((n) => !n.is_read).length;
+        state.totalPages = action.payload.totalPages;
+        state.nextPage = action.payload.nextPage;
+        state.prevPage = action.payload.prevPage;
         state.status = "succeeded";
-
-        console.log("Updated Redux State:", state.items);
       })      
       .addCase(fetchNotifications.rejected, (state, action) => {
         state.error = action.error.message;
@@ -93,8 +102,8 @@ const notificationsSlice = createSlice({
         state.items = state.items.map((n) => ({ ...n, is_read: true }));
         state.unreadCount = 0;
       });
-      
   }
 });
 
+export const { incrementUnread } = notificationsSlice.actions;
 export default notificationsSlice.reducer;

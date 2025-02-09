@@ -3,6 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Container, Card, Form, Button, Row, Col } from "react-bootstrap";
 import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
+import '../dashboard/dashboard.css';
+import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
+
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const TASK_API_URL = `${BASE_URL}/api/v1/tasks/`;
@@ -15,6 +18,9 @@ const TaskEdit = () => {
     title: "",
     description: "",
     status: "pending",
+    due_date: "",
+    priority: "low",
+    uploads: null, // For file upload
   });
 
   useEffect(() => {
@@ -32,15 +38,36 @@ const TaskEdit = () => {
     setTaskData({ ...taskData, [e.target.name]: e.target.value });
   };
 
-  const handleUpdateTask = () => {
+  const handlePriorityChange = (priority) => {
+    setTaskData({ ...taskData, priority: priority.toLowerCase() });
+  };
+
+  const handleFileChange = (e) => {
+    setTaskData({ ...taskData, uploads: e.target.files[0] });
+  };
+
+  const handleUpdateTask = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("title", taskData.title);
+    formData.append("description", taskData.description);
+    formData.append("status", taskData.status);
+    formData.append("due_date", taskData.due_date);
+    formData.append("priority", taskData.priority);
+    if (taskData.uploads) {
+      formData.append("uploads", taskData.uploads);
+    }
+
     axios
-      .put(`${TASK_API_URL}${id}/`, taskData, {
+      .put(`${TASK_API_URL}${id}/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
         },
       })
       .then(() => {
-        alert("Task updated successfully!");
+        showSuccessToast("Task updated successfully!");
         navigate(`/task/${id}`); // Redirect to Task Detail Page
       })
       .catch((error) => console.error("Error updating task:", error));
@@ -53,8 +80,8 @@ const TaskEdit = () => {
         <Col md={8}>
           <Card className="shadow-lg p-4">
             <Card.Body>
-              <h2 className="mb-4 text-center">Edit Task</h2>
-              <Form>
+              <h2 className="mb-4 text-center"></h2>
+              <Form onSubmit={handleUpdateTask}>
                 <Form.Group className="mb-3">
                   <Form.Label>Title</Form.Label>
                   <Form.Control
@@ -63,6 +90,7 @@ const TaskEdit = () => {
                     placeholder="Enter task title"
                     value={taskData.title}
                     onChange={handleChange}
+                    required
                   />
                 </Form.Group>
 
@@ -75,7 +103,34 @@ const TaskEdit = () => {
                     placeholder="Enter task description"
                     value={taskData.description}
                     onChange={handleChange}
+                    required
                   />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Due Date</Form.Label>
+                  <Form.Control
+                    type="date"
+                    name="due_date"
+                    value={taskData.due_date}
+                    onChange={handleChange}
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Priority</Form.Label>
+                  <div className="d-flex">
+                    {["Low", "Medium", "High"].map((level) => (
+                      <Button
+                        key={level}
+                        variant={taskData.priority === level.toLowerCase() ? "primary" : "outline-secondary"}
+                        className="me-2"
+                        onClick={() => handlePriorityChange(level)}
+                      >
+                        {level}
+                      </Button>
+                    ))}
+                  </div>
                 </Form.Group>
 
                 <Form.Group className="mb-4">
@@ -86,13 +141,15 @@ const TaskEdit = () => {
                   </Form.Select>
                 </Form.Group>
 
-                <div className="d-flex justify-content-between">
-                  <Button variant="secondary" onClick={() => navigate(-1)}>
-                    Cancel
-                  </Button>
-                  <Button variant="primary" onClick={handleUpdateTask}>
+                <Form.Group className="mb-3">
+                  <Form.Label>Upload File</Form.Label>
+                  <Form.Control type="file" name="uploads" onChange={handleFileChange} />
+                </Form.Group>
+
+                <div className="d-flex justify-content-center">
+                <button type="submit" className="c-form-btn btn-block">
                     Update Task
-                  </Button>
+                  </button>
                 </div>
               </Form>
             </Card.Body>

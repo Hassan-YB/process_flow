@@ -5,6 +5,7 @@ import axios from "axios";
 import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
 import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
 import MainCard from "../../components/Card/MainCard";
+import '../dashboard/dashboard.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_URL = `${BASE_URL}/api/v1/projects/`;
@@ -44,11 +45,12 @@ const ProjectList = () => {
       <div className="d-flex justify-content-between align-items-center mt-4">
         <h3>Projects</h3>
         <Link to="/project/create">
-          <Button variant="primary">+ New Project</Button>
+          <button type="submit" className="c-btn btn-block">+ New Project</button>
         </Link>
       </div>
 
       <MainCard>
+      <div className="table-responsive">
         <Table bordered hover className="mt-4">
           <thead>
             <tr>
@@ -87,18 +89,19 @@ const ProjectList = () => {
                 </td>
                 <td>
                   <Link to={`/project/${project.id}/update`}>
-                    <Button variant="warning" className="me-2">
+                    <button type="submit" className="c-btn btn-block me-2">
                       Edit
-                    </Button>
+                    </button>
                   </Link>
-                  <Button variant="danger" onClick={() => handleDelete(project.id)}>
+                  <button type="submit" className="c-btn btn-block" onClick={() => handleDelete(project.id)}>
                     Delete
-                  </Button>
+                  </button>
                 </td>
               </tr>
             ))}
           </tbody>
         </Table>
+        </div>
       </MainCard>
     </div>
   );

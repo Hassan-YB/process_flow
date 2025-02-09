@@ -4,6 +4,7 @@ import { Form, Button, Container, Card, Row, Col } from "react-bootstrap";
 import axios from "axios";
 import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
 import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
+import '../dashboard/dashboard.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_URL = `${BASE_URL}/api/v1/projects/`;
@@ -34,7 +35,7 @@ const UpdateProject = () => {
           end_date: project.end_date || "",
           status: project.status || "in_progress",
           priority: project.priority || "medium",
-          attachments: null, // Keeping this null to avoid overwriting existing attachments
+          attachments: null,
         });
       })
       .catch((error) => showErrorToast("Error fetching project details: " + error));
@@ -142,12 +143,9 @@ const UpdateProject = () => {
                 </Form.Group>
 
                 <div className="d-flex justify-content-end">
-                  <Button variant="secondary" className="me-2" onClick={() => window.history.back()}>
-                    Cancel
-                  </Button>
-                  <Button type="submit" variant="primary">
+                <button type="submit" className="c-form-btn btn-block">
                     Update Project
-                  </Button>
+                    </button>
                 </div>
               </Form>
             </Card.Body>

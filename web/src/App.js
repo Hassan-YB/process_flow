@@ -44,14 +44,13 @@ function App() {
     requestNotificationPermission();
 
     // Listen for Firebase messages in foreground
-    onMessageListener()
-      .then((payload) => {
-        console.log("New Firebase Notification:", payload);
-        toast.info(payload.notification.body);
-        dispatch(fetchNotifications()); // Refresh notifications
-      })
-      .catch((err) => console.log("Failed to receive message", err));
-  }, [dispatch]);
+  onMessageListener()
+  .then((payload) => {
+    //toast.info(payload.notification.body);
+    dispatch(fetchNotifications());
+  })
+  .catch((err) => console.log("Failed to receive message", err));
+}, [dispatch]);
 
   const noSidebarRoutes = [
     "/auth/signin",
