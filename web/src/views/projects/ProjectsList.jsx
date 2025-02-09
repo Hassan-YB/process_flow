@@ -50,6 +50,7 @@ const ProjectList = () => {
       </div>
 
       <MainCard>
+      <div className="table-responsive">
         <Table bordered hover className="mt-4">
           <thead>
             <tr>
@@ -100,6 +101,7 @@ const ProjectList = () => {
             ))}
           </tbody>
         </Table>
+        </div>
       </MainCard>
     </div>
   );

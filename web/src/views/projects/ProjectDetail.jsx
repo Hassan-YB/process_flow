@@ -90,14 +90,14 @@ const ProjectDetail = () => {
           <MainCard>
             <Row className="align-items-center">
               {/* Project Logo */}
-              <Col xs={2} className="d-flex justify-content-center">
+              <Col xs={2} className="d-flex justify-content-center flex-column flex-sm-row">
                 {project.uploads.length > 0 ? (
                   project.uploads[0].file.match(/\.(jpeg|jpg|gif|png|svg)$/i) ? (
                     <img
                       src={project.uploads[0].file}
                       alt="Project Logo"
-                      width="50"
-                      height="50"
+                      width="150"
+                      height="150"
                       className="rounded"
                     />
                   ) : (
@@ -106,7 +106,7 @@ const ProjectDetail = () => {
                     </a>
                   )
                 ) : (
-                  <img src={opentask} alt="Default Project Logo" width="50" height="50" />
+                  <img src={opentask} alt="Default Project Logo" width="150" height="150" />
                 )}
               </Col>
 
@@ -191,6 +191,7 @@ const ProjectDetail = () => {
           <h2 className="mt-4">Tasks</h2>
           <MainCard>
             {project.tasks.length > 0 ? (
+              <div className="table-responsive">
               <Table striped bordered hover>
                 <thead>
                   <tr>
@@ -231,6 +232,7 @@ const ProjectDetail = () => {
                   ))}
                 </tbody>
               </Table>
+              </div>
             ) : (
               <p>No tasks available for this project.</p>
             )}

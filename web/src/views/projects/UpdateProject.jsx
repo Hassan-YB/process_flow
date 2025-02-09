@@ -35,7 +35,7 @@ const UpdateProject = () => {
           end_date: project.end_date || "",
           status: project.status || "in_progress",
           priority: project.priority || "medium",
-          attachments: null, // Keeping this null to avoid overwriting existing attachments
+          attachments: null,
         });
       })
       .catch((error) => showErrorToast("Error fetching project details: " + error));

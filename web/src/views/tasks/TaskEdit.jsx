@@ -4,6 +4,7 @@ import axios from "axios";
 import { Container, Card, Form, Button, Row, Col } from "react-bootstrap";
 import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
 import '../dashboard/dashboard.css';
+import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
 
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -66,7 +67,7 @@ const TaskEdit = () => {
         },
       })
       .then(() => {
-        alert("Task updated successfully!");
+        showSuccessToast("Task updated successfully!");
         navigate(`/task/${id}`); // Redirect to Task Detail Page
       })
       .catch((error) => console.error("Error updating task:", error));
@@ -74,11 +75,12 @@ const TaskEdit = () => {
 
   return (
     <Container>
+      <Breadcrumb pageName="Edit Task" />
       <Row className="justify-content-center">
         <Col md={8}>
           <Card className="shadow-lg p-4">
             <Card.Body>
-              <h2 className="mb-4 text-center">Edit Task</h2>
+              <h2 className="mb-4 text-center"></h2>
               <Form onSubmit={handleUpdateTask}>
                 <Form.Group className="mb-3">
                   <Form.Label>Title</Form.Label>
@@ -88,6 +90,7 @@ const TaskEdit = () => {
                     placeholder="Enter task title"
                     value={taskData.title}
                     onChange={handleChange}
+                    required
                   />
                 </Form.Group>
 
@@ -100,6 +103,7 @@ const TaskEdit = () => {
                     placeholder="Enter task description"
                     value={taskData.description}
                     onChange={handleChange}
+                    required
                   />
                 </Form.Group>
 

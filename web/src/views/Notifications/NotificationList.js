@@ -9,8 +9,6 @@ import moment from "moment";
 import { FiSearch } from "react-icons/fi";
 
 
-
-
 const NotificationList = () => {
   const dispatch = useDispatch();
   const { items, unreadCount, status, totalPages, nextPage, prevPage } = useSelector((state) => state.notifications);
@@ -67,7 +65,7 @@ const NotificationList = () => {
               placeholder="Search"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              style={{ height: "40px" }} // Match button height
+              style={{ height: "40px" }}
             />
           </InputGroup>
           <button type="submit"
@@ -162,7 +160,7 @@ const NotificationList = () => {
           </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
-      {/* Pagination 
+      {/*} Pagination */}
       <div className="d-flex justify-content-between align-items-center mt-4">
         <Button
           variant="secondary"
@@ -179,7 +177,7 @@ const NotificationList = () => {
         >
           Next
         </Button>
-      </div>*/}
+      </div>
     </div>
   );
 };

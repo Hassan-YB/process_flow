@@ -37,7 +37,7 @@ const CreateTask = () => {
     e.preventDefault();
 
     if (!taskData.title.trim()) {
-      alert("Task title is required.");
+      showErrorToast("Task title is required.");
       return;
     }
 
@@ -58,10 +58,10 @@ const CreateTask = () => {
           "Content-Type": "multipart/form-data",
         },
       });
-      alert("Task created successfully!");
+      showSuccessToast("Task created successfully!");
       navigate(`/project/${projectId}`);
     } catch (error) {
-      alert("Error creating task: " + error);
+      showErrorToast("Error creating task");
     }
   };
 
@@ -75,7 +75,7 @@ const CreateTask = () => {
               <h2 className="mb-4 text-center"></h2>
               <Form onSubmit={handleCreateTask}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Task Title</Form.Label>
+                  <Form.Label>Task Title*</Form.Label>
                   <Form.Control
                     type="text"
                     name="title"
@@ -87,7 +87,7 @@ const CreateTask = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Task Description</Form.Label>
+                  <Form.Label>Task Description*</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={4}
@@ -95,11 +95,12 @@ const CreateTask = () => {
                     placeholder="Enter task description"
                     value={taskData.description}
                     onChange={handleTaskChange}
+                    required
                   />
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Due Date</Form.Label>
+                  <Form.Label>Due Date*</Form.Label>
                   <Form.Control
                     type="date"
                     name="due_date"

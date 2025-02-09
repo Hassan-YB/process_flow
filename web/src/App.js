@@ -41,16 +41,13 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("*****************88")
     requestNotificationPermission();
-    console.log("*****************99")
 
     // Listen for Firebase messages in foreground
   onMessageListener()
   .then((payload) => {
-    console.log("New Firebase Notification:", payload);
     toast.info(payload.notification.body);
-    dispatch(fetchNotifications()); // Refresh unread count
+    dispatch(fetchNotifications());
   })
   .catch((err) => console.log("Failed to receive message", err));
 }, [dispatch]);

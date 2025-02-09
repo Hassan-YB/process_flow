@@ -49,8 +49,8 @@ const TaskDetail = () => {
                 <img
                   src={task.uploads[0].file}
                   alt="Task Attachment"
-                  width="50"
-                  height="50"
+                  width="150"
+                  height="150"
                   className="rounded"
                 />
               ) : (
