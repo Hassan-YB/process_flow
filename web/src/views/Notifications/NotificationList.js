@@ -22,7 +22,7 @@ const NotificationList = () => {
     // Handle real-time notifications
     onMessageListener()
       .then((payload) => {
-        console.log("New Notification:", payload);
+        //console.log("New Notification:", payload);
         dispatch(fetchNotifications({ page: currentPage }));
       })
       .catch((err) => console.log("Failed to receive message", err));
@@ -69,7 +69,7 @@ const NotificationList = () => {
             />
           </InputGroup>
           <button type="submit"
-            className="btn btn-primary mt-2 mt-sm-0 ms-2 ms-sm-0" onClick={handleMarkAllAsRead} style={{
+            className="btn btn-primary mt-2 mt-sm-0 ms-0 ms-sm-2" onClick={handleMarkAllAsRead} style={{
               background: "#fff",
               color: "#6f42c1",
               height: "40px",

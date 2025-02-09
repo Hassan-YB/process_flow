@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../actions/userActions";
 import './sidebar.css'
 import { showErrorToast } from "../../utils/toastUtils";
+import { onMessageListener } from "../../firebase";
+import { fetchNotifications } from "../../config/notificationsSlice";
 // assets
 import logoDark from '../../assets/img/processflow_logo.png';
 import {
@@ -18,7 +20,21 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
   const dispatch = useDispatch();
 
   const unreadCount = useSelector((state) => state.notifications.unreadCount);
-  
+  const [localUnreadCount, setLocalUnreadCount] = useState(unreadCount);
+
+  useEffect(() => {
+    dispatch(fetchNotifications()); 
+    console.log(" unread call ")
+
+    // Listen for real-time Firebase notifications
+    onMessageListener()
+      .then((payload) => {
+        console.log("📩 New Notification Received:", payload);
+        setLocalUnreadCount((prev) => prev + 1); // Increment unread count locally
+      })
+      .catch((err) => console.error("❌ Failed to receive message", err));
+  }, [dispatch]);
+
 
   // State to track if the user is logged in
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("accessToken"));
@@ -55,18 +71,18 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
       {/* Hamburger button for mobile screens */}
       {isMobile && (
         <div className="mobile-header">
-        <button className="hamburger-btn" onClick={toggleSidebar}>
-          <FaBars />
-        </button>
-        <div className="mobile-logo">
-          <img src={logoDark} alt="Logo" />
+          <button className="hamburger-btn" onClick={toggleSidebar}>
+            <FaBars />
+          </button>
+          <div className="mobile-logo">
+            <img src={logoDark} alt="Logo" />
+          </div>
         </div>
-      </div>
       )}
 
       <div className={`sidebar ${isSidebarVisible ? "visible" : "hidden"}`}>
         <div className="sidebar-content">
-        {!isMobile && (
+          {!isMobile && (
             <div className="sidebar-logo">
               <img src={logoDark} alt="Logo" />
             </div>
@@ -88,7 +104,7 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
               <ul className="dropdown-list">
                 <NavLink to="/profile" className="text-decoration-none text-dark">
                   <li className={`dropdown-item ${window.location.pathname === '/profile' ? 'active' : ''}`}>
-                    Update Profile</li></NavLink>
+                    Update</li></NavLink>
                 <NavLink to="/change-password" className="text-decoration-none text-dark">
                   <li className={`dropdown-item ${window.location.pathname === '/change-password' ? 'active' : ''}`}>
                     Change Password</li></NavLink>
@@ -118,16 +134,19 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
               <ul className="dropdown-list">
                 <NavLink to="/projects" className="text-decoration-none">
                   <li className={`dropdown-item ${window.location.pathname === '/projects' ? 'active' : ''}`}>
-                  Projects</li></NavLink>
+                  Add Project</li></NavLink>
               </ul>
             )}*/}
+
+            <NavLink to="/" className="text-decoration-none">
+              <li className={`dropdown-item ${window.location.pathname === '/project/create' ? 'active' : ''}`}>
+                <FaChartPie />Add Project
+              </li></NavLink>
 
             <NavLink to="/notifications" className="text-decoration-none">
               <li className={`dropdown-item ${window.location.pathname === '/notifications' ? 'active' : ''}`}>
                 <FaChartPie />Notifications
-                {unreadCount > 0 && (
-                  <span className="notification-badge">{unreadCount}</span> // Show counter
-                )}
+                {localUnreadCount > 0 && <span className="notification-badge">{localUnreadCount}</span>}
               </li></NavLink>
 
           </ul>

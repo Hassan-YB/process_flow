@@ -46,7 +46,7 @@ function App() {
     // Listen for Firebase messages in foreground
   onMessageListener()
   .then((payload) => {
-    toast.info(payload.notification.body);
+    //toast.info(payload.notification.body);
     dispatch(fetchNotifications());
   })
   .catch((err) => console.log("Failed to receive message", err));

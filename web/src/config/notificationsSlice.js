@@ -76,7 +76,11 @@ const notificationsSlice = createSlice({
     nextPage: null,
     prevPage: null,
   },
-  reducers: {},
+  reducers: {
+    incrementUnread: (state) => {
+      state.unreadCount += 1;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchNotifications.pending, (state) => {
@@ -101,4 +105,5 @@ const notificationsSlice = createSlice({
   }
 });
 
+export const { incrementUnread } = notificationsSlice.actions;
 export default notificationsSlice.reducer;

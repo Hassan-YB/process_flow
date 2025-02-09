@@ -67,7 +67,7 @@ const ProjectDetail = () => {
     datasets: [
       {
         data: [taskCounts.pending, taskCounts.inProgress, taskCounts.completed, taskCounts.overdue],
-        backgroundColor: ["#FFB74D", "#66BB6A", "#42A5F5", "#FF7043"],
+        backgroundColor: ["#6149cd", "#800080", "#deeced", "#5a0096"],
         borderWidth: 0,
       },
     ],
@@ -114,19 +114,10 @@ const ProjectDetail = () => {
               <Col xs={10}>
                 <h5 className="fw-bold mb-1">{project.title}</h5>
                 <div className="d-flex align-items-center text-muted" style={{ fontSize: "14px" }}>
-                  {/*<span>Client: <a href="#" className="text-primary text-decoration-none">
-            Moontheme</a></span>*/}
                   <span className="mt-3">
                     <FaRegCalendarAlt className="me-1" /> {project.start_date} - {project.end_date}
                   </span>
                   <span>
-                    {/*} <img
-                  src={opentask}
-                  alt="User"
-                  width="20"
-                  height="20"
-                  className="rounded-circle me-1"
-                />*/}
                     {project.creator.first_name}
                   </span>
                 </div>
