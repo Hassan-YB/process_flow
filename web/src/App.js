@@ -15,15 +15,43 @@ import Pricing from './views/payments/Pricing';
 import Checkout from './views/payments/Checkout';
 import ChangePassword from "./views/auth/reset-password/ChangePassword"
 import Profile from './views/profile/Profile';
+import ProjectList from './views/projects/ProjectsList'
+import CreateProject from './views/projects/CreateProject'
+import ProjectDetail from './views/projects/ProjectDetail'
+import UpdateProject from './views/projects/UpdateProject'
+import DeleteProject from './views/projects/DeleteProject'
+import TaskDetail from './views/tasks/TaskDetail'
+import TaskEdit from './views/tasks/TaskEdit'
+import CreateTask from './views/tasks/CreateTask'
 
 import Sidebar from './components/Sidebar/sidebar';
 import PrivateRoute from './config/privateroutes';
 
-import { ToastContainer } from "react-toastify";
+import { fetchNotifications } from "./config/notificationsSlice";
+import { requestNotificationPermission, onMessageListener } from "./firebase";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+
+import { useDispatch } from "react-redux";
+import NotificationList from "./views/Notifications/NotificationList";
 
 function App() {
   const location = useLocation();
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    requestNotificationPermission();
+
+    // Listen for Firebase messages in foreground
+    onMessageListener()
+      .then((payload) => {
+        console.log("New Firebase Notification:", payload);
+        toast.info(payload.notification.body);
+        dispatch(fetchNotifications()); // Refresh notifications
+      })
+      .catch((err) => console.log("Failed to receive message", err));
+  }, [dispatch]);
 
   const noSidebarRoutes = [
     "/auth/signin",
@@ -55,12 +83,21 @@ function App() {
                 <PrivateRoute>
                 <MainLayout>
                   <Routes>
+                    <Route path="/notifications" element={<NotificationList />} />
                     <Route path="/" element={<Dashboard />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/billing" element={<Invoicing />} />
                     <Route path="/pricing" element={<Pricing />} />
                     <Route path="/checkout" element={<Checkout />} />
                     <Route path="/change-password" element={<ChangePassword />} />
+                    <Route path="/projects" element={<ProjectList />} />
+                    <Route path="/project/create" element={<CreateProject />} />
+                    <Route path="/project/:id" element={<ProjectDetail />} />
+                    <Route path="/project/:id/update" element={<UpdateProject />} />
+                    <Route path="/project/:id/delete" element={<DeleteProject />} />
+                    <Route path="/task/create/:projectId" element={<CreateTask />} />
+                    <Route path="/task/:id" element={<TaskDetail />} />
+                    <Route path="/task/edit/:id" element={<TaskEdit />} />
                   </Routes>
                 </MainLayout>
                 </PrivateRoute>
