@@ -4,7 +4,7 @@ import axios from "axios";
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_URL = `${BASE_URL}/api/v1/notifications`;
 
-// Function to get accessToken from localStorage (or use another method)
+// Function to get accessToken from localStorage
 const getAccessToken = () => localStorage.getItem("accessToken");
 
 // Fetch notifications
@@ -18,7 +18,7 @@ export const fetchNotifications = createAsyncThunk(
 
     console.log("API Response Data:", response.data);
     
-    return response.data.results || []; // ✅ Only return the `results` array
+    return response.data.results || [];
   }
 );
 
@@ -74,7 +74,7 @@ const notificationsSlice = createSlice({
         state.status = "loading";
       })
       .addCase(fetchNotifications.fulfilled, (state, action) => {
-        state.items = action.payload; // Ensure this properly updates
+        state.items = action.payload;
         state.unreadCount = action.payload.filter((n) => !n.is_read).length;
         state.status = "succeeded";
       })      

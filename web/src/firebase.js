@@ -14,20 +14,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const messaging = getMessaging(app);
-onMessage(messaging, (payload) => {
-  console.log('Message received. ', payload);
-  // ...
-});
 
 // Register Service Worker
-navigator.serviceWorker
-  .register("/firebase-messaging-sw.js")
-  .then((registration) => {
-    console.log("Service Worker registered:", registration);
-  })
-  .catch((error) => {
-    console.error("Service Worker registration failed:", error);
-  });
+navigator.serviceWorker.register("/firebase-messaging-sw.js")
 
 // Request Notification Permission
 export const requestNotificationPermission = async () => {
@@ -35,9 +24,6 @@ export const requestNotificationPermission = async () => {
     const permission = await Notification.requestPermission();
     if (permission === "granted") {
       const token = await getToken(messaging, { vapidKey: "BPuYx4IA7SS5Hoqdn8IdnCASVqFwLVqMertnjRKwrvJe07w5drfDxWUU-w8NECtvZ7I8zzA6sn6kFoKUQI7IAjs" });
-      console.log("FCM Token:", token);
-    } else {
-      console.warn("Notification permission denied.");
     }
   } catch (error) {
     console.error("Error getting FCM token", error);
@@ -48,10 +34,8 @@ export const requestNotificationPermission = async () => {
 // Listen for Foreground Messages
 export const onMessageListener = () =>
   new Promise((resolve, reject) => {
-    console.log("✅ onMessageListener Registered");
 
     onMessage(messaging, (payload) => {
-      console.log("🔔 Foreground Notification Received:", payload);
       resolve(payload);
 
       if (payload.notification) {

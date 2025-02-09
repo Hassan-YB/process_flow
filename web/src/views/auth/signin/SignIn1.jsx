@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { NavLink } from 'react-router-dom';
-import { FaSignInAlt, FaEye, FaEyeSlash} from 'react-icons/fa';
+import { FaSignInAlt, FaEye, FaEyeSlash } from 'react-icons/fa';
 
 // react-bootstrap
 import { Card, Row, Col } from 'react-bootstrap';
@@ -11,6 +11,22 @@ import { userLogin } from "../../../actions/userActions";
 import Nav from "../../../components/Nav/signupNav";
 
 import { showErrorToast } from "../../../utils/toastUtils";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { initializeApp } from "firebase/app";
+
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBegFewwBTmpfUviALUfp6NfQRe_egOMm0",
+  authDomain: "processflow-a00a7.firebaseapp.com",
+  projectId: "processflow-a00a7",
+  storageBucket: "processflow-a00a7.firebasestorage.app",
+  messagingSenderId: "1068234439172",
+  appId: "1:1068234439172:web:7d9bf652659fb1ee7f5351"
+};
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const messaging = getMessaging(app);
 
 // ==============================|| SIGN IN 1 ||============================== //
 
@@ -24,13 +40,54 @@ const Signin1 = () => {
     setLoginData({ ...loginData, [name]: value });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (loginData.email && loginData.password) {
-      dispatch(userLogin(loginData));
-    } else {
-      showErrorToast("Please fill in all fields.");
+
+  const requestFCMToken = async () => {
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission === "granted") {
+        const fcmToken = await getToken(messaging, {
+          vapidKey: "BPuYx4IA7SS5Hoqdn8IdnCASVqFwLVqMertnjRKwrvJe07w5drfDxWUU-w8NECtvZ7I8zzA6sn6kFoKUQI7IAjs",
+        });
+
+        console.log("FCM Token:", fcmToken);
+        return fcmToken;
+      } else {
+        console.warn("Notification permission denied.");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error getting FCM token:", error);
+      return null;
     }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!loginData.email || !loginData.password) {
+      showErrorToast("Please fill in all fields.");
+      return;
+    }
+
+    const fcmToken = await requestFCMToken();
+
+    console.log("📡 Sending Login Request with Data:", {
+      ...loginData,
+      fcm_token: fcmToken,
+      device_name: "Web Device",
+      device_platform: "web",
+    });
+
+    if (!fcmToken) {
+      showErrorToast("Unable to get FCM Token. Please enable notifications.");
+      return;
+    }
+
+    dispatch(userLogin({
+      ...loginData,
+      fcm_token: fcmToken,
+      device_name: "Web Device",
+      device_platform: "web",
+    }));
   };
 
   const togglePasswordVisibility = () => {
@@ -61,12 +118,12 @@ const Signin1 = () => {
                 </div>
                 <Card className="borderless ">
                   <Card.Body>
-                  <div className="text-center"> 
-                  <FaSignInAlt size={50}/></div>
+                    <div className="text-center">
+                      <FaSignInAlt size={50} /></div>
                     <div className="text-center">
                       <h4 className="mb-3 mt-4 f-w-400">Log In</h4>
                       <p className="mb-4">
-                      Welcome back! Please enter your details to log in.</p>
+                        Welcome back! Please enter your details to log in.</p>
                     </div>
                     <form onSubmit={handleSubmit}>
                       <label>Email*</label>
