@@ -12,36 +12,52 @@ const token = localStorage.getItem("accessToken");
 
 const CreateProject = () => {
   const navigate = useNavigate();
-  
+
   const [formData, setFormData] = useState({
     title: "",
     start_date: "",
     end_date: "",
     status: "in_progress",
     priority: "medium",
-    attachments: null,
+    attachments: [],
   });
 
   const handleChange = (e) => {
     const { name, value, type, files } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "file" ? files[0] : value,
-    });
+    if (type === "file") {
+      setFormData({
+        ...formData,
+        [name]: [...files], // Store multiple files
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
   };
+
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const formDataToSend = new FormData();
+
     Object.keys(formData).forEach((key) => {
-      if (formData[key] !== null) {
+      if (key === "attachments") {
+        formData[key].forEach((file) => {
+          formDataToSend.append("attachments", file);
+        });
+      } else {
         formDataToSend.append(key, formData[key]);
       }
     });
 
     axios
       .post(API_URL, formDataToSend, {
-        headers: { Authorization: `Bearer ${token}`, "Content-Type": "multipart/form-data" },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "multipart/form-data",
+        },
       })
       .then(() => {
         showSuccessToast("Project created successfully!");
@@ -49,6 +65,7 @@ const CreateProject = () => {
       })
       .catch((error) => showErrorToast("Error creating project: " + error));
   };
+
 
   return (
     <Container>
@@ -60,7 +77,7 @@ const CreateProject = () => {
               <h2 className="mb-4 text-center"></h2>
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Title</Form.Label>
+                  <Form.Label>Title*</Form.Label>
                   <Form.Control
                     name="title"
                     type="text"
@@ -73,7 +90,7 @@ const CreateProject = () => {
                 <Row>
                   <Col>
                     <Form.Group className="mb-3">
-                      <Form.Label>Start Date</Form.Label>
+                      <Form.Label>Start Date*</Form.Label>
                       <Form.Control
                         name="start_date"
                         type="date"
@@ -84,7 +101,7 @@ const CreateProject = () => {
                   </Col>
                   <Col>
                     <Form.Group className="mb-3">
-                      <Form.Label>End Date</Form.Label>
+                      <Form.Label>End Date*</Form.Label>
                       <Form.Control
                         name="end_date"
                         type="date"
@@ -109,6 +126,7 @@ const CreateProject = () => {
                   <Form.Control
                     name="attachments"
                     type="file"
+                    multiple // Enable multiple file selection
                     onChange={handleChange}
                   />
                 </Form.Group>

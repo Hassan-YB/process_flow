@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
@@ -63,25 +63,25 @@ function App() {
   ];
 
   return (
-      <div>
+    <div>
       <ToastContainer
-          position="top-center"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-        />
-        <Routes>
-          {/* Wrap with MainLayout if route doesn't match noSidebarRoutes */}
-          <Route
-            path="*"
-            element={
-              !noSidebarRoutes.includes(location.pathname) ? (
-                <PrivateRoute>
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+      <Routes>
+        {/* Wrap with MainLayout if route doesn't match noSidebarRoutes */}
+        <Route
+          path="*"
+          element={
+            !noSidebarRoutes.includes(location.pathname) ? (
+              <PrivateRoute>
                 <MainLayout>
                   <Routes>
                     <Route path="/notifications" element={<NotificationList />} />
@@ -91,7 +91,7 @@ function App() {
                     <Route path="/pricing" element={<Pricing />} />
                     <Route path="/checkout" element={<Checkout />} />
                     <Route path="/change-password" element={<ChangePassword />} />
-                    <Route path="/projects" element={<Projects/>} />
+                    <Route path="/projects" element={<Projects />} />
                     <Route path="/project/create" element={<CreateProject />} />
                     <Route path="/project/:id" element={<ProjectDetail />} />
                     <Route path="/project/:id/update" element={<UpdateProject />} />
@@ -101,14 +101,14 @@ function App() {
                     <Route path="/task/edit/:id" element={<TaskEdit />} />
                   </Routes>
                 </MainLayout>
-                </PrivateRoute>
-              ) : (
-                <AuthRoutes />
-              )
-            }
-          />
-        </Routes>
-      </div>
+              </PrivateRoute>
+            ) : (
+              <AuthRoutes />
+            )
+          }
+        />
+      </Routes>
+    </div>
   );
 }
 
@@ -116,12 +116,14 @@ function App() {
 function MainLayout({ children }) {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [isSidebarVisible, setIsSidebarVisible] = useState(window.innerWidth > 768);
+  const sidebarRef = useRef(null);
+
+  const hamburgerRef = useRef(null);
 
   useEffect(() => {
     const handleResize = () => {
       const isMobileView = window.innerWidth <= 768;
       setIsMobile(isMobileView);
-
       if (isMobileView) {
         setIsSidebarVisible(false);
       } else {
@@ -129,8 +131,23 @@ function MainLayout({ children }) {
       }
     };
 
+    const handleClickOutside = (event) => {
+      // Ensure the click is NOT inside the sidebar or hamburger button
+      if (
+        sidebarRef.current && !sidebarRef.current.contains(event.target) &&
+        hamburgerRef.current && !hamburgerRef.current.contains(event.target)
+      ) {
+        setIsSidebarVisible(false);
+      }
+    };
+
     window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
   }, []);
 
   const toggleSidebar = () => {
@@ -140,7 +157,8 @@ function MainLayout({ children }) {
   return (
     <div className="app">
       {/* Sidebar */}
-      <Sidebar isSidebarVisible={isSidebarVisible} toggleSidebar={toggleSidebar} isMobile={isMobile} />
+      <Sidebar isSidebarVisible={isSidebarVisible} toggleSidebar={toggleSidebar}
+        isMobile={isMobile} ref={sidebarRef} hamburgerRef={hamburgerRef} />
 
       {/* Main Content */}
       <div className={`main-content ${isMobile && !isSidebarVisible ? "adjust-for-hamburger" : ""}`}>

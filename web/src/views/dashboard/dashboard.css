@@ -45,3 +45,19 @@ a {
 .dashboard-shadow {
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.25);
 }
+
+.priority-c-1 {
+    background: #fff;
+    border: 1px solid #6f42c1;
+    border-radius: 20px;
+    padding: 10px 20px;
+    color: #6f42c1;
+}
+
+.priority-c-2 {
+    background: linear-gradient(to right, #6f42c1, #a445b2);
+    border: 1px solid #6f42c1;
+    border-radius: 20px;
+    padding: 10px 20px;
+    color: #fff;
+}

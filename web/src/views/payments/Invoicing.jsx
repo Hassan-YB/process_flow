@@ -160,7 +160,6 @@ const Invoicing = () => {
                   <tr>
                     <th>#</th>
                     <th>Date</th>
-                    <th>Plan</th>
                     <th>Amount</th>
                     <th>Status</th>
                     <th>PDF</th>
@@ -173,7 +172,6 @@ const Invoicing = () => {
                       <tr key={invoice.id}>
                         <td>{index + 1}</td>
                         <td>{new Date(invoice.period_start).toLocaleDateString()}</td>
-                        <td>{price.title || "N/A"}</td>
                         <td>{`${invoice.amount_paid || "N/A"} ${invoice.currency || ""}`}</td>
                         <td>{invoice.is_paid ? "Paid" : "Unpaid"}</td>
                         <td>
