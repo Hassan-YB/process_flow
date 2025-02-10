@@ -4,12 +4,9 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, Cart
 import { Spinner, Container, Row, Col, Button, Card } from "react-bootstrap";
 import MainCard from "../../components/Card/MainCard";
 import ProjectList from "../projects/ProjectsList";
-import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
-import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
+import DashboardBreadcrumb from "../../components/Breadcrumb/breadcrumb";
 import { FaTasks, FaCheckCircle, FaClock, FaClipboardCheck } from "react-icons/fa";
-import opentask from "../../assets/img/open_task.png"
 import opentaskbg from "../../assets/img/open_tasks_bg.png"
-import completetask from "../../assets/img/complete_task.png"
 import completetasksbg from "../../assets/img/complete_tasks_bg.png"
 import CircularProgress from "../../components/Widgets/CircularProgress/CircularProgress"
 
@@ -104,7 +101,7 @@ const Dashboard = () => {
 
   return (
     <div className="container-fluid">
-      <Breadcrumb pageName="Dashboard" />
+      <DashboardBreadcrumb pageName="Dashboard" />
 
       <Row className="g-3">
         {cardData.map((card, index) => (

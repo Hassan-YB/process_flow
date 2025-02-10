@@ -250,12 +250,12 @@ const ProjectDetail = () => {
                         <td>{formatStatus(task.status)}</td>
                         <td>{task.due_date}</td>
                         <td>
+                          <Link to={`/task/edit/${task.id}`}>
+                            <button type="submit" className="c-btn btn-block me-2">Edit</button>
+                          </Link>
                           <button type="submit" className="c-btn btn-block" onClick={() => handleDeleteTask(task.id)}>
                             Delete
                           </button>
-                          <Link to={`/task/edit/${task.id}`}>
-                            <button type="submit" className="c-btn btn-block ms-2">Edit</button>
-                          </Link>
                         </td>
                       </tr>
                     ))}

@@ -100,12 +100,12 @@ const TaskEdit = () => {
   };
 
   return (
-    <Container>
+    <div className="container-fluid">
+      <Breadcrumb pageName="Edit Task" />
       <Row className="justify-content-center">
         <Col md={8}>
           <Card className="shadow-lg p-4">
             <Card.Body>
-              <h2 className="mb-4 text-center">Edit Task</h2>
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                   <Form.Label>Title</Form.Label>
@@ -171,7 +171,7 @@ const TaskEdit = () => {
           </Card>
         </Col>
       </Row>
-    </Container>
+    </div>
   );
 };
 
