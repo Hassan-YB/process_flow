@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Modal, Card, Form, Button, Row, Col, Table } from "react-bootstrap";
+import { Modal, Card, Button, Row, Col, Table, Carousel } from "react-bootstrap";
 import axios from "axios";
 import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
 import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
@@ -123,19 +123,19 @@ const ProjectDetail = () => {
               {/* Project Logo */}
               <Col xs={12} md={2} className="d-flex align-items-center justify-content-center">
                 {project.uploads.length > 0 ? (
-                  project.uploads[0].file.match(/\.(jpeg|jpg|gif|png|svg)$/i) ? (
-                    <img
-                      src={project.uploads[0].file}
-                      alt="Project Logo"
-                      width="150"
-                      height="150"
-                      className="rounded"
-                    />
-                  ) : (
-                    <a href={project.uploads[0].file} target="_blank" rel="noopener noreferrer">
-                      📎 Attachment
-                    </a>
-                  )
+                  <Carousel interval={7000} pause="hover">
+                    {project.uploads.map((upload) => (
+                      <Carousel.Item key={upload.id}>
+                        <img
+                          src={upload.file}
+                          alt={`Project Image ${upload.id}`}
+                          width="100%"
+                          height="300"
+                          className="rounded"
+                        />
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
                 ) : (
                   <img src={opentask} alt="Default Project Logo" width="150" height="150" />
                 )}

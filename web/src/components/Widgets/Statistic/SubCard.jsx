@@ -17,7 +17,7 @@ const SubCard = ({ params }) => {
     }
 
     return (
-        <Card className={cardClass.join(' ')} style={{ minHeight: '172px' }}>
+        <Card className={cardClass.join(' ')} style={{ minHeight: '155px' }}>
             <Card.Body>
                 <div className='d-flex flex-column justify-content-between'>
                 <div className="d-flex justify-content-between align-items-center mb-4">
@@ -47,7 +47,7 @@ const SubCard = ({ params }) => {
                         </span>
                     )}
                 </div>
-                <div className="d-flex justify-content-between align-items-center mb-3">
+                <div className="d-flex justify-content-between align-items-center">
                     <span style={{ fontWeight: "bold", fontSize: "18px" }}>
                         {params.planAmount}
                     </span>

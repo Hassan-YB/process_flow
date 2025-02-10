@@ -22,7 +22,7 @@ const PaymentCard = ({ params }) => {
     const cardImage = params.cardType === "visa" ? Visa : params.cardType === "master" ? Master : null;
 
     return (
-        <Card className={cardClass.join(' ')} style={{minHeight:'172px'}}>
+        <Card className={cardClass.join(' ')} style={{minHeight:'155px'}}>
             <Card.Body>
                 <div className="d-flex justify-content-between align-items-center mb-4">
 
@@ -30,7 +30,7 @@ const PaymentCard = ({ params }) => {
                         {params.title}
                     </span>
                 </div>
-                <div className="d-flex justify-content-between align-items-center mb-3">
+                <div className="d-flex justify-content-between align-items-center">
                     <span style={{ fontWeight: "bold", fontSize: "18px" }}>
                     **** **** **** {params.cardLastDigits}
                     </span>

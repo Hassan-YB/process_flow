@@ -3,7 +3,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import { useLocation } from "react-router-dom";
 import CheckoutForm from "./CheckoutForm";
-//import Breadcrumb from "../../layouts/AdminLayout/Breadcrumb";
+import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
 
 
 const STRIPE_KEY = process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY;
@@ -27,8 +27,8 @@ const Checkout = () => {
 
   return (
     <div>
-    <div className="container-fluid mt-5">
-      <h3 className="text-center mb-4">Checkout</h3>
+    <div className="container-fluid">
+    <Breadcrumb pageName="Checkout" />
       <div className="row mt-5">
         {/* Plan Details Section */}
         <div className="col-12 col-md-4">
