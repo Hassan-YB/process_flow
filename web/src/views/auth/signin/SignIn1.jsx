@@ -68,7 +68,7 @@ const Signin1 = () => {
       return;
     }
 
-    const fcmToken = await requestFCMToken();
+    //const fcmToken = await requestFCMToken();
 
     console.log("", {
       ...loginData,
