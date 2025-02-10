@@ -104,7 +104,7 @@ const ProjectDetail = () => {
     <div className="container-fluid">
       <Breadcrumb pageName="Project Detail" />
       <div className="d-flex justify-content-between align-items-center mt-4">
-        <h3>Project Detail</h3>
+        <h3></h3>
         <span>
           <Link to={`/task/create/${id}`}>
             <button type="submit" className="c-btn btn-block mb-4">+ New Task</button>
