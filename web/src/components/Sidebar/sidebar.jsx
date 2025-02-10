@@ -121,9 +121,9 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
               </ul>
             )}
 
-            <NavLink to="/project/create" className="text-decoration-none">
-              <li className={`dropdown-item ${window.location.pathname === '/project/create' ? 'active' : ''}`}>
-                <FaPlus />Add Project
+            <NavLink to="/projects" className="text-decoration-none">
+              <li className={`dropdown-item ${window.location.pathname === '/projects' ? 'active' : ''}`}>
+                <FaPlus />Projects
               </li></NavLink>
 
             <NavLink to="/notifications" className="text-decoration-none">

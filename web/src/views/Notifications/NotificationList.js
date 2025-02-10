@@ -7,6 +7,7 @@ import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
 import { Tab, Nav, Button, Card, ListGroup, Form, InputGroup } from "react-bootstrap";
 import moment from "moment";
 import { FiSearch } from "react-icons/fi";
+import '../dashboard/dashboard.css';
 
 
 const NotificationList = () => {
@@ -31,11 +32,11 @@ const NotificationList = () => {
     dispatch(fetchNotifications({ page: currentPage }));
   };
 
-  const handleMarkAllAsRead = () => {
+  useEffect(() => {
     dispatch(markAllAsRead()).then(() => {
       dispatch(fetchNotifications({ page: currentPage }));
     });
-  };
+  }, [dispatch, currentPage]);
 
   const formatDate = (date) => {
     return moment(date).isSame(moment(), "day")
@@ -52,7 +53,7 @@ const NotificationList = () => {
       <Breadcrumb pageName="Notifications" />
 
       <div className="d-flex justify-content-between align-items-center flex-column flex-sm-row">
-        <h3>Notifications ({unreadCount})</h3>
+        <h3>Notifications</h3>
         <div className="d-flex flex-column flex-sm-row">
           <InputGroup className="custom-search">
             <InputGroup.Text>
@@ -65,20 +66,7 @@ const NotificationList = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               style={{ height: "40px" }}
             />
-          </InputGroup>
-          <button type="submit"
-            className="btn btn-primary mt-2 mt-sm-0 ms-0 ms-sm-2" onClick={handleMarkAllAsRead} style={{
-              background: "#fff",
-              color: "#6f42c1",
-              height: "40px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "0 20px",
-              whiteSpace: "nowrap"
-            }}>
-            Mark All as Read
-          </button>
+          </InputGroup> 
         </div>
       </div>
 
@@ -86,9 +74,6 @@ const NotificationList = () => {
         <Nav variant="tabs" className="mt-3">
           <Nav.Item>
             <Nav.Link eventKey="all">All Notifications</Nav.Link>
-          </Nav.Item>
-          <Nav.Item>
-            <Nav.Link eventKey="unread">Unread Notifications</Nav.Link>
           </Nav.Item>
         </Nav>
 
@@ -125,56 +110,25 @@ const NotificationList = () => {
               <p>No notifications available.</p>
             )}
           </Tab.Pane>
-
-          <Tab.Pane eventKey="unread">
-            {filteredNotifications.length > 0 ? (
-              <ListGroup>
-                {filteredNotifications.map((notification) => (
-                  <ListGroup.Item key={notification.id} className="bg-light d-flex justify-content-between flex-column flex-sm-row">
-                    <div>
-                      <strong>{notification.title}</strong>
-                      <p className="mb-1">{notification.message}</p>
-                      <small className="text-muted">{formatDate(notification.created_at)}</small>
-                    </div>
-                    <button type="submit"
-                      className="btn btn-primary" style={{
-                        background: "#fff",
-                        color: "#6f42c1",
-                        height: "40px",
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        padding: "0 20px",
-                        whiteSpace: "nowrap"
-                      }} onClick={() => handleMarkAsRead(notification.id)}>
-                      Mark as Read
-                    </button>
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
-            ) : (
-              <p>No unread notifications.</p>
-            )}
-          </Tab.Pane>
         </Tab.Content>
       </Tab.Container>
       {/*} Pagination */}
-      <div className="d-flex justify-content-between align-items-center mt-4">
-        <Button
-          variant="secondary"
+      <div className="d-flex justify-content-center mt-4">
+        <button
+          className="c-btn me-2"
           disabled={!prevPage}
           onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
         >
           Previous
-        </Button>
+        </button>
         <span>Page {currentPage} of {totalPages}</span>
-        <Button
-          variant="secondary"
+        <button
+          className="c-btn ms-2"
           disabled={!nextPage}
           onClick={() => setCurrentPage((prev) => prev + 1)}
         >
           Next
-        </Button>
+        </button>
       </div>
     </div>
   );

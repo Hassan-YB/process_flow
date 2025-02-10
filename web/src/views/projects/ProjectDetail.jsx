@@ -74,6 +74,19 @@ const ProjectDetail = () => {
     ],
   };
 
+  const formatStatus = (status) => {
+    switch (status) {
+      case "in_progress":
+        return "In Progress";
+      case "completed":
+        return "Completed";
+      case "pending":
+        return "Pending";
+      default:
+        return status;
+    }
+  };
+
   return (
     <div className="container-fluid">
       <Breadcrumb pageName="Project Detail" />
@@ -216,8 +229,8 @@ const ProjectDetail = () => {
                           </Link>
                         </td>
                         <td>{task.description}</td>
-                        <td>{task.priority}</td>
-                        <td>{task.status}</td>
+                        <td><TaskPriorityBadge priority={task.priority} /></td>
+                        <td>{formatStatus(task.status)}</td>
                         <td>{task.due_date}</td>
                         <td>
                           <button type="submit" className="c-btn btn-block" onClick={() => handleDeleteTask(task.id)}>

@@ -16,6 +16,7 @@ import Checkout from './views/payments/Checkout';
 import ChangePassword from "./views/auth/reset-password/ChangePassword"
 import Profile from './views/profile/Profile';
 import ProjectList from './views/projects/ProjectsList'
+import Projects from './views/projects/Projects'
 import CreateProject from './views/projects/CreateProject'
 import ProjectDetail from './views/projects/ProjectDetail'
 import UpdateProject from './views/projects/UpdateProject'
@@ -90,7 +91,7 @@ function App() {
                     <Route path="/pricing" element={<Pricing />} />
                     <Route path="/checkout" element={<Checkout />} />
                     <Route path="/change-password" element={<ChangePassword />} />
-                    <Route path="/projects" element={<ProjectList />} />
+                    <Route path="/projects" element={<Projects/>} />
                     <Route path="/project/create" element={<CreateProject />} />
                     <Route path="/project/:id" element={<ProjectDetail />} />
                     <Route path="/project/:id/update" element={<UpdateProject />} />
