@@ -11,10 +11,10 @@ import { userLogin } from "../../../actions/userActions";
 import Nav from "../../../components/Nav/signupNav";
 
 import { showErrorToast } from "../../../utils/toastUtils";
-import { getMessaging, getToken, onMessage } from "firebase/messaging";
-import { initializeApp } from "firebase/app";
+//import { getMessaging, getToken, onMessage } from "firebase/messaging";
+//import { initializeApp } from "firebase/app";
 
-
+{/*}
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -26,7 +26,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const messaging = getMessaging(app);
+const messaging = getMessaging(app);*/}
 
 // ==============================|| SIGN IN 1 ||============================== //
 
@@ -41,7 +41,7 @@ const Signin1 = () => {
   };
 
 
-  const requestFCMToken = async () => {
+  {/*const requestFCMToken = async () => {
     try {
       const permission = await Notification.requestPermission();
       if (permission === "granted") {
@@ -59,7 +59,7 @@ const Signin1 = () => {
       console.error("Error getting FCM token:", error);
       return null;
     }
-  };
+  };*/}
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,23 +70,23 @@ const Signin1 = () => {
 
     const fcmToken = await requestFCMToken();
 
-    console.log("📡 Sending Login Request with Data:", {
+    console.log("", {
       ...loginData,
-      fcm_token: fcmToken,
-      device_name: "Web Device",
-      device_platform: "web",
+      //fcm_token: fcmToken,
+      //device_name: "Web Device",
+      //device_platform: "web",
     });
 
-    if (!fcmToken) {
-      showErrorToast("Unable to get FCM Token. Please enable notifications.");
-      return;
-    }
+    //if (!fcmToken) {
+    //  showErrorToast("Unable to get FCM Token. Please enable notifications.");
+    //  return;
+   // }
 
     dispatch(userLogin({
       ...loginData,
-      fcm_token: fcmToken,
-      device_name: "Web Device",
-      device_platform: "web",
+      //fcm_token: fcmToken,
+      //device_name: "Web Device",
+      //device_platform: "web",
     }));
   };
 
