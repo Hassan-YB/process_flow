@@ -13,18 +13,26 @@ const token = localStorage.getItem("accessToken");
 
 const ProjectList = () => {
   const [projects, setProjects] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
 
   useEffect(() => {
-    fetchProjects();
-  }, []);
+    fetchProjects(currentPage);
+  }, [currentPage]);
 
-  const fetchProjects = () => {
+  const fetchProjects = (page) => {
     axios
-      .get(API_URL, {
-        headers: { Authorization: `Bearer ${token}` },
+    .get(API_URL, {
+      headers: { Authorization: `Bearer ${token}` },
+      params: { page: page }, // Send page number in request
+    })
+
+      .then((response) => {
+        setProjects(response.data.results);
+        setTotalPages(response.data.total_pages);
       })
-      .then((response) => setProjects(response.data.results))
-      .catch((error) => console.error("Error fetching projects:", error));
+      .catch((error) => console.error("Error fetching projects"));
   };
 
   const handleDelete = (id) => {
@@ -34,14 +42,13 @@ const ProjectList = () => {
       })
       .then(() => {
         showSuccessToast("Project deleted successfully!");
-        fetchProjects();
+        fetchProjects(currentPage);
       })
-      .catch((error) => showErrorToast("Error deleting project: " + error));
+      .catch((error) => showErrorToast("Error deleting project"));
   };
 
   return (
     <div className="mt-5">
-      {/*<Breadcrumb pageName="Projects" />*/}
       <div className="d-flex justify-content-between align-items-center mt-4">
         <h3>Projects</h3>
         <Link to="/project/create">
@@ -103,6 +110,24 @@ const ProjectList = () => {
         </Table>
         </div>
       </MainCard>
+      {/* Pagination Controls */}
+      <div className="d-flex justify-content-center mt-4">
+        <button
+          className="c-btn me-2"
+          disabled={currentPage === 1}
+          onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+        >
+          Previous
+        </button>
+        <span> Page {currentPage} of {totalPages} </span>
+        <button
+          className="c-btn ms-2"
+          disabled={currentPage === totalPages}
+          onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };

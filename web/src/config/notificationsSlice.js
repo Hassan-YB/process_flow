@@ -6,7 +6,6 @@ const API_URL = `${BASE_URL}/api/v1/notifications`;
 
 const getAccessToken = () => localStorage.getItem("accessToken");
 
-// Fetch notifications
 // Fetch notifications with pagination
 export const fetchNotifications = createAsyncThunk(
   "notifications/fetchNotifications",
@@ -77,7 +76,10 @@ const notificationsSlice = createSlice({
   },
   reducers: {
     incrementUnread: (state) => {
-      state.unreadCount += 1; // Ensure count updates in Redux
+      state.unreadCount += 1;
+    },
+    setUnreadCount: (state, action) => {
+      state.unreadCount = action.payload; // Directly set the count
     },
   },
   extraReducers: (builder) => {
@@ -104,5 +106,5 @@ const notificationsSlice = createSlice({
   }
 });
 
-export const { incrementUnread } = notificationsSlice.actions;
+export const { incrementUnread, setUnreadCount } = notificationsSlice.actions;
 export default notificationsSlice.reducer;

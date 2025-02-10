@@ -202,3 +202,11 @@
   }
 
 }
+
+
+.notification-badge {
+  background-color: #fa3e3e;
+  border-radius: 20px;
+  color: white;
+  padding: 0px 6px;
+}

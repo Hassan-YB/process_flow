@@ -19,10 +19,8 @@ const NotificationList = () => {
   useEffect(() => {
     dispatch(fetchNotifications({ page: currentPage }));
 
-    // Handle real-time notifications
     onMessageListener()
       .then((payload) => {
-        //console.log("New Notification:", payload);
         dispatch(fetchNotifications({ page: currentPage }));
       })
       .catch((err) => console.log("Failed to receive message", err));
