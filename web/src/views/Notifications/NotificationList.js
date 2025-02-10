@@ -88,21 +88,6 @@ const NotificationList = () => {
                       <p className="mb-1">{notification.message}</p>
                       <small className="text-muted">{formatDate(notification.created_at)}</small>
                     </div>
-                    {!notification.is_read && (
-                      <button type="submit"
-                        className="btn btn-primary" style={{
-                          background: "#fff",
-                          color: "#6f42c1",
-                          height: "40px",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          padding: "0 20px",
-                          whiteSpace: "nowrap"
-                        }} onClick={() => handleMarkAsRead(notification.id)}>
-                        Mark as Read
-                      </button>
-                    )}
                   </ListGroup.Item>
                 ))}
               </ListGroup>
