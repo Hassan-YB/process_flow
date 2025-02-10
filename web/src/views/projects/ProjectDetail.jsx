@@ -125,7 +125,7 @@ const ProjectDetail = () => {
                   <span className="mt-3">
                     <FaRegCalendarAlt className="me-1" /> {project.start_date} - {project.end_date}
                   </span>
-                  <span>
+                  <span className="mt-3 ms-3">
                     {project.status}
                   </span>
                 </div>
@@ -133,7 +133,7 @@ const ProjectDetail = () => {
             </Row>
           </MainCard>
 
-          <Row>
+          <Row className="mt-4">
             <Col md={8}>
               <MainCard>
                 <div style={{ height: "250px", }}>
@@ -187,7 +187,7 @@ const ProjectDetail = () => {
             </Col>
           </Row>
 
-          <h2 className="mt-4">Tasks</h2>
+          <h2 className="mt-5">Tasks</h2>
           <MainCard>
             {project.tasks.length > 0 ? (
               <div className="table-responsive">

@@ -19,22 +19,15 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
 
   const dispatch = useDispatch();
 
-  const { unreadCount } = useSelector((state) => state.notifications);
+  const unreadCount = useSelector((state) => state.notifications.unreadCount);
+
   useEffect(() => {
-    const fetchData = async () => {
-      await dispatch(fetchNotifications());
-    };
+    const interval = setInterval(() => {
+      console.log("🔔 Fetching Notifications...");
+      dispatch(fetchNotifications());
+    }, 5000);
   
-    fetchData();
-  
-  
-    onMessageListener()
-      .then((payload) => {
-    
-        dispatch(incrementUnread());
-        dispatch(fetchNotifications());
-      })
-      .catch((err) => console.error("Failed to receive message", err));
+    return () => clearInterval(interval);
   }, [dispatch]);
   
 
@@ -128,7 +121,7 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
               </ul>
             )}
 
-            <NavLink to="/" className="text-decoration-none">
+            <NavLink to="/project/create" className="text-decoration-none">
               <li className={`dropdown-item ${window.location.pathname === '/project/create' ? 'active' : ''}`}>
                 <FaPlus />Add Project
               </li></NavLink>

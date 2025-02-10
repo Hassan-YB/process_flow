@@ -40,9 +40,9 @@ export const onMessageListener = () =>
     onMessage(messaging, (payload) => {
       console.log("📩 Foreground Notification Received:", payload);
 
-      // Dispatch Redux update
-      store.dispatch(incrementUnread());
-      store.dispatch(fetchNotifications());
+      // Dispatch Redux updates globally
+      store.dispatch(incrementUnread()); // Update unread count
+      store.dispatch(fetchNotifications()); // Fetch new notifications
 
       resolve(payload);
 
@@ -52,6 +52,5 @@ export const onMessageListener = () =>
       }
     });
   });
-
 
 export default app;
