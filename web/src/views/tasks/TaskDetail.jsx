@@ -52,7 +52,7 @@ const TaskDetail = () => {
     <div className="container-fluid">
       <Breadcrumb pageName="Task Detail" />
       <div className="d-flex justify-content-between align-items-center mt-4">
-        <h3>Task Detail</h3>
+        <h3></h3>
         <Link to={`/task/edit/${task.id}`}>
           <button type="submit" className="c-btn btn-block mb-4">+ Edit Task</button>
         </Link>
