@@ -5,6 +5,7 @@ import axios from "axios";
 import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
 import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
 import MainCard from "../../components/Card/MainCard";
+import TaskPriorityBadge from "../../components/Badge/badge"
 import '../dashboard/dashboard.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
@@ -47,6 +48,34 @@ const ProjectList = () => {
       .catch((error) => showErrorToast("Error deleting project"));
   };
 
+  // Function to format status
+  const formatStatus = (status) => {
+    switch (status) {
+      case "in_progress":
+        return "In Progress";
+      case "completed":
+        return "Completed";
+      case "pending":
+        return "Pending";
+      default:
+        return status;
+    }
+  };
+
+  // Function to format priority
+  const formatPriority = (priority) => {
+    switch (priority) {
+      case "low":
+        return "Low";
+      case "medium":
+        return "Medium";
+      case "high":
+        return "High";
+      default:
+        return priority;
+    }
+  };
+
   return (
     <div className="mt-5">
       <div className="d-flex justify-content-between align-items-center mt-4">
@@ -62,6 +91,8 @@ const ProjectList = () => {
           <thead>
             <tr>
               <th>Title</th>
+              <th>Start Date</th>
+              <th>End Date</th>
               <th>Status</th>
               <th>Priority</th>
               <th>Attachments</th>
@@ -79,8 +110,10 @@ const ProjectList = () => {
                     {project.title}
                   </Link>
                 </td>
-                <td>{project.status}</td>
-                <td>{project.priority}</td>
+                <td>{project.start_date}</td>
+                <td>{project.end_date}</td>
+                <td>{formatStatus(project.status)}</td>
+                <td><TaskPriorityBadge priority={project.priority} /></td>
                 <td>
                   {project.uploads && project.uploads.length > 0 ? (
                     <a

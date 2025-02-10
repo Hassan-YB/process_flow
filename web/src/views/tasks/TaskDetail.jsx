@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Container, Card, Form, Button, Row, Col, Table } from "react-bootstrap";
+import { Container, Card, Form, Button, Row, Col, Table, Spinner } from "react-bootstrap";
 import axios from "axios";
 import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
 import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
@@ -34,8 +34,25 @@ const TaskDetail = () => {
   }, [id]);
 
   if (!task) {
-    return <p>Loading task details...</p>;
+    return (
+      <div className="d-flex justify-content-center align-items-center" style={{ height: "100vh" }}>
+        <Spinner animation="border" variant="primary" size="lg" />
+      </div>
+    );
   }
+
+  const formatStatus = (status) => {
+    switch (status) {
+      case "in_progress":
+        return "In Progress";
+      case "completed":
+        return "Completed";
+      case "pending":
+        return "Pending";
+      default:
+        return status;
+    }
+  };
 
   return (
     <div className="container-fluid">
@@ -79,7 +96,7 @@ const TaskDetail = () => {
                 <FaClipboardList className="me-1" />{task.description}
               </span>
               <span className="mt-2">
-                <FaCheckCircle className="me-1" /><strong>Status:</strong> {task.status}
+                <FaCheckCircle className="me-1" /><strong>Status:</strong> {formatStatus(task.status)}
               </span>
               <span className="mt-2">
                 <FaExclamationCircle className="me-1" /><strong>Priority:</strong> {task.priority}
