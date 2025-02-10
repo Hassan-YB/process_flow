@@ -18,7 +18,7 @@ const CreateTask = () => {
     description: "",
     due_date: "",
     priority: "low", // Default priority
-    uploads: null, // For file uploads
+    attachments: [], // For file uploads
   });
 
   const handleTaskChange = (e) => {
@@ -26,7 +26,7 @@ const CreateTask = () => {
   };
 
   const handleFileChange = (e) => {
-    setTaskData({ ...taskData, uploads: e.target.files[0] });
+    setTaskData({ ...taskData, uploads: [...e.target.files] });
   };
 
   const handlePriorityChange = (priority) => {
@@ -47,9 +47,11 @@ const CreateTask = () => {
     formData.append("due_date", taskData.due_date);
     formData.append("priority", taskData.priority);
     formData.append("project", projectId);
-    if (taskData.uploads) {
-      formData.append("uploads", taskData.uploads);
-    }
+
+    // Ensure files are appended correctly as an array
+    taskData.uploads.forEach((file) => {
+      formData.append("attachments", file); // Change key from "uploads" to "attachments" as per API expectation
+    });
 
     try {
       await axios.post(`${TASK_API_URL}`, formData, {
@@ -61,6 +63,7 @@ const CreateTask = () => {
       showSuccessToast("Task created successfully!");
       navigate(`/project/${projectId}`);
     } catch (error) {
+      console.error("Error creating task:", error.response);
       showErrorToast("Error creating task");
     }
   };
@@ -115,8 +118,7 @@ const CreateTask = () => {
                     {["Low", "Medium", "High"].map((level) => (
                       <Button
                         key={level}
-                        variant={taskData.priority === level.toLowerCase() ? "primary" : "outline-secondary"}
-                        className="me-2"
+                        className={`me-2 ${taskData.priority === level.toLowerCase() ? "priority-c-2 " : "priority-c-1"}`}
                         onClick={() => handlePriorityChange(level)}
                       >
                         {level}
@@ -129,15 +131,13 @@ const CreateTask = () => {
                   <Form.Label>Upload File</Form.Label>
                   <Form.Control
                     type="file"
-                    name="uploads"
+                    name="attachments"
+                    multiple // Allow multiple file selection
                     onChange={handleFileChange}
                   />
                 </Form.Group>
 
                 <div className="d-flex justify-content-center">
-                  {/*<Button variant="secondary" className="me-2" onClick={() => window.history.back()}>
-                    Cancel
-                  </Button>*/}
                   <button type="submit" className="c-form-btn btn-block">
                     Create Task
                   </button>

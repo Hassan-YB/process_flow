@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, forwardRef } from "react";
 import { useNavigate, NavLink } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../actions/userActions";
@@ -14,14 +14,14 @@ import {
 } from "react-icons/fa";
 
 
-const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
+const Sidebar = forwardRef(({ isSidebarVisible, toggleSidebar, isMobile, hamburgerRef }, ref) => {
   const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
   const unreadCount = useSelector((state) => state.notifications.unreadCount);
 
-{/*}  useEffect(() => {
+  {/*}  useEffect(() => {
     const interval = setInterval(() => {
       console.log("🔔 Fetching Notifications...");
       dispatch(fetchNotifications());
@@ -29,7 +29,7 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
   
     return () => clearInterval(interval);
   }, [dispatch]);*/}
-  
+
 
   // State to track if the user is logged in
   const [isLoggedIn, setIsLoggedIn] = useState(!!localStorage.getItem("accessToken"));
@@ -66,7 +66,7 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
       {/* Hamburger button for mobile screens */}
       {isMobile && (
         <div className="mobile-header">
-          <button className="hamburger-btn" onClick={toggleSidebar}>
+          <button ref={hamburgerRef} className="hamburger-btn" onClick={toggleSidebar}>
             <FaBars />
           </button>
           <div className="mobile-logo">
@@ -75,7 +75,7 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
         </div>
       )}
 
-      <div className={`sidebar ${isSidebarVisible ? "visible" : "hidden"}`}>
+      <div ref={ref} className={`sidebar ${isSidebarVisible ? "visible" : "hidden"}`}>
         <div className="sidebar-content">
           {!isMobile && (
             <div className="sidebar-logo">
@@ -143,6 +143,6 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
       </div>
     </>
   );
-};
+});
 
 export default Sidebar;

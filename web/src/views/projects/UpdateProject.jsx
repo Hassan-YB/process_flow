@@ -19,8 +19,11 @@ const UpdateProject = () => {
     end_date: "",
     status: "in_progress",
     priority: "medium",
-    attachments: null,
+    attachments: [],
+    del_attachments: [], // Store attachments to delete
   });
+
+  const [existingAttachments, setExistingAttachments] = useState([]);
 
   useEffect(() => {
     axios
@@ -35,25 +38,52 @@ const UpdateProject = () => {
           end_date: project.end_date || "",
           status: project.status || "in_progress",
           priority: project.priority || "medium",
-          attachments: null,
+          attachments: [],
+          del_attachments: [],
         });
+        setExistingAttachments(project.uploads || []);
       })
-      .catch((error) => showErrorToast("Error fetching project details: " + error));
+      .catch((error) => console.error("Error fetching project details:", error));
   }, [id]);
 
   const handleChange = (e) => {
-    const { name, value, type, files } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === "file" ? files[0] : value,
-    });
+    const { name, type, files, value } = e.target;
+
+    if (type === "file") {
+      setFormData({
+        ...formData,
+        attachments: [...formData.attachments, ...Array.from(files)],
+      });
+    } else {
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    }
+  };
+
+  const handleMarkForDeletion = (attachmentId) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      del_attachments: [...prevData.del_attachments, attachmentId],
+    }));
+
+    // Remove from UI immediately
+    setExistingAttachments((prevAttachments) =>
+      prevAttachments.filter((attachment) => attachment.id !== attachmentId)
+    );
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const formDataToSend = new FormData();
+
     Object.keys(formData).forEach((key) => {
-      if (formData[key] !== null) {
+      if (key === "attachments") {
+        formData[key].forEach((file) => formDataToSend.append("attachments", file));
+      } else if (key === "del_attachments") {
+        formData[key].forEach((id) => formDataToSend.append("del_attachments", id));
+      } else {
         formDataToSend.append(key, formData[key]);
       }
     });
@@ -64,14 +94,13 @@ const UpdateProject = () => {
       })
       .then(() => {
         showSuccessToast("Project updated successfully!");
-        navigate("/projects"); // Redirect to project list
+        navigate("/projects");
       })
-      .catch((error) => showErrorToast("Error updating project: " + error));
+      .catch((error) => showErrorToast("Error updating project"));
   };
 
   return (
     <Container>
-      <Breadcrumb pageName="Update Project" />
       <Row className="justify-content-center">
         <Col md={8}>
           <Card className="shadow-lg p-4">
@@ -134,18 +163,37 @@ const UpdateProject = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Attachments</Form.Label>
-                  <Form.Control
-                    name="attachments"
-                    type="file"
-                    onChange={handleChange}
-                  />
+                  <Form.Label>New Attachments</Form.Label>
+                  <Form.Control name="attachments" type="file" multiple onChange={handleChange} />
                 </Form.Group>
 
-                <div className="d-flex justify-content-end">
-                <button type="submit" className="c-form-btn btn-block">
-                    Update Project
-                    </button>
+                <Form.Group className="mb-3">
+                  <Form.Label>Existing Attachments</Form.Label>
+                  <div className="d-flex flex-wrap">
+                    {existingAttachments.map((attachment) => (
+                      <div key={attachment.id} className="position-relative m-2">
+                        <img
+                          src={attachment.file}
+                          alt="attachment"
+                          className="rounded"
+                          width="100"
+                          height="100"
+                        />
+                        <button
+                          type="button"
+                          className="btn btn-dark bg-opacity-50 text-white btn-sm position-absolute top-0 end-0"
+                          style={{ borderRadius: "50%", padding: "2px 8px" }}
+                          onClick={() => handleMarkForDeletion(attachment.id)}
+                        >
+                          ×
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </Form.Group>
+
+                <div className="d-flex justify-content-center">
+                  <button type="submit" className="c-form-btn btn-block">Update Project</button>
                 </div>
               </Form>
             </Card.Body>

@@ -13,3 +13,7 @@ body {
 code {
   font-family: 'Manrope', sans-serif;
 }
+
+.form-label {
+  font-weight: bold !important;
+}
