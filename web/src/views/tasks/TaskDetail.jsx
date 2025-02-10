@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Row, Col, Spinner } from "react-bootstrap";
+import { Row, Col, Spinner, Carousel } from "react-bootstrap";
 import axios from "axios";
 import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
 import MainCard from "../../components/Card/MainCard";
@@ -62,23 +62,22 @@ const TaskDetail = () => {
           {/* Project Logo */}
           <Col xs={12} md={2} className="d-flex justify-content-center">
             {task.uploads.length > 0 ? (
-              task.uploads[0].file.match(/\.(jpeg|jpg|gif|png|svg)$/i) ? (
-                <img
-                  src={task.uploads[0].file}
-                  alt="Task Attachment"
-                  width="150"
-                  height="150"
-                  className="rounded"
-                />
-              ) : (
-                <a href={task.uploads[0].file} target="_blank" rel="noopener noreferrer">
-                  📎 Attachment
-                </a>
-              )
+              <Carousel interval={7000} pause="hover">
+                {task.uploads.map((upload) => (
+                  <Carousel.Item key={upload.id}>
+                    <img
+                      src={upload.file}
+                      alt={`Task Attachment ${upload.id}`}
+                      width="100%"
+                      height="300"
+                      className="rounded"
+                    />
+                  </Carousel.Item>
+                ))}
+              </Carousel>
             ) : (
               <img src={opentask} alt="Default Task Logo" width="150" height="150" />
             )}
-
           </Col>
 
           {/* Project Info */}

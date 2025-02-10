@@ -17,7 +17,7 @@ const InvoiceCard = ({ params, onStatusClick }) => {
     }
 
     return (
-        <Card className={cardClass.join(' ')} style={{ minHeight: '172px' }}>
+        <Card className={cardClass.join(' ')} style={{ minHeight: '155px' }}>
             <Card.Body >
                 <div className="d-flex justify-content-between align-items-center mb-4">
 
@@ -69,7 +69,7 @@ const InvoiceCard = ({ params, onStatusClick }) => {
                         </span>
                     )}
                 </div>
-                <div className="d-flex justify-content-between align-items-center mb-3">
+                <div className="d-flex justify-content-between align-items-center">
                     {params.nextBill && params.nextBill.trim() !== "" ? (
                         <span style={{ fontWeight: "bold", fontSize: "18px" }}>
                             on
