@@ -108,7 +108,6 @@ const ProjectList = () => {
                 <th>End Date</th>
                 <th>Status</th>
                 <th>Priority</th>
-                <th>Attachments</th>
                 <th>Actions</th>
               </tr>
             </thead>
@@ -127,19 +126,6 @@ const ProjectList = () => {
                   <td>{project.end_date}</td>
                   <td>{formatStatus(project.status)}</td>
                   <td><TaskPriorityBadge priority={project.priority} /></td>
-                  <td>
-                    {project.uploads && project.uploads.length > 0 ? (
-                      <a
-                        href={project.uploads[0].File}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                      >
-                        View Attachment
-                      </a>
-                    ) : (
-                      "No Attachments"
-                    )}
-                  </td>
                   <td>
                     <Link to={`/project/${project.id}/update`}>
                       <button type="submit" className="c-btn btn-block me-2">
