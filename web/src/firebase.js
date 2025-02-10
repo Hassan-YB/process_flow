@@ -38,7 +38,6 @@ export const requestNotificationPermission = async () => {
 export const onMessageListener = () =>
   new Promise((resolve, reject) => {
     onMessage(messaging, (payload) => {
-      console.log("📩 Foreground Notification Received:", payload);
 
       // Dispatch Redux updates globally
       store.dispatch(incrementUnread()); // Update unread count
