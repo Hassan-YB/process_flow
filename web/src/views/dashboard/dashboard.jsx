@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, CartesianGrid } from "recharts";
 import { Spinner, Container, Row, Col, Button, Card } from "react-bootstrap";
 import MainCard from "../../components/Card/MainCard";
 import ProjectList from "../projects/ProjectsList";
@@ -66,12 +66,12 @@ const Dashboard = () => {
 
   const { completed_tasks, total_tasks, completed_projects, total_projects } = dashboardData;
 
-  const taskCompletionPercentage = total_tasks > 0 
-    ? Math.round((completed_tasks / total_tasks) * 100) 
+  const taskCompletionPercentage = total_tasks > 0
+    ? Math.round((completed_tasks / total_tasks) * 100)
     : 0;
 
-  const projectCompletionPercentage = total_projects > 0 
-    ? Math.round((completed_projects / total_projects) * 100) 
+  const projectCompletionPercentage = total_projects > 0
+    ? Math.round((completed_projects / total_projects) * 100)
     : 0;
 
 
@@ -142,19 +142,23 @@ const Dashboard = () => {
       <Row className="mt-4">
         <Col md={8}>
           <MainCard>
-            <Row>
-              <h5 className="mb-4">Projects Overview</h5>
-              <ResponsiveContainer width="100%" height={300}>
-                <LineChart data={chartData.projects}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#E4E4E4" />
-                  <XAxis dataKey="category" tick={{ fill: "#6f42c1" }} />
-                  <YAxis tick={{ fill: "#6f42c1" }} allowDecimals={false} />
-                  <Tooltip contentStyle={{ backgroundColor: "#fff", borderRadius: "10px", padding: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }} />
-                  <Legend />
-                  <Line type="monotone" dataKey="value" stroke="#6f42c1" strokeWidth={3} dot={{ r: 5, fill: "#6f42c1" }} />
-                </LineChart>
-              </ResponsiveContainer>
-            </Row>
+            <h5 className="mb-4">Projects Overview</h5>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={chartData?.projects}>
+                <defs>
+                  <linearGradient id="barGradientVertical" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#6f42c1" />
+                    <stop offset="100%" stopColor="#a445b2" />
+                  </linearGradient>
+                </defs>
+                <CartesianGrid strokeDasharray="3 3" stroke="#E4E4E4" />
+                <XAxis dataKey="category" tick={{ fill: "#6f42c1" }} />
+                <YAxis tick={{ fill: "#6f42c1" }} allowDecimals={false} />
+                <Tooltip contentStyle={{ backgroundColor: "#fff", borderRadius: "10px", padding: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }} />
+                <Legend />
+                <Bar dataKey="value" fill="url(#barGradientVertical)" barSize={50} />
+              </BarChart>
+            </ResponsiveContainer>
           </MainCard>
         </Col>
         <Col md={4} className="mt-4">
@@ -172,7 +176,7 @@ const Dashboard = () => {
                 boxShadow: "0px 2px 10px rgba(0, 0, 0, 0.1)"
               }}>
                 <div className="d-flex flex-column align-items-start">
-                <CircularProgress percentage={taskCompletionPercentage} color="#7D5EF2" />
+                  <CircularProgress percentage={taskCompletionPercentage} color="#7D5EF2" />
                   <span className="mt-2" style={{ fontSize: "14px", fontWeight: "500" }}>Tasks Completed</span>
                   <span style={{ fontSize: "22px", fontWeight: "bold" }}>{taskCompletionPercentage}% </span>
                 </div>
@@ -205,21 +209,26 @@ const Dashboard = () => {
 
       {/* Tasks Chart */}
       <Row className="mt-5">
-      <MainCard>
-        <Row>
+        <MainCard>
           <h5 className="mb-4">Tasks Overview</h5>
           <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={chartData.tasks}>
+            <BarChart data={chartData?.tasks}>
+              <defs>
+                <linearGradient id="barGradient" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#6f42c1" />
+                  <stop offset="100%" stopColor="#a445b2" />
+                </linearGradient>
+              </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#E4E4E4" />
               <XAxis dataKey="category" tick={{ fill: "#6f42c1" }} />
               <YAxis tick={{ fill: "#6f42c1" }} allowDecimals={false} />
               <Tooltip contentStyle={{ backgroundColor: "#fff", borderRadius: "10px", padding: "10px", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.1)" }} />
               <Legend />
-              <Line type="monotone" dataKey="value" stroke="#6f42c1" strokeWidth={3} dot={{ r: 5, fill: "#6f42c1" }} />
-            </LineChart>
+              <Bar dataKey="value" fill="url(#barGradient)" barSize={50} />
+            </BarChart>
           </ResponsiveContainer>
-        </Row>
-      </MainCard>
+        </MainCard>
+
       </Row>
 
       <ProjectList />

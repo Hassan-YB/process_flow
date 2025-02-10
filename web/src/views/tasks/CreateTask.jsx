@@ -75,7 +75,7 @@ const CreateTask = () => {
               <h2 className="mb-4 text-center"></h2>
               <Form onSubmit={handleCreateTask}>
                 <Form.Group className="mb-3">
-                  <Form.Label>Task Title*</Form.Label>
+                  <Form.Label>Title*</Form.Label>
                   <Form.Control
                     type="text"
                     name="title"
@@ -87,7 +87,7 @@ const CreateTask = () => {
                 </Form.Group>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Task Description*</Form.Label>
+                  <Form.Label>Description*</Form.Label>
                   <Form.Control
                     as="textarea"
                     rows={4}

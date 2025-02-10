@@ -120,6 +120,7 @@ export const userLogin = (loginData) => async (dispatch) => {
 
     const accessToken = data.tokens.access;
     const refreshToken = data.tokens.refresh;
+    const userFullName = data.user.full_name;
 
     // Dispatch the login success action
     dispatch({ type: USER_LOGIN, payload: data });
@@ -127,6 +128,7 @@ export const userLogin = (loginData) => async (dispatch) => {
     // Store both access and refresh tokens in localStorage
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
+    localStorage.setItem("userFullName", userFullName);
 
     window.location.href = "/pricing";
     showSuccessToast("successfully logged in.")

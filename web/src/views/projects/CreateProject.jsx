@@ -96,14 +96,6 @@ const CreateProject = () => {
                 </Row>
 
                 <Form.Group className="mb-3">
-                  <Form.Label>Status</Form.Label>
-                  <Form.Select name="status" onChange={handleChange} required>
-                    <option value="in_progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                  </Form.Select>
-                </Form.Group>
-
-                <Form.Group className="mb-3">
                   <Form.Label>Priority</Form.Label>
                   <Form.Select name="priority" onChange={handleChange} required>
                     <option value="low">Low</option>

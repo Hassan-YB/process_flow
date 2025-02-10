@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button, Table } from "react-bootstrap";
+import { Modal, Button, Table } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
@@ -16,6 +16,8 @@ const Projects = () => {
   const [projects, setProjects] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedProjectId, setSelectedProjectId] = useState(null);
 
 
   useEffect(() => {
@@ -37,15 +39,26 @@ const Projects = () => {
   };
 
   const handleDelete = (id) => {
+    setSelectedProjectId(id);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDeleteProject = () => {
+    if (!selectedProjectId) return;
+
     axios
-      .delete(`${API_URL}${id}/`, {
+      .delete(`${API_URL}${selectedProjectId}/`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
         showSuccessToast("Project deleted successfully!");
         fetchProjects(currentPage);
       })
-      .catch((error) => showErrorToast("Error deleting project"));
+      .catch((error) => showErrorToast("Error deleting project"))
+      .finally(() => {
+        setShowDeleteModal(false);
+        setSelectedProjectId(null);
+      });
   };
 
   // Function to format status
@@ -149,6 +162,22 @@ const Projects = () => {
             Next
           </button>
         </div>
+
+        {/* Confirmation Modal */}
+        <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
+          <Modal.Header closeButton>
+            <Modal.Title>Confirm Project Deletion</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            Are you sure you want to delete this project? This action cannot be undone.
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" style={{ background: '#fff', color: '#9860DA', border: '2px solid #9860DA' }}
+              onClick={() => setShowDeleteModal(false)}>Cancel</Button>
+            <Button variant="danger" style={{ background: '#9860DA', color: '#fff' }}
+              onClick={confirmDeleteProject}>Delete</Button>
+          </Modal.Footer>
+        </Modal>
       </div>
     </div>
   );

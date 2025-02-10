@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Container, Card, Form, Button, Row, Col, Table } from "react-bootstrap";
+import { Modal, Card, Form, Button, Row, Col, Table } from "react-bootstrap";
 import axios from "axios";
 import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
 import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
@@ -11,7 +11,7 @@ import opentask from "../../assets/img/open_task.png"
 import opentaskbg from "../../assets/img/open_tasks_bg.png"
 import completetask from "../../assets/img/complete_task.png"
 import completetasksbg from "../../assets/img/complete_tasks_bg.png"
-import { FaRegCalendarAlt } from "react-icons/fa";
+import { FaRegCalendarAlt, FaCheckCircle } from "react-icons/fa";
 import TaskPriorityBadge from "../../components/Badge/badge"
 import '../dashboard/dashboard.css';
 
@@ -22,6 +22,8 @@ const token = localStorage.getItem("accessToken");
 const ProjectDetail = () => {
   const { id } = useParams();
   const [project, setProject] = useState(null);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [selectedTaskId, setSelectedTaskId] = useState(null);
 
   useEffect(() => {
     fetchProjectDetails();
@@ -37,18 +39,29 @@ const ProjectDetail = () => {
   };
 
   const handleDeleteTask = (taskId) => {
+    setSelectedTaskId(taskId);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDeleteTask = () => {
+    if (!selectedTaskId) return;
+
     axios
-      .delete(`${BASE_URL}/api/v1/tasks/${taskId}/`, {
+      .delete(`${BASE_URL}/api/v1/tasks/${selectedTaskId}/`, {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then(() => {
         showSuccessToast("Task deleted successfully!");
         setProject((prevProject) => ({
           ...prevProject,
-          tasks: prevProject.tasks.filter((task) => task.id !== taskId),
+          tasks: prevProject.tasks.filter((task) => task.id !== selectedTaskId),
         }));
       })
-      .catch((error) => showErrorToast("Error deleting task: " + error));
+      .catch((error) => showErrorToast("Error deleting task: " + error))
+      .finally(() => {
+        setShowDeleteModal(false);
+        setSelectedTaskId(null);
+      });
   };
 
   // Prepare data for the ring chart
@@ -92,11 +105,15 @@ const ProjectDetail = () => {
       <Breadcrumb pageName="Project Detail" />
       <div className="d-flex justify-content-between align-items-center mt-4">
         <h3>Project Detail</h3>
-        <Link to={`/task/create/${id}`}>
-          <button type="submit" className="c-btn btn-block mb-4">+ New Task</button>
-        </Link>
+        <span>
+          <Link to={`/task/create/${id}`}>
+            <button type="submit" className="c-btn btn-block mb-4">+ New Task</button>
+          </Link>
+          <Link to={`/project/${id}/update`} className="ms-2">
+            <button type="submit" className="c-btn btn-block mb-4">+ Edit Project</button>
+          </Link>
+        </span>
       </div>
-
 
 
       {project ? (
@@ -139,7 +156,7 @@ const ProjectDetail = () => {
                     <FaRegCalendarAlt className="me-1" /> {project.start_date} - {project.end_date}
                   </span>
                   <span className="mt-3 ms-3">
-                    {project.status}
+                    <FaCheckCircle className="me-1" /> {formatStatus(project.status)}
                   </span>
                 </div>
               </Col>
@@ -249,6 +266,20 @@ const ProjectDetail = () => {
               <p>No tasks available for this project.</p>
             )}
           </MainCard>
+
+          {/* Confirmation Modal */}
+          <Modal show={showDeleteModal} onHide={() => setShowDeleteModal(false)} centered>
+            <Modal.Header closeButton>
+              <Modal.Title>Confirm Task Deletion</Modal.Title>
+            </Modal.Header>
+            <Modal.Body>Are you sure you want to delete this task? This action cannot be undone.</Modal.Body>
+            <Modal.Footer>
+              <Button variant="secondary" style={{ background: '#fff', color: '#9860DA', border: '2px solid #9860DA' }}
+                onClick={() => setShowDeleteModal(false)}>Cancel</Button>
+              <Button variant="danger" style={{ background: '#9860DA', color: '#fff' }}
+                onClick={confirmDeleteTask}>Delete</Button>
+            </Modal.Footer>
+          </Modal>
         </>
       ) : (
         <p>No project found.</p>
