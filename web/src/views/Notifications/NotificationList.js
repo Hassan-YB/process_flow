@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchNotifications, updateNotification, markAllAsRead } from "../../config/notificationsSlice";
-import { onMessageListener } from "../../firebase";
+//import { onMessageListener } from "../../firebase";
 import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
 import Breadcrumb from "../../components/Breadcrumb/breadcrumb";
 import { Tab, Nav, Button, Card, ListGroup, Form, InputGroup } from "react-bootstrap";
@@ -19,11 +19,11 @@ const NotificationList = () => {
   useEffect(() => {
     dispatch(fetchNotifications({ page: currentPage }));
 
-    onMessageListener()
-      .then((payload) => {
-        dispatch(fetchNotifications({ page: currentPage }));
-      })
-      .catch((err) => console.log("Failed to receive message", err));
+    //onMessageListener()
+    //  .then((payload) => {
+    //    dispatch(fetchNotifications({ page: currentPage }));
+    //  })
+    //  .catch((err) => console.log("Failed to receive message", err));
   }, [dispatch, currentPage]);
 
   const handleMarkAsRead = (id) => {

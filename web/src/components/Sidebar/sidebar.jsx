@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../actions/userActions";
 import './sidebar.css'
 import { showErrorToast } from "../../utils/toastUtils";
-import { onMessageListener } from "../../firebase";
+//import { onMessageListener } from "../../firebase";
 import { fetchNotifications, incrementUnread } from "../../config/notificationsSlice";
 // assets
 import logoDark from '../../assets/img/processflow_logo.png';
@@ -21,14 +21,14 @@ const Sidebar = ({ isSidebarVisible, toggleSidebar, isMobile }) => {
 
   const unreadCount = useSelector((state) => state.notifications.unreadCount);
 
-  useEffect(() => {
+{/*}  useEffect(() => {
     const interval = setInterval(() => {
       console.log("🔔 Fetching Notifications...");
       dispatch(fetchNotifications());
     }, 5000);
   
     return () => clearInterval(interval);
-  }, [dispatch]);
+  }, [dispatch]);*/}
   
 
   // State to track if the user is logged in

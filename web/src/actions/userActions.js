@@ -128,7 +128,7 @@ export const userLogin = (loginData) => async (dispatch) => {
     localStorage.setItem("accessToken", accessToken);
     localStorage.setItem("refreshToken", refreshToken);
 
-    //window.location.href = "/pricing";
+    window.location.href = "/pricing";
     showSuccessToast("successfully logged in.")
   } catch (error) {
     const errors = error.response?.data || {};
@@ -189,7 +189,7 @@ export const changePassword = (passwordData) => async (dispatch) => {
 
     showSuccessToast("Password changed successfully!");
 
-    //window.location.href = "profile";
+    window.location.href = "profile";
   } catch (error) {
     //console.error('Change Password Error:', error.response.data);
     //showErrorToast(error.response?.data?.error || "Failed to change password. Please try again.");
