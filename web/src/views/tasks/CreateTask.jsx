@@ -75,7 +75,6 @@ const CreateTask = () => {
         <Col md={8}>
           <Card className="shadow-lg p-4">
             <Card.Body>
-              <h2 className="mb-4 text-center"></h2>
               <Form onSubmit={handleCreateTask}>
                 <Form.Group className="mb-3">
                   <Form.Label>Title*</Form.Label>

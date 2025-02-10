@@ -68,13 +68,12 @@ const CreateProject = () => {
 
 
   return (
-    <Container>
+    <div className="container-fluid">
       <Breadcrumb pageName="New Project" />
       <Row className="justify-content-center">
         <Col md={8}>
           <Card className="shadow-lg p-4">
             <Card.Body>
-              <h2 className="mb-4 text-center"></h2>
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                   <Form.Label>Title*</Form.Label>
@@ -141,7 +140,7 @@ const CreateProject = () => {
           </Card>
         </Col>
       </Row>
-    </Container>
+    </div>
   );
 };
 

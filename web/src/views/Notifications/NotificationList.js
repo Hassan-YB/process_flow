@@ -53,7 +53,7 @@ const NotificationList = () => {
       <Breadcrumb pageName="Notifications" />
 
       <div className="d-flex justify-content-between align-items-center flex-column flex-sm-row">
-        <h3>Notifications</h3>
+        <h3></h3>
         <div className="d-flex flex-column flex-sm-row">
           <InputGroup className="custom-search">
             <InputGroup.Text>

@@ -100,12 +100,12 @@ const UpdateProject = () => {
   };
 
   return (
-    <Container>
+    <div className="container-fluid">
+      <Breadcrumb pageName="Edit Project" />
       <Row className="justify-content-center">
         <Col md={8}>
           <Card className="shadow-lg p-4">
             <Card.Body>
-              <h2 className="mb-4 text-center">Edit Project</h2>
               <Form onSubmit={handleSubmit}>
                 <Form.Group className="mb-3">
                   <Form.Label>Title</Form.Label>
@@ -200,7 +200,7 @@ const UpdateProject = () => {
           </Card>
         </Col>
       </Row>
-    </Container>
+      </div>
   );
 };
 
