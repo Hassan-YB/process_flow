@@ -41,9 +41,9 @@ const TaskDetail = () => {
     <div className="container-fluid">
       <Breadcrumb pageName="Task Detail" />
       <MainCard>
-        <Row className="align-items-center">
+        <Row className="align-items-center flex-column flex-sm-row">
           {/* Project Logo */}
-          <Col xs={2} className="d-flex justify-content-center flex-column flex-sm-row">
+          <Col xs={12} md={2} className="d-flex justify-content-center">
             {task.uploads.length > 0 ? (
               task.uploads[0].file.match(/\.(jpeg|jpg|gif|png|svg)$/i) ? (
                 <img
@@ -65,7 +65,7 @@ const TaskDetail = () => {
           </Col>
 
           {/* Project Info */}
-          <Col xs={10}>
+          <Col xs={12} md={10}>
             <div className="d-flex flex-column flex-sm-row justify-content-between">
               <span className="mt-2">
                 <h4 className="fw-bold mb-1">{task.title}</h4>
