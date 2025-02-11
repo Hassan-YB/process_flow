@@ -49,7 +49,7 @@ const NotificationList = () => {
     .filter((n) => n.title.toLowerCase().includes(searchTerm.toLowerCase()));
 
   return (
-    <div className="container-fluid mt-4">
+    <div className="container-fluid">
       <Breadcrumb pageName="Notifications" />
 
       <div className="d-flex justify-content-between align-items-center flex-column flex-sm-row">

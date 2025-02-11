@@ -11,7 +11,7 @@ import opentask from "../../assets/img/open_task.png"
 import opentaskbg from "../../assets/img/open_tasks_bg.png"
 import completetask from "../../assets/img/complete_task.png"
 import completetasksbg from "../../assets/img/complete_tasks_bg.png"
-import { FaRegCalendarAlt, FaCheckCircle } from "react-icons/fa";
+import { FaRegCalendarAlt, FaCheckCircle, FaClipboardList } from "react-icons/fa";
 import TaskPriorityBadge from "../../components/Badge/badge"
 import '../dashboard/dashboard.css';
 
@@ -159,6 +159,13 @@ const ProjectDetail = () => {
                     <FaCheckCircle className="me-1" /> {formatStatus(project.status)}
                   </span>
                 </div>
+                <div className="d-flex align-items-center text-muted" style={{ fontSize: "14px" }}>
+                  {project.description && (
+                    <span className="mt-3">
+                      <FaClipboardList className="me-1" /> {project.description}
+                    </span>
+                  )}
+                </div>
               </Col>
             </Row>
           </MainCard>
@@ -221,7 +228,7 @@ const ProjectDetail = () => {
           <MainCard>
             {project.tasks.length > 0 ? (
               <div className="table-responsive">
-                <Table striped bordered hover>
+                <Table bordered hover>
                   <thead>
                     <tr>
                       <th>ID</th>

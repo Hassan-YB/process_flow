@@ -94,7 +94,7 @@ const Projects = () => {
       <Breadcrumb pageName="Projects" />
       <div className="mt-5">
         <div className="d-flex justify-content-between align-items-center mt-4">
-          <h3>Projects</h3>
+          <h3></h3>
           <Link to="/project/create">
             <button type="submit" className="c-btn btn-block">+ New Project</button>
           </Link>
@@ -102,7 +102,7 @@ const Projects = () => {
 
         <MainCard>
           <div className="table-responsive">
-            <Table bordered hover className="mt-4">
+            <Table bordered hover>
               <thead>
                 <tr>
                   <th>Title</th>

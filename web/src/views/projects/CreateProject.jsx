@@ -15,6 +15,7 @@ const CreateProject = () => {
 
   const [formData, setFormData] = useState({
     title: "",
+    description: "",
     start_date: "",
     end_date: "",
     status: "in_progress",
@@ -63,7 +64,7 @@ const CreateProject = () => {
         showSuccessToast("Project created successfully!");
         navigate("/projects"); // Redirect to project list page
       })
-      .catch((error) => showErrorToast("Error creating project: " + error));
+      .catch((error) => showErrorToast("Error creating project"));
   };
 
 
@@ -81,6 +82,18 @@ const CreateProject = () => {
                     name="title"
                     type="text"
                     placeholder="Enter project title"
+                    onChange={handleChange}
+                    required
+                  />
+                </Form.Group>
+
+                <Form.Group className="mb-3">
+                  <Form.Label>Description</Form.Label>
+                  <Form.Control
+                    as="textarea"
+                    rows={4}
+                    name="description"
+                    placeholder="Enter project description"
                     onChange={handleChange}
                     required
                   />

@@ -63,7 +63,6 @@ const CreateTask = () => {
       showSuccessToast("Task created successfully!");
       navigate(`/project/${projectId}`);
     } catch (error) {
-      console.error("Error creating task:", error.response);
       showErrorToast("Error creating task");
     }
   };
