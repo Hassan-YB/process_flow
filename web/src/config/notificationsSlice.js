@@ -15,10 +15,9 @@ export const fetchNotifications = createAsyncThunk(
       headers: { Authorization: `Bearer ${token}` }
     });
 
-    console.log("API Response Data:", response.data);
-
     return {
       results: response.data.results || [],
+      unreadCount: response.data.results.filter((n) => !n.is_read).length,
       nextPage: response.data.next ? page + 1 : null,
       prevPage: response.data.previous ? page - 1 : null,
       totalPages: response.data.total_pages || 1
@@ -63,11 +62,13 @@ export const markAllAsRead = createAsyncThunk(
   }
 );
 
+const storedUnreadCount = localStorage.getItem("unreadCount");
+
 const notificationsSlice = createSlice({
   name: "notifications",
   initialState: {
     items: [],
-    unreadCount: 0,
+    unreadCount: storedUnreadCount ? parseInt(storedUnreadCount) : 0,
     status: "idle",
     error: null,
     totalPages: 1,
@@ -77,9 +78,11 @@ const notificationsSlice = createSlice({
   reducers: {
     incrementUnread: (state) => {
       state.unreadCount += 1;
+      localStorage.setItem("unreadCount", state.unreadCount); // Persist data
     },
     setUnreadCount: (state, action) => {
-      state.unreadCount = action.payload; // Directly set the count
+      state.unreadCount = action.payload;
+      localStorage.setItem("unreadCount", state.unreadCount); // Persist data
     },
   },
   extraReducers: (builder) => {
@@ -93,8 +96,9 @@ const notificationsSlice = createSlice({
         state.totalPages = action.payload.totalPages;
         state.nextPage = action.payload.nextPage;
         state.prevPage = action.payload.prevPage;
+        localStorage.setItem("unreadCount", state.unreadCount);
         state.status = "succeeded";
-      })      
+      })
       .addCase(fetchNotifications.rejected, (state, action) => {
         state.error = action.error.message;
         state.status = "failed";
@@ -102,6 +106,7 @@ const notificationsSlice = createSlice({
       .addCase(markAllAsRead.fulfilled, (state) => {
         state.items = state.items.map((n) => ({ ...n, is_read: true }));
         state.unreadCount = 0;
+        localStorage.setItem("unreadCount", 0);
       });
   }
 });

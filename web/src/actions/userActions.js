@@ -80,7 +80,7 @@ export const verifyOtp = (otpData, navigate) => async (dispatch) => {
 
       navigate("/pricing");
       window.location.reload();
-    } 
+    }
   } catch (error) {
     const errors = error.response?.data || {};
     let errorMessage = "An error occurred. Please try again.";
@@ -114,7 +114,7 @@ export const resendOtp = (otpData) => async (dispatch) => {
 };
 
 // Login Action
-export const userLogin = (loginData) => async (dispatch) => {
+export const userLogin = (loginData, navigate) => async (dispatch) => {
   try {
     const { data } = await axios.post(`${API_URL}/login/`, loginData);
 
@@ -130,7 +130,7 @@ export const userLogin = (loginData) => async (dispatch) => {
     localStorage.setItem("refreshToken", refreshToken);
     localStorage.setItem("userFullName", userFullName);
 
-    window.location.href = "/pricing";
+    navigate("/pricing");
     showSuccessToast("successfully logged in.")
   } catch (error) {
     const errors = error.response?.data || {};
@@ -153,7 +153,7 @@ export const userLogin = (loginData) => async (dispatch) => {
 
 
 // Logout Action
-export const logout = (refreshToken) => async (dispatch) => {
+export const logout = (refreshToken, navigate) => async (dispatch) => {
   try {
     const token = localStorage.getItem("accessToken");
     const config = {
@@ -170,7 +170,8 @@ export const logout = (refreshToken) => async (dispatch) => {
     dispatch({ type: "LOGOUT_SUCCESS" });
 
     showSuccessToast("Logged out successfully!");
-    window.location.href = "/auth/signin";
+    //window.location.href = "/auth/signin";
+    navigate("/auth/signin");
   } catch (error) {
     //console.error("Logout Error:", error.response?.data || error.message);
     //showErrorToast("Failed to resend OTP. Please try again.");
@@ -180,7 +181,7 @@ export const logout = (refreshToken) => async (dispatch) => {
 
 
 // Change Password Action
-export const changePassword = (passwordData) => async (dispatch) => {
+export const changePassword = (passwordData, navigate) => async (dispatch) => {
   try {
     const token = localStorage.getItem('accessToken');
     const config = {
@@ -191,10 +192,8 @@ export const changePassword = (passwordData) => async (dispatch) => {
 
     showSuccessToast("Password changed successfully!");
 
-    window.location.href = "profile";
+    navigate("/profile");
   } catch (error) {
-    //console.error('Change Password Error:', error.response.data);
-    //showErrorToast(error.response?.data?.error || "Failed to change password. Please try again.");
     showErrorToast(error.response?.data?.error || error.message);
   }
 };
@@ -217,7 +216,7 @@ export const forgotPasswordVerify = (verifyData) => async (dispatch) => {
   try {
     const { data } = await axios.post(`${API_URL}/password/forgot/`, verifyData);
     showSuccessToast(data.message);
-    window.location.href = "/auth/signin"; 
+    window.location.href = "/auth/signin";
   } catch (error) {
     //console.error("Forgot Password Verify Error:", error.response?.data || error.message);
     showErrorToast(

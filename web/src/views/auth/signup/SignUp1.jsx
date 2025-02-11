@@ -12,10 +12,10 @@ import { FaUserPlus, FaEye, FaEyeSlash } from 'react-icons/fa';
 import Nav from "../../../components/Nav/loginNav"
 
 import { showErrorToast } from "../../../utils/toastUtils";
-//import { getMessaging, getToken, onMessage } from "firebase/messaging";
-//import { initializeApp } from "firebase/app";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { initializeApp } from "firebase/app";
 
-{/*}
+
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -27,7 +27,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const messaging = getMessaging(app);*/}
+const messaging = getMessaging(app);
 
 
 // ==============================|| SIGN UP 1 ||============================== //
@@ -51,7 +51,7 @@ const SignUp1 = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  {/*const requestFCMToken = async () => {
+  const requestFCMToken = async () => {
     try {
       const permission = await Notification.requestPermission();
       if (permission === "granted") {
@@ -59,17 +59,16 @@ const SignUp1 = () => {
           vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY,
         });
 
-        console.log("FCM Token:", fcmToken);
         return fcmToken;
       } else {
-        console.warn("Notification permission denied.");
+        //console.warn("Notification permission denied.");
         return null;
       }
     } catch (error) {
-      console.error("Error getting FCM token:", error);
+      //console.error("Error getting FCM token:", error);
       return null;
     }
-  };*/}
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -79,17 +78,13 @@ const SignUp1 = () => {
       return;
     }
 
-    //const fcmToken = await requestFCMToken(); // Fetch FCM token
+    const fcmToken = await requestFCMToken(); // Fetch FCM token
 
-    //if (!fcmToken) {
-    //  showErrorToast("Unable to get FCM Token. Please enable notifications.");
-    //  return;
-    //}
 
     const { confirmPassword, ...submitData } = formData;
-    //submitData.fcm_token = fcmToken; // Send FCM token to backend
-    //submitData.device_name = "Web Device"; // Set device name
-    //submitData.device_platform = "web"; // Set platform as web
+    submitData.fcm_token = fcmToken; // Send FCM token to backend
+    submitData.device_name = "Web Device"; // Set device name
+    submitData.device_platform = "web"; // Set platform as web
 
     dispatch(userSignup(submitData, navigate));
   };

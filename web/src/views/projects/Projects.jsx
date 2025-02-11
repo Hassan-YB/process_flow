@@ -10,7 +10,7 @@ import TaskPriorityBadge from "../../components/Badge/badge"
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_URL = `${BASE_URL}/api/v1/projects/`;
-const token = localStorage.getItem("accessToken");
+//const token = localStorage.getItem("accessToken");
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -25,6 +25,7 @@ const Projects = () => {
   }, [currentPage]);
 
   const fetchProjects = (page) => {
+    const token = localStorage.getItem("accessToken");
     axios
       .get(API_URL, {
         headers: { Authorization: `Bearer ${token}` },
@@ -45,6 +46,7 @@ const Projects = () => {
 
   const confirmDeleteProject = () => {
     if (!selectedProjectId) return;
+    const token = localStorage.getItem("accessToken");
 
     axios
       .delete(`${API_URL}${selectedProjectId}/`, {

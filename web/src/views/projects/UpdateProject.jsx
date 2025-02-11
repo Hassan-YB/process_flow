@@ -8,7 +8,6 @@ import '../dashboard/dashboard.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_URL = `${BASE_URL}/api/v1/projects/`;
-const token = localStorage.getItem("accessToken");
 
 const UpdateProject = () => {
   const { id } = useParams();
@@ -26,6 +25,7 @@ const UpdateProject = () => {
   const [existingAttachments, setExistingAttachments] = useState([]);
 
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
     axios
       .get(`${API_URL}${id}/`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -77,6 +77,7 @@ const UpdateProject = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formDataToSend = new FormData();
+    const token = localStorage.getItem("accessToken");
 
     Object.keys(formData).forEach((key) => {
       if (key === "attachments") {

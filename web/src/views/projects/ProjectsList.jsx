@@ -10,7 +10,6 @@ import '../dashboard/dashboard.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_URL = `${BASE_URL}/api/v1/projects/`;
-const token = localStorage.getItem("accessToken");
 
 const ProjectList = () => {
   const [projects, setProjects] = useState([]);
@@ -25,6 +24,7 @@ const ProjectList = () => {
   }, [currentPage]);
 
   const fetchProjects = (page) => {
+    const token = localStorage.getItem("accessToken");
     axios
       .get(API_URL, {
         headers: { Authorization: `Bearer ${token}` },
@@ -45,6 +45,7 @@ const ProjectList = () => {
 
   const confirmDeleteProject = () => {
     if (!selectedProjectId) return;
+    const token = localStorage.getItem("accessToken");
 
     axios
       .delete(`${API_URL}${selectedProjectId}/`, {
