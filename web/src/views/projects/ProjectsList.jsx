@@ -100,7 +100,7 @@ const ProjectList = () => {
 
       <MainCard>
         <div className="table-responsive">
-          <Table bordered hover className="mt-4">
+          <Table bordered hover>
             <thead>
               <tr>
                 <th>Title</th>

@@ -4,7 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer, Cart
 import { Spinner, Container, Row, Col, Button, Card } from "react-bootstrap";
 import MainCard from "../../components/Card/MainCard";
 import ProjectList from "../projects/ProjectsList";
-import DashboardBreadcrumb from "../../components/Breadcrumb/breadcrumb";
+import DashboardBreadcrumb from "../../components/Breadcrumb/dashboardbread";
 import { FaTasks, FaCheckCircle, FaClock, FaClipboardCheck } from "react-icons/fa";
 import opentaskbg from "../../assets/img/open_tasks_bg.png"
 import completetasksbg from "../../assets/img/complete_tasks_bg.png"
