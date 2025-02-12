@@ -46,7 +46,6 @@ function App() {
     requestNotificationPermission();
 
     dispatch(fetchNotifications());
-    console.log("re-fetch")
 
     // Listen for Firebase messages in foreground
     onMessageListener()
