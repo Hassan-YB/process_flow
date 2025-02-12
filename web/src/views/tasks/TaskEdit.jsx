@@ -9,7 +9,6 @@ import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const TASK_API_URL = `${BASE_URL}/api/v1/tasks/`;
-const token = localStorage.getItem("accessToken");
 
 const TaskEdit = () => {
   const { id } = useParams();
@@ -27,6 +26,7 @@ const TaskEdit = () => {
   const [existingAttachments, setExistingAttachments] = useState([]);
 
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
     axios
       .get(`${TASK_API_URL}${id}/`, {
         headers: { Authorization: `Bearer ${token}` },
@@ -77,6 +77,7 @@ const TaskEdit = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formDataToSend = new FormData();
+    const token = localStorage.getItem("accessToken");
 
     Object.keys(taskData).forEach((key) => {
       if (key === "attachments") {

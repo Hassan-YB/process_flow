@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../../actions/userActions";
 import './sidebar.css'
 import { showErrorToast } from "../../utils/toastUtils";
-//import { onMessageListener } from "../../firebase";
-import { fetchNotifications, incrementUnread } from "../../config/notificationsSlice";
+import { onMessageListener } from "../../firebase";
+import { fetchNotifications, setUnreadCount } from "../../config/notificationsSlice";
 // assets
 import logoDark from '../../assets/img/processflow_logo.png';
 import {
@@ -21,14 +21,9 @@ const Sidebar = forwardRef(({ isSidebarVisible, toggleSidebar, isMobile, hamburg
 
   const unreadCount = useSelector((state) => state.notifications.unreadCount);
 
-  {/*}  useEffect(() => {
-    const interval = setInterval(() => {
-      console.log("🔔 Fetching Notifications...");
-      dispatch(fetchNotifications());
-    }, 5000);
-  
-    return () => clearInterval(interval);
-  }, [dispatch]);*/}
+  useEffect(() => {
+    setUnreadCount(localStorage.getItem("unreadCount") || 0); // Get unread count from storage
+  }, [unreadCount]);
 
 
   // State to track if the user is logged in
@@ -37,12 +32,11 @@ const Sidebar = forwardRef(({ isSidebarVisible, toggleSidebar, isMobile, hamburg
   const handleLogout = () => {
     const refreshToken = localStorage.getItem("refreshToken");
     if (refreshToken) {
-      dispatch(logout(refreshToken));
+      dispatch(logout(refreshToken, navigate));
       // Clear the local storage and update state
       localStorage.removeItem("accessToken");
       localStorage.removeItem("refreshToken");
       setIsLoggedIn(false);
-      navigate("/auth/signin");
       //showSuccessToast("Logged out successfully!");
     } else {
       showErrorToast("Already logged out.");

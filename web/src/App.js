@@ -28,8 +28,8 @@ import CreateTask from './views/tasks/CreateTask'
 import Sidebar from './components/Sidebar/sidebar';
 import PrivateRoute from './config/privateroutes';
 
-import { fetchNotifications } from "./config/notificationsSlice";
-//import { requestNotificationPermission, onMessageListener } from "./firebase";
+import { fetchNotifications, incrementUnread } from "./config/notificationsSlice";
+import { requestNotificationPermission, onMessageListener } from "./firebase";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -42,17 +42,20 @@ function App() {
 
   const dispatch = useDispatch();
 
-  {/*useEffect(() => {
+  useEffect(() => {
     requestNotificationPermission();
 
-    // Listen for Firebase messages in foreground
-  onMessageListener()
-  .then((payload) => {
-    toast.info(payload.notification.body);
     dispatch(fetchNotifications());
-  })
-  .catch((err) => console.log("Failed to receive message", err));
-}, [dispatch]);*/}
+    console.log("re-fetch")
+
+    // Listen for Firebase messages in foreground
+    onMessageListener()
+      .then((payload) => {
+        //toast.info(payload.notification.body);
+        dispatch(fetchNotifications());
+      })
+      .catch((err) => console.log("Failed to receive message", err));
+  }, [dispatch]);
 
   const noSidebarRoutes = [
     "/auth/signin",

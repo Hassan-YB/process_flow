@@ -1,29 +1,30 @@
-services:
+version: '3.8'
 
+services:
   postgres-db:
     container_name: process_flow_db
     image: postgres:15
     volumes:
-      - postgres_data:/var/lib/postgresql/data/
+      - postgres_data:/var/lib/postgresql/data/  # Volume is named correctly
     env_file:
       - ./.env
     environment:
-          - POSTGRES_USER=postgres
-          - POSTGRES_PASSWORD=postgres
-          - POSTGRES_DB=process_flow_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=process_flow_db
     ports:
-    - 5434:5432
+      - 5434:5432
 
   web:
     container_name: process_flow
     build:
       context: .
       dockerfile: ./DockerFile
-    command: bash -c "python manage.py runserver 0.0.0.0:8000"
+    command: bash -c "python manage.py runserver 0.0.0.0:8000 --noreload"
     env_file:
       - ./.env
     volumes:
-      - ./:/process_flow
+      - .:/process_flow
     ports:
       - 8000:8000
     depends_on:
@@ -36,11 +37,11 @@ services:
       dockerfile: DockerFile
     volumes:
       - ./web:/app
-       - node_modules:/app/node_modules
+      - /app/node_modules/  # Fix for node_modules persistence
     ports:
       - "3000:3000"
     depends_on:
       - web
-  
+
 volumes:
-  postgres_data:
+  postgres_data:  # Volume definition FIXED here

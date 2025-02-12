@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { FaSignInAlt, FaEye, FaEyeSlash } from 'react-icons/fa';
 
 // react-bootstrap
@@ -11,10 +11,10 @@ import { userLogin } from "../../../actions/userActions";
 import Nav from "../../../components/Nav/signupNav";
 
 import { showErrorToast } from "../../../utils/toastUtils";
-//import { getMessaging, getToken, onMessage } from "firebase/messaging";
-//import { initializeApp } from "firebase/app";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { initializeApp } from "firebase/app";
 
-{/*}
+
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
@@ -26,7 +26,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const messaging = getMessaging(app);*/}
+const messaging = getMessaging(app);
 
 // ==============================|| SIGN IN 1 ||============================== //
 
@@ -34,6 +34,7 @@ const Signin1 = () => {
   const [loginData, setLoginData] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -41,7 +42,7 @@ const Signin1 = () => {
   };
 
 
-  {/*const requestFCMToken = async () => {
+  const requestFCMToken = async () => {
     try {
       const permission = await Notification.requestPermission();
       if (permission === "granted") {
@@ -49,17 +50,16 @@ const Signin1 = () => {
           vapidKey: process.env.REACT_APP_FIREBASE_VAPID_KEY,
         });
 
-        console.log("FCM Token:", fcmToken);
         return fcmToken;
       } else {
-        console.warn("Notification permission denied.");
+        //console.warn("Notification permission denied.");
         return null;
       }
     } catch (error) {
-      console.error("Error getting FCM token:", error);
+      //console.error("Error getting FCM token:", error);
       return null;
     }
-  };*/}
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -68,26 +68,14 @@ const Signin1 = () => {
       return;
     }
 
-    //const fcmToken = await requestFCMToken();
-
-    console.log("", {
-      ...loginData,
-      //fcm_token: fcmToken,
-      //device_name: "Web Device",
-      //device_platform: "web",
-    });
-
-    //if (!fcmToken) {
-    //  showErrorToast("Unable to get FCM Token. Please enable notifications.");
-    //  return;
-   // }
+    const fcmToken = await requestFCMToken();
 
     dispatch(userLogin({
       ...loginData,
-      //fcm_token: fcmToken,
-      //device_name: "Web Device",
-      //device_platform: "web",
-    }));
+      fcm_token: fcmToken,
+      device_name: "Web Device",
+      device_platform: "web",
+    }, navigate));
   };
 
   const togglePasswordVisibility = () => {
