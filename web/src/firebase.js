@@ -45,10 +45,6 @@ export const onMessageListener = () =>
 
       resolve(payload);
 
-      if (payload.notification) {
-        const { title, body } = payload.notification;
-        new Notification(title, { body, icon: "/logo192.png" });
-      }
     });
   });
 
