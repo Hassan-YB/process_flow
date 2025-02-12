@@ -23,5 +23,5 @@ messaging.onBackgroundMessage((payload) => {
     click_action: payload.notification.click_action || "/"
   };
 
-  //self.registration.showNotification(notificationTitle, notificationOptions);
+  self.registration.showNotification(notificationTitle, notificationOptions);
 });
