@@ -33,17 +33,25 @@ ALLOWED_HOSTS = ['*']
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
     'http://localhost:8080',
-    "http://13.51.88.13",
+    'http://13.51.88.13',
+    'https://processflow.dk',
+    'https://www.processflow.dk'
 )
 
 CORS_ALLOW_ALL_ORIGINS = True
 
-CSRF_TRUSTED_ORIGINS = ["http://13.51.88.13"]
+CSRF_TRUSTED_ORIGINS = [
+    "http://13.51.88.13",
+    'https://processflow.dk',
+    'https://www.processflow.dk'
+]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000", 
     "http://localhost:8080", 
     "http://13.51.88.13",
+    'https://processflow.dk',
+    'https://www.processflow.dk'
 ]
 
 # Application definition
