@@ -62,6 +62,15 @@ const UpdateProject = () => {
     }
   };
 
+  const handlePriorityChange = (priority) => {
+    setFormData({ ...formData, priority: priority.toLowerCase() });
+  };
+
+  const handleStatusChange = (status) => {
+    const formattedStatus = status.toLowerCase().replace(" ", "_");
+    setFormData({ ...formData, status: formattedStatus });
+  };  
+
   const handleMarkForDeletion = (attachmentId) => {
     setFormData((prevData) => ({
       ...prevData,
@@ -148,19 +157,32 @@ const UpdateProject = () => {
 
                 <Form.Group className="mb-3">
                   <Form.Label>Status</Form.Label>
-                  <Form.Select name="status" value={formData.status} onChange={handleChange} required>
-                    <option value="in_progress">In Progress</option>
-                    <option value="completed">Completed</option>
-                  </Form.Select>
+                  <div className="d-flex">
+                    {["In Progress", "Completed"].map((status) => (
+                      <Button
+                        key={status}
+                        className={`me-2 ${formData.status === status.toLowerCase().replace(" ", "_") ? "priority-c-2" : "priority-c-1"}`}
+                        onClick={() => handleStatusChange(status)}
+                      >
+                        {status}
+                      </Button>
+                    ))}
+                  </div>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
                   <Form.Label>Priority</Form.Label>
-                  <Form.Select name="priority" value={formData.priority} onChange={handleChange} required>
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                  </Form.Select>
+                  <div className="d-flex">
+                    {["Low", "Medium", "High"].map((level) => (
+                      <Button
+                        key={level}
+                        className={`me-2 ${formData.priority === level.toLowerCase() ? "priority-c-2" : "priority-c-1"}`}
+                        onClick={() => handlePriorityChange(level)}
+                      >
+                        {level}
+                      </Button>
+                    ))}
+                  </div>
                 </Form.Group>
 
                 <Form.Group className="mb-3">

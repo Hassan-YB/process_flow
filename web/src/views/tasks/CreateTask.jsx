@@ -26,8 +26,8 @@ const CreateTask = () => {
   };
 
   const handleFileChange = (e) => {
-    setTaskData({ ...taskData, uploads: [...e.target.files] });
-  };
+    setTaskData({ ...taskData, attachments: [...e.target.files] });
+  };  
 
   const handlePriorityChange = (priority) => {
     setTaskData({ ...taskData, priority: priority.toLowerCase() });
@@ -49,9 +49,11 @@ const CreateTask = () => {
     formData.append("project", projectId);
 
     // Ensure files are appended correctly as an array
-    taskData.uploads.forEach((file) => {
-      formData.append("attachments", file); // Change key from "uploads" to "attachments" as per API expectation
-    });
+    if (taskData.attachments && taskData.attachments.length > 0) {
+      taskData.attachments.forEach((file) => {
+        formData.append("attachments", file);
+      });
+    }
 
     try {
       await axios.post(`${TASK_API_URL}`, formData, {

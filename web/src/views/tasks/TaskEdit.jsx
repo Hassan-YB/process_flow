@@ -63,6 +63,14 @@ const TaskEdit = () => {
     }
   };
 
+  const handlePriorityChange = (priority) => {
+    setTaskData({ ...taskData, priority: priority.toLowerCase() });
+  };
+
+  const handleStatusChange = (status) => {
+    setTaskData({ ...taskData, status: status.toLowerCase() });
+  };
+
   const handleMarkForDeletion = (attachmentId) => {
     setTaskData((prevData) => ({
       ...prevData,
@@ -125,19 +133,32 @@ const TaskEdit = () => {
 
                 <Form.Group className="mb-3">
                   <Form.Label>Status</Form.Label>
-                  <Form.Select name="status" value={taskData.status} onChange={handleChange} required>
-                    <option value="pending">Pending</option>
-                    <option value="completed">Completed</option>
-                  </Form.Select>
+                  <div className="d-flex">
+                    {["Pending", "Completed"].map((status) => (
+                      <Button
+                        key={status}
+                        className={`me-2 ${taskData.status === status.toLowerCase() ? "priority-c-2" : "priority-c-1"}`}
+                        onClick={() => handleStatusChange(status)}
+                      >
+                        {status}
+                      </Button>
+                    ))}
+                  </div>
                 </Form.Group>
 
                 <Form.Group className="mb-3">
                   <Form.Label>Priority</Form.Label>
-                  <Form.Select name="priority" value={taskData.priority} onChange={handleChange} required>
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                  </Form.Select>
+                  <div className="d-flex">
+                    {["Low", "Medium", "High"].map((level) => (
+                      <Button
+                        key={level}
+                        className={`me-2 ${taskData.priority === level.toLowerCase() ? "priority-c-2" : "priority-c-1"}`}
+                        onClick={() => handlePriorityChange(level)}
+                      >
+                        {level}
+                      </Button>
+                    ))}
+                  </div>
                 </Form.Group>
 
                 <Form.Group className="mb-3">

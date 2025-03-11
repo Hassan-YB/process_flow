@@ -38,6 +38,9 @@ const CreateProject = () => {
     }
   };
 
+  const handlePriorityChange = (priority) => {
+    setFormData({ ...formData, priority: priority.toLowerCase() });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -126,11 +129,17 @@ const CreateProject = () => {
 
                 <Form.Group className="mb-3">
                   <Form.Label>Priority</Form.Label>
-                  <Form.Select name="priority" onChange={handleChange} required>
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High</option>
-                  </Form.Select>
+                  <div className="d-flex">
+                    {["Low", "Medium", "High"].map((level) => (
+                      <Button
+                        key={level}
+                        className={`me-2 ${formData.priority === level.toLowerCase() ? "priority-c-2" : "priority-c-1"}`}
+                        onClick={() => handlePriorityChange(level)}
+                      >
+                        {level}
+                      </Button>
+                    ))}
+                  </div>
                 </Form.Group>
 
                 <Form.Group className="mb-3">

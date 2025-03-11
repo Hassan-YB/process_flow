@@ -11,6 +11,8 @@ import { FaUserPlus, FaEye, FaEyeSlash } from 'react-icons/fa';
 
 import Nav from "../../../components/Nav/loginNav"
 
+import ReCAPTCHA from "react-google-recaptcha";
+
 import { showErrorToast } from "../../../utils/toastUtils";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { initializeApp } from "firebase/app";
@@ -42,6 +44,11 @@ const SignUp1 = () => {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [captchaValue, setCaptchaValue] = useState(null);
+
+  const handleCaptchaChange = (value) => {
+    setCaptchaValue(value);
+  };  
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -85,6 +92,7 @@ const SignUp1 = () => {
     submitData.fcm_token = fcmToken; // Send FCM token to backend
     submitData.device_name = "Web Device"; // Set device name
     submitData.device_platform = "web"; // Set platform as web
+    submitData.recaptcha = captchaValue;
 
     dispatch(userSignup(submitData, navigate));
   };
@@ -203,6 +211,12 @@ const SignUp1 = () => {
                             </div>
                           </div>
                           <div className="text-center">
+                          <div className="d-flex justify-content-center mb-2">
+                          <ReCAPTCHA
+                            sitekey={process.env.REACT_APP_RECAPTCHA_SITE_KEY}
+                            onChange={handleCaptchaChange}
+                          />
+                        </div>
                             <button type="submit" className="btn btn-primary btn-block mb-4 auth-btn"
                               style={{
                                 border: "none",

@@ -98,9 +98,6 @@ const TaskDetail = () => {
                 <FaCheckCircle className="me-1" /><strong>Status:</strong> {formatStatus(task.status)}
               </span>
               <span className="mt-2">
-                <FaExclamationCircle className="me-1" /><strong>Priority:</strong> {task.priority}
-              </span>
-              <span className="mt-2">
                 <FaRegCalendarAlt className="me-1" /><strong>Completion Requested:</strong> {task.completion_requested ? "Yes" : "No"}
               </span>
               <span className="mt-2">
