@@ -8,7 +8,6 @@ import '../dashboard/dashboard.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const TASK_API_URL = `${BASE_URL}/api/v1/tasks/`;
-const token = localStorage.getItem("accessToken");
 
 const CreateTask = () => {
   const { projectId } = useParams();
@@ -35,6 +34,8 @@ const CreateTask = () => {
 
   const handleCreateTask = async (e) => {
     e.preventDefault();
+
+    const token = localStorage.getItem("accessToken");
 
     if (!taskData.title.trim()) {
       showErrorToast("Task title is required.");

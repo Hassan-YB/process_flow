@@ -190,6 +190,7 @@ const UpdateProject = () => {
                   <Form.Control name="attachments" type="file" multiple onChange={handleChange} />
                 </Form.Group>
 
+                {existingAttachments.length > 0 && (
                 <Form.Group className="mb-3">
                   <Form.Label>Existing Attachments</Form.Label>
                   <div className="d-flex flex-wrap">
@@ -214,6 +215,7 @@ const UpdateProject = () => {
                     ))}
                   </div>
                 </Form.Group>
+                )}
 
                 <div className="d-flex justify-content-center">
                   <button type="submit" className="c-form-btn btn-block">Update Project</button>

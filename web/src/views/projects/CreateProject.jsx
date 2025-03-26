@@ -8,7 +8,6 @@ import '../dashboard/dashboard.css';
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 const API_URL = `${BASE_URL}/api/v1/projects/`;
-const token = localStorage.getItem("accessToken");
 
 const CreateProject = () => {
   const navigate = useNavigate();
@@ -44,6 +43,9 @@ const CreateProject = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const token = localStorage.getItem("accessToken");
+
     const formDataToSend = new FormData();
 
     Object.keys(formData).forEach((key) => {
