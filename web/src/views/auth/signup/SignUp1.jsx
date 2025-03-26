@@ -80,6 +80,11 @@ const SignUp1 = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!captchaValue) {
+      showErrorToast("Please verify that you are not a robot.");
+      return;
+    }
+
     if (formData.password !== formData.confirmPassword) {
       showErrorToast("Passwords do not match");
       return;

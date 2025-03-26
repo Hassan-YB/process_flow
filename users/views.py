@@ -11,9 +11,6 @@ from notifications.models import Notification, NotificationChoices
 from notifications.utils import MessageManager
 from core.pagination import CountPagination
 
-from django.conf import settings
-import requests
-
 from .models import FCMDevice, User
 from .serializers import (
     SignupSerializer, OTPVerificationSerializer, LoginSerializer, ChangePasswordSerializer,
@@ -22,23 +19,6 @@ from .serializers import (
 
 class SignupView(APIView):
     def post(self, request):
-        recaptcha_token = request.data.get("recaptcha")
-
-        if not recaptcha_token:
-            return Response({"recaptcha": "reCAPTCHA token is missing."}, status=status.HTTP_400_BAD_REQUEST)
-
-        # Verify reCAPTCHA token with Google
-        recaptcha_response = requests.post(
-            "https://www.google.com/recaptcha/api/siteverify",
-            data={
-                "secret": settings.GOOGLE_RECAPTCHA_SECRET_KEY,
-                "response": recaptcha_token
-            }
-        )
-        result = recaptcha_response.json()
-        if not result.get("success"):
-            return Response({"recaptcha": "reCAPTCHA verification failed."}, status=status.HTTP_400_BAD_REQUEST)
-
         serializer = SignupSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()  # Save the user first
